@@ -1,881 +1,851 @@
-color_t pixel[20][20];
+color_t pixeis[400];
 color_t cor0;
 
 cor0.blue = 7;
 cor0.green = 7;
-cor0.red = 7;
-pixeis[0][0] = cor0;
+cor0.red = 6;
+pixeis[0] = cor0;
 
-pixeis[0][1] = cor0;
+pixeis[1] = cor0;
 
-pixeis[0][2] = cor0;
+pixeis[2] = cor0;
 
-pixeis[0][3] = cor0;
+pixeis[3] = cor0;
 
-pixeis[0][4] = cor0;
+pixeis[4] = cor0;
 
-pixeis[0][5] = cor0;
+pixeis[5] = cor0;
 
-pixeis[0][6] = cor0;
+color_t cor6;
 
-pixeis[0][7] = cor0;
+cor6.blue = 0;
+cor6.green = 6;
+cor6.red = 7;
+pixeis[6] = cor6;
 
-pixeis[0][8] = cor0;
+pixeis[7] = cor6;
 
-pixeis[0][9] = cor0;
+pixeis[8] = cor6;
 
-pixeis[0][10] = cor0;
+color_t cor9;
 
-pixeis[0][11] = cor0;
+cor9.blue = 1;
+cor9.green = 1;
+cor9.red = 6;
+pixeis[9] = cor9;
 
-pixeis[0][12] = cor0;
+pixeis[10] = cor9;
 
-pixeis[0][13] = cor0;
+pixeis[11] = cor6;
 
-pixeis[0][14] = cor0;
+pixeis[12] = cor6;
 
-pixeis[0][15] = cor0;
+pixeis[13] = cor6;
 
-pixeis[0][16] = cor0;
+pixeis[14] = cor0;
 
-pixeis[0][17] = cor0;
+pixeis[15] = cor0;
 
-pixeis[0][18] = cor0;
+pixeis[16] = cor0;
 
-pixeis[0][19] = cor0;
+pixeis[17] = cor0;
 
-pixeis[1][0] = cor0;
+pixeis[18] = cor0;
 
-pixeis[1][1] = cor0;
+pixeis[19] = cor0;
 
-pixeis[1][2] = cor0;
+pixeis[20] = cor0;
 
-pixeis[1][3] = cor0;
+pixeis[21] = cor0;
 
-pixeis[1][4] = cor0;
+pixeis[22] = cor0;
 
-pixeis[1][5] = cor0;
+pixeis[23] = cor0;
 
-pixeis[1][6] = cor0;
+pixeis[24] = cor0;
 
-pixeis[1][7] = cor0;
+pixeis[25] = cor9;
 
-pixeis[1][8] = cor0;
+pixeis[26] = cor9;
 
-pixeis[1][9] = cor0;
+pixeis[27] = cor9;
 
-pixeis[1][10] = cor0;
+color_t cor28;
 
-pixeis[1][11] = cor0;
+cor28.blue = 6;
+cor28.green = 6;
+cor28.red = 6;
+pixeis[28] = cor28;
 
-pixeis[1][12] = cor0;
+color_t cor29;
 
-pixeis[1][13] = cor0;
+cor29.blue = 2;
+cor29.green = 3;
+cor29.red = 7;
+pixeis[29] = cor29;
 
-pixeis[1][14] = cor0;
+pixeis[30] = cor29;
 
-pixeis[1][15] = cor0;
+pixeis[31] = cor28;
 
-pixeis[1][16] = cor0;
+pixeis[32] = cor9;
 
-pixeis[1][17] = cor0;
+pixeis[33] = cor9;
 
-pixeis[1][18] = cor0;
+pixeis[34] = cor9;
 
-pixeis[1][19] = cor0;
+pixeis[35] = cor0;
 
-pixeis[2][0] = cor0;
+pixeis[36] = cor0;
 
-pixeis[2][1] = cor0;
+pixeis[37] = cor0;
 
-pixeis[2][2] = cor0;
+pixeis[38] = cor0;
 
-pixeis[2][3] = cor0;
+pixeis[39] = cor0;
 
-pixeis[2][4] = cor0;
+pixeis[40] = cor0;
 
-pixeis[2][5] = cor0;
+pixeis[41] = cor0;
 
-pixeis[2][6] = cor0;
+pixeis[42] = cor0;
 
-pixeis[2][7] = cor0;
+pixeis[43] = cor0;
 
-pixeis[2][8] = cor0;
+pixeis[44] = cor9;
 
-pixeis[2][9] = cor0;
+pixeis[45] = cor9;
 
-pixeis[2][10] = cor0;
+pixeis[46] = cor9;
 
-pixeis[2][11] = cor0;
+pixeis[47] = cor28;
 
-pixeis[2][12] = cor0;
+pixeis[48] = cor28;
 
-pixeis[2][13] = cor0;
+pixeis[49] = cor29;
 
-pixeis[2][14] = cor0;
+pixeis[50] = cor29;
 
-pixeis[2][15] = cor0;
+pixeis[51] = cor28;
 
-pixeis[2][16] = cor0;
+pixeis[52] = cor28;
 
-pixeis[2][17] = cor0;
+pixeis[53] = cor9;
 
-pixeis[2][18] = cor0;
+pixeis[54] = cor9;
 
-pixeis[2][19] = cor0;
+pixeis[55] = cor9;
 
-pixeis[3][0] = cor0;
+pixeis[56] = cor0;
 
-pixeis[3][1] = cor0;
+pixeis[57] = cor0;
 
-pixeis[3][2] = cor0;
+pixeis[58] = cor0;
 
-pixeis[3][3] = cor0;
+pixeis[59] = cor0;
 
-pixeis[3][4] = cor0;
+pixeis[60] = cor0;
 
-pixeis[3][5] = cor0;
+pixeis[61] = cor0;
 
-pixeis[3][6] = cor0;
+pixeis[62] = cor0;
 
-pixeis[3][7] = cor0;
+pixeis[63] = cor9;
 
-pixeis[3][8] = cor0;
+pixeis[64] = cor9;
 
-pixeis[3][9] = cor0;
+pixeis[65] = cor9;
 
-pixeis[3][10] = cor0;
+pixeis[66] = cor9;
 
-pixeis[3][11] = cor0;
+pixeis[67] = cor28;
 
-pixeis[3][12] = cor0;
+pixeis[68] = cor28;
 
-pixeis[3][13] = cor0;
+pixeis[69] = cor29;
 
-pixeis[3][14] = cor0;
+pixeis[70] = cor29;
 
-pixeis[3][15] = cor0;
+pixeis[71] = cor28;
 
-pixeis[3][16] = cor0;
+pixeis[72] = cor28;
 
-pixeis[3][17] = cor0;
+pixeis[73] = cor9;
 
-color_t cor78;
+pixeis[74] = cor9;
 
-cor78.blue = 0;
-cor78.green = 4;
-cor78.red = 0;
-pixeis[3][18] = cor78;
+pixeis[75] = cor9;
 
-pixeis[3][19] = cor78;
+pixeis[76] = cor9;
 
-pixeis[4][0] = cor0;
+pixeis[77] = cor0;
 
-pixeis[4][1] = cor0;
+pixeis[78] = cor0;
 
-pixeis[4][2] = cor0;
+pixeis[79] = cor0;
+
+pixeis[80] = cor0;
+
+color_t cor81;
+
+cor81.blue = 0;
+cor81.green = 0;
+cor81.red = 0;
+pixeis[81] = cor81;
+
+pixeis[82] = cor81;
 
 color_t cor83;
 
 cor83.blue = 0;
-cor83.green = 0;
-cor83.red = 0;
-pixeis[4][3] = cor83;
+cor83.green = 1;
+cor83.red = 4;
+pixeis[83] = cor83;
 
-pixeis[4][4] = cor83;
+pixeis[84] = cor9;
 
-pixeis[4][5] = cor83;
+pixeis[85] = cor9;
 
-pixeis[4][6] = cor83;
+pixeis[86] = cor29;
 
-pixeis[4][7] = cor0;
+pixeis[87] = cor28;
 
-pixeis[4][8] = cor0;
+color_t cor88;
 
-pixeis[4][9] = cor0;
+cor88.blue = 3;
+cor88.green = 3;
+cor88.red = 3;
+pixeis[88] = cor88;
 
-pixeis[4][10] = cor0;
+pixeis[89] = cor88;
 
-pixeis[4][11] = cor0;
+pixeis[90] = cor88;
 
-pixeis[4][12] = cor0;
+pixeis[91] = cor88;
 
-pixeis[4][13] = cor83;
+pixeis[92] = cor28;
 
-pixeis[4][14] = cor83;
+pixeis[93] = cor29;
 
-pixeis[4][15] = cor83;
+pixeis[94] = cor9;
 
-pixeis[4][16] = cor83;
+pixeis[95] = cor9;
 
-pixeis[4][17] = cor78;
+pixeis[96] = cor83;
 
-color_t cor98;
+pixeis[97] = cor81;
 
-cor98.blue = 1;
-cor98.green = 7;
-cor98.red = 1;
-pixeis[4][18] = cor98;
+pixeis[98] = cor81;
 
-pixeis[4][19] = cor78;
+pixeis[99] = cor0;
 
-pixeis[5][0] = cor0;
+pixeis[100] = cor0;
 
-pixeis[5][1] = cor0;
+pixeis[101] = cor81;
 
-color_t cor102;
+pixeis[102] = cor81;
 
-cor102.blue = 0;
-cor102.green = 6;
-cor102.red = 0;
-pixeis[5][2] = cor102;
+color_t cor103;
 
-pixeis[5][3] = cor78;
+cor103.blue = 1;
+cor103.green = 1;
+cor103.red = 1;
+pixeis[103] = cor103;
 
-pixeis[5][4] = cor78;
+pixeis[104] = cor9;
 
-color_t cor105;
+pixeis[105] = cor29;
 
-cor105.blue = 0;
-cor105.green = 6;
-cor105.red = 0;
-pixeis[5][5] = cor105;
+pixeis[106] = cor88;
 
-pixeis[5][6] = cor78;
+pixeis[107] = cor88;
 
-pixeis[5][7] = cor78;
+pixeis[108] = cor88;
 
-pixeis[5][8] = cor78;
+pixeis[109] = cor88;
 
-pixeis[5][9] = cor78;
+pixeis[110] = cor88;
 
-pixeis[5][10] = cor78;
+pixeis[111] = cor88;
 
-pixeis[5][11] = cor78;
+pixeis[112] = cor88;
 
-pixeis[5][12] = cor78;
+pixeis[113] = cor88;
 
-pixeis[5][13] = cor78;
+pixeis[114] = cor29;
 
-pixeis[5][14] = cor78;
+pixeis[115] = cor9;
 
-pixeis[5][15] = cor78;
+pixeis[116] = cor103;
 
-pixeis[5][16] = cor83;
+pixeis[117] = cor81;
 
-pixeis[5][17] = cor98;
+pixeis[118] = cor81;
 
-pixeis[5][18] = cor105;
+pixeis[119] = cor0;
 
-pixeis[5][19] = cor78;
+pixeis[120] = cor0;
 
-pixeis[6][0] = cor0;
+pixeis[121] = cor81;
 
-pixeis[6][1] = cor0;
+pixeis[122] = cor81;
 
-pixeis[6][2] = cor0;
+pixeis[123] = cor103;
 
-pixeis[6][3] = cor105;
+pixeis[124] = cor29;
 
-pixeis[6][4] = cor105;
+pixeis[125] = cor88;
 
-pixeis[6][5] = cor105;
+pixeis[126] = cor88;
 
-color_t cor126;
+pixeis[127] = cor88;
 
-cor126.blue = 1;
-cor126.green = 3;
-cor126.red = 1;
-pixeis[6][6] = cor126;
+pixeis[128] = cor88;
 
-color_t cor127;
+pixeis[129] = cor88;
 
-cor127.blue = 0;
-cor127.green = 4;
-cor127.red = 0;
-pixeis[6][7] = cor127;
+pixeis[130] = cor88;
 
-pixeis[6][8] = cor83;
+pixeis[131] = cor88;
 
-pixeis[6][9] = cor83;
+pixeis[132] = cor88;
 
-pixeis[6][10] = cor83;
+pixeis[133] = cor88;
 
-pixeis[6][11] = cor83;
+pixeis[134] = cor88;
 
-pixeis[6][12] = cor83;
+pixeis[135] = cor29;
 
-pixeis[6][13] = cor78;
+pixeis[136] = cor103;
 
-pixeis[6][14] = cor78;
+pixeis[137] = cor81;
 
-pixeis[6][15] = cor78;
+pixeis[138] = cor81;
 
-pixeis[6][16] = cor78;
+pixeis[139] = cor0;
 
-pixeis[6][17] = cor98;
+pixeis[140] = cor0;
 
-pixeis[6][18] = cor105;
+pixeis[141] = cor81;
 
-pixeis[6][19] = cor78;
+pixeis[142] = cor81;
 
-pixeis[7][0] = cor0;
+pixeis[143] = cor83;
 
-pixeis[7][1] = cor83;
+pixeis[144] = cor88;
 
-pixeis[7][2] = cor0;
+pixeis[145] = cor88;
 
-pixeis[7][3] = cor78;
+pixeis[146] = cor88;
 
-pixeis[7][4] = cor78;
+pixeis[147] = cor88;
 
-color_t cor145;
+pixeis[148] = cor88;
 
-cor145.blue = 1;
-cor145.green = 4;
-cor145.red = 1;
-pixeis[7][5] = cor145;
+pixeis[149] = cor88;
 
-pixeis[7][6] = cor83;
+pixeis[150] = cor88;
 
-color_t cor147;
+pixeis[151] = cor88;
 
-cor147.blue = 4;
-cor147.green = 4;
-cor147.red = 4;
-pixeis[7][7] = cor147;
+pixeis[152] = cor88;
 
-pixeis[7][8] = cor78;
+pixeis[153] = cor88;
 
-pixeis[7][9] = cor83;
+pixeis[154] = cor88;
 
-pixeis[7][10] = cor83;
+pixeis[155] = cor88;
 
-pixeis[7][11] = cor105;
+pixeis[156] = cor83;
 
-color_t cor152;
+pixeis[157] = cor81;
 
-cor152.blue = 0;
-cor152.green = 7;
-cor152.red = 0;
-pixeis[7][12] = cor152;
+pixeis[158] = cor81;
 
-pixeis[7][13] = cor105;
+pixeis[159] = cor0;
 
-pixeis[7][14] = cor78;
+pixeis[160] = cor0;
 
-pixeis[7][15] = cor78;
+pixeis[161] = cor0;
 
-pixeis[7][16] = cor78;
+pixeis[162] = cor0;
 
-pixeis[7][17] = cor98;
+pixeis[163] = cor9;
 
-pixeis[7][18] = cor105;
+pixeis[164] = cor88;
 
-pixeis[7][19] = cor78;
+pixeis[165] = cor88;
 
-pixeis[8][0] = cor78;
+pixeis[166] = cor88;
 
-pixeis[8][1] = cor83;
+pixeis[167] = cor88;
 
-pixeis[8][2] = cor78;
+pixeis[168] = cor88;
 
-pixeis[8][3] = cor78;
+pixeis[169] = cor88;
 
-pixeis[8][4] = cor78;
+pixeis[170] = cor88;
 
-pixeis[8][5] = cor83;
+pixeis[171] = cor88;
 
-color_t cor166;
+pixeis[172] = cor88;
 
-cor166.blue = 2;
-cor166.green = 2;
-cor166.red = 2;
-pixeis[8][6] = cor166;
+pixeis[173] = cor88;
 
-pixeis[8][7] = cor147;
+pixeis[174] = cor88;
 
-pixeis[8][8] = cor105;
+pixeis[175] = cor88;
 
-pixeis[8][9] = cor105;
+pixeis[176] = cor9;
 
-pixeis[8][10] = cor105;
+pixeis[177] = cor0;
 
-pixeis[8][11] = cor105;
+pixeis[178] = cor0;
 
-pixeis[8][12] = cor105;
+pixeis[179] = cor0;
 
-pixeis[8][13] = cor78;
+pixeis[180] = cor0;
 
-pixeis[8][14] = cor78;
+pixeis[181] = cor0;
 
-pixeis[8][15] = cor78;
+pixeis[182] = cor0;
 
-pixeis[8][16] = cor78;
+pixeis[183] = cor9;
 
-pixeis[8][17] = cor98;
+pixeis[184] = cor88;
 
-pixeis[8][18] = cor105;
+pixeis[185] = cor88;
 
-pixeis[8][19] = cor78;
+pixeis[186] = cor88;
 
-pixeis[9][0] = cor78;
+pixeis[187] = cor88;
 
-pixeis[9][1] = cor83;
+pixeis[188] = cor88;
 
-pixeis[9][2] = cor0;
+pixeis[189] = cor88;
 
-pixeis[9][3] = cor0;
+pixeis[190] = cor88;
 
-pixeis[9][4] = cor0;
+pixeis[191] = cor88;
 
-pixeis[9][5] = cor83;
+pixeis[192] = cor88;
 
-pixeis[9][6] = cor147;
+pixeis[193] = cor88;
 
-pixeis[9][7] = cor83;
+pixeis[194] = cor88;
 
-pixeis[9][8] = cor0;
+pixeis[195] = cor88;
 
-pixeis[9][9] = cor0;
+pixeis[196] = cor9;
 
-pixeis[9][10] = cor0;
+pixeis[197] = cor0;
 
-pixeis[9][11] = cor0;
+pixeis[198] = cor0;
 
-pixeis[9][12] = cor0;
+pixeis[199] = cor0;
 
-pixeis[9][13] = cor0;
+pixeis[200] = cor0;
 
-pixeis[9][14] = cor0;
+pixeis[201] = cor0;
 
-pixeis[9][15] = cor0;
+pixeis[202] = cor0;
 
-pixeis[9][16] = cor0;
+pixeis[203] = cor0;
 
-pixeis[9][17] = cor0;
+pixeis[204] = cor9;
 
-pixeis[9][18] = cor0;
+pixeis[205] = cor29;
 
-pixeis[9][19] = cor0;
+pixeis[206] = cor29;
 
-pixeis[10][0] = cor78;
+color_t cor207;
 
-pixeis[10][1] = cor83;
+cor207.blue = 7;
+cor207.green = 7;
+cor207.red = 7;
+pixeis[207] = cor207;
 
-pixeis[10][2] = cor78;
+pixeis[208] = cor207;
 
-pixeis[10][3] = cor78;
+pixeis[209] = cor9;
 
-pixeis[10][4] = cor78;
+pixeis[210] = cor9;
 
-pixeis[10][5] = cor147;
+pixeis[211] = cor207;
 
-pixeis[10][6] = cor166;
+pixeis[212] = cor207;
 
-pixeis[10][7] = cor83;
+pixeis[213] = cor29;
 
-pixeis[10][8] = cor78;
+pixeis[214] = cor29;
 
-pixeis[10][9] = cor78;
+pixeis[215] = cor9;
 
-pixeis[10][10] = cor78;
+pixeis[216] = cor0;
 
-pixeis[10][11] = cor78;
+pixeis[217] = cor0;
 
-pixeis[10][12] = cor78;
+pixeis[218] = cor0;
 
-pixeis[10][13] = cor78;
+pixeis[219] = cor0;
 
-pixeis[10][14] = cor78;
+pixeis[220] = cor0;
 
-pixeis[10][15] = cor78;
+pixeis[221] = cor0;
 
-pixeis[10][16] = cor78;
+pixeis[222] = cor0;
 
-pixeis[10][17] = cor98;
+pixeis[223] = cor0;
 
-pixeis[10][18] = cor105;
+pixeis[224] = cor0;
 
-pixeis[10][19] = cor78;
+pixeis[225] = cor29;
 
-pixeis[11][0] = cor78;
+pixeis[226] = cor29;
 
-pixeis[11][1] = cor83;
+pixeis[227] = cor207;
 
-pixeis[11][2] = cor0;
+pixeis[228] = cor207;
 
-pixeis[11][3] = cor0;
+pixeis[229] = cor9;
 
-pixeis[11][4] = cor0;
+pixeis[230] = cor9;
 
-pixeis[11][5] = cor147;
+pixeis[231] = cor207;
 
-pixeis[11][6] = cor83;
+pixeis[232] = cor207;
 
-pixeis[11][7] = cor83;
+pixeis[233] = cor29;
 
-pixeis[11][8] = cor0;
+pixeis[234] = cor29;
 
-pixeis[11][9] = cor0;
+pixeis[235] = cor0;
 
-pixeis[11][10] = cor0;
+pixeis[236] = cor0;
 
-pixeis[11][11] = cor0;
+pixeis[237] = cor0;
 
-pixeis[11][12] = cor0;
+pixeis[238] = cor0;
 
-pixeis[11][13] = cor0;
+pixeis[239] = cor0;
 
-pixeis[11][14] = cor0;
+pixeis[240] = cor0;
 
-pixeis[11][15] = cor0;
+pixeis[241] = cor0;
 
-pixeis[11][16] = cor0;
+pixeis[242] = cor0;
 
-pixeis[11][17] = cor0;
+pixeis[243] = cor0;
 
-pixeis[11][18] = cor0;
+pixeis[244] = cor9;
 
-pixeis[11][19] = cor0;
+pixeis[245] = cor29;
 
-pixeis[12][0] = cor78;
+pixeis[246] = cor29;
 
-pixeis[12][1] = cor83;
+pixeis[247] = cor207;
 
-pixeis[12][2] = cor78;
+pixeis[248] = cor207;
 
-pixeis[12][3] = cor78;
+pixeis[249] = cor9;
 
-pixeis[12][4] = cor78;
+pixeis[250] = cor9;
 
-pixeis[12][5] = cor83;
+pixeis[251] = cor207;
 
-pixeis[12][6] = cor83;
+pixeis[252] = cor207;
 
-color_t cor247;
+pixeis[253] = cor29;
 
-cor247.blue = 5;
-cor247.green = 5;
-cor247.red = 5;
-pixeis[12][7] = cor247;
+pixeis[254] = cor29;
 
-pixeis[12][8] = cor105;
+pixeis[255] = cor9;
 
-pixeis[12][9] = cor105;
+pixeis[256] = cor0;
 
-pixeis[12][10] = cor105;
+pixeis[257] = cor0;
 
-pixeis[12][11] = cor105;
+pixeis[258] = cor0;
 
-pixeis[12][12] = cor105;
+pixeis[259] = cor0;
 
-pixeis[12][13] = cor78;
+pixeis[260] = cor0;
 
-pixeis[12][14] = cor78;
+pixeis[261] = cor0;
 
-pixeis[12][15] = cor78;
+pixeis[262] = cor0;
 
-pixeis[12][16] = cor78;
+pixeis[263] = cor9;
 
-pixeis[12][17] = cor98;
+pixeis[264] = cor9;
 
-pixeis[12][18] = cor105;
+pixeis[265] = cor29;
 
-pixeis[12][19] = cor78;
+pixeis[266] = cor29;
 
-pixeis[13][0] = cor0;
+pixeis[267] = cor207;
 
-pixeis[13][1] = cor83;
+pixeis[268] = cor207;
 
-pixeis[13][2] = cor0;
+pixeis[269] = cor9;
 
-pixeis[13][3] = cor78;
+pixeis[270] = cor9;
 
-pixeis[13][4] = cor78;
+pixeis[271] = cor207;
 
-pixeis[13][5] = cor83;
+pixeis[272] = cor207;
 
-pixeis[13][6] = cor166;
+pixeis[273] = cor29;
 
-pixeis[13][7] = cor147;
+pixeis[274] = cor29;
 
-pixeis[13][8] = cor78;
+pixeis[275] = cor9;
 
-pixeis[13][9] = cor83;
+pixeis[276] = cor9;
 
-pixeis[13][10] = cor83;
+pixeis[277] = cor0;
 
-pixeis[13][11] = cor105;
+pixeis[278] = cor0;
 
-pixeis[13][12] = cor105;
+pixeis[279] = cor0;
 
-pixeis[13][13] = cor105;
+pixeis[280] = cor0;
 
-pixeis[13][14] = cor78;
+pixeis[281] = cor0;
 
-pixeis[13][15] = cor78;
+pixeis[282] = cor0;
 
-pixeis[13][16] = cor78;
+pixeis[283] = cor9;
 
-pixeis[13][17] = cor98;
+pixeis[284] = cor9;
 
-pixeis[13][18] = cor105;
+pixeis[285] = cor29;
 
-pixeis[13][19] = cor78;
+pixeis[286] = cor29;
 
-pixeis[14][0] = cor0;
+pixeis[287] = cor207;
 
-pixeis[14][1] = cor0;
+pixeis[288] = cor207;
 
-pixeis[14][2] = cor0;
+pixeis[289] = cor9;
 
-pixeis[14][3] = cor105;
+pixeis[290] = cor9;
 
-pixeis[14][4] = cor105;
+pixeis[291] = cor207;
 
-color_t cor285;
+pixeis[292] = cor207;
 
-cor285.blue = 1;
-cor285.green = 5;
-cor285.red = 1;
-pixeis[14][5] = cor285;
+pixeis[293] = cor29;
 
-pixeis[14][6] = cor147;
+pixeis[294] = cor29;
 
-pixeis[14][7] = cor127;
+pixeis[295] = cor9;
 
-pixeis[14][8] = cor83;
+pixeis[296] = cor9;
 
-pixeis[14][9] = cor83;
+pixeis[297] = cor0;
 
-pixeis[14][10] = cor83;
+pixeis[298] = cor0;
 
-pixeis[14][11] = cor83;
+pixeis[299] = cor0;
 
-pixeis[14][12] = cor83;
+pixeis[300] = cor0;
 
-pixeis[14][13] = cor78;
+pixeis[301] = cor81;
 
-pixeis[14][14] = cor78;
+pixeis[302] = cor81;
 
-pixeis[14][15] = cor78;
+pixeis[303] = cor83;
 
-pixeis[14][16] = cor78;
+pixeis[304] = cor9;
 
-pixeis[14][17] = cor98;
+pixeis[305] = cor29;
 
-pixeis[14][18] = cor105;
+pixeis[306] = cor29;
 
-pixeis[14][19] = cor78;
+pixeis[307] = cor207;
 
-pixeis[15][0] = cor0;
+pixeis[308] = cor207;
 
-pixeis[15][1] = cor0;
+pixeis[309] = cor9;
 
-pixeis[15][2] = cor102;
+pixeis[310] = cor9;
 
-pixeis[15][3] = cor78;
+pixeis[311] = cor207;
 
-pixeis[15][4] = cor78;
+pixeis[312] = cor207;
 
-pixeis[15][5] = cor78;
+pixeis[313] = cor29;
 
-color_t cor306;
+pixeis[314] = cor29;
 
-cor306.blue = 0;
-cor306.green = 2;
-cor306.red = 0;
-pixeis[15][6] = cor306;
+pixeis[315] = cor9;
 
-color_t cor307;
+pixeis[316] = cor83;
 
-cor307.blue = 1;
-cor307.green = 4;
-cor307.red = 1;
-pixeis[15][7] = cor307;
+pixeis[317] = cor81;
 
-pixeis[15][8] = cor78;
+pixeis[318] = cor81;
 
-pixeis[15][9] = cor78;
+pixeis[319] = cor0;
 
-pixeis[15][10] = cor78;
+pixeis[320] = cor0;
 
-pixeis[15][11] = cor78;
+pixeis[321] = cor81;
 
-pixeis[15][12] = cor78;
+pixeis[322] = cor81;
 
-pixeis[15][13] = cor78;
+pixeis[323] = cor103;
 
-pixeis[15][14] = cor78;
+pixeis[324] = cor9;
 
-pixeis[15][15] = cor78;
+pixeis[325] = cor81;
 
-pixeis[15][16] = cor83;
+pixeis[326] = cor81;
 
-pixeis[15][17] = cor98;
+pixeis[327] = cor207;
 
-pixeis[15][18] = cor105;
+pixeis[328] = cor207;
 
-pixeis[15][19] = cor78;
+pixeis[329] = cor9;
 
-pixeis[16][0] = cor0;
+pixeis[330] = cor9;
 
-pixeis[16][1] = cor0;
+pixeis[331] = cor207;
 
-pixeis[16][2] = cor0;
+pixeis[332] = cor207;
 
-pixeis[16][3] = cor83;
+pixeis[333] = cor81;
 
-pixeis[16][4] = cor83;
+pixeis[334] = cor81;
 
-pixeis[16][5] = cor83;
+pixeis[335] = cor9;
 
-pixeis[16][6] = cor83;
+pixeis[336] = cor103;
 
-pixeis[16][7] = cor0;
+pixeis[337] = cor81;
 
-pixeis[16][8] = cor0;
+pixeis[338] = cor81;
 
-pixeis[16][9] = cor0;
+pixeis[339] = cor0;
 
-pixeis[16][10] = cor0;
+pixeis[340] = cor0;
 
-pixeis[16][11] = cor0;
+pixeis[341] = cor81;
 
-pixeis[16][12] = cor0;
+pixeis[342] = cor81;
 
-pixeis[16][13] = cor83;
+pixeis[343] = cor103;
 
-pixeis[16][14] = cor83;
+pixeis[344] = cor9;
 
-pixeis[16][15] = cor83;
+pixeis[345] = cor81;
 
-pixeis[16][16] = cor83;
+pixeis[346] = cor81;
 
-pixeis[16][17] = cor78;
+pixeis[347] = cor81;
 
-pixeis[16][18] = cor98;
+pixeis[348] = cor81;
 
-pixeis[16][19] = cor78;
+pixeis[349] = cor81;
 
-pixeis[17][0] = cor0;
+pixeis[350] = cor81;
 
-pixeis[17][1] = cor0;
+pixeis[351] = cor81;
 
-pixeis[17][2] = cor0;
+pixeis[352] = cor81;
 
-pixeis[17][3] = cor0;
+pixeis[353] = cor81;
 
-pixeis[17][4] = cor0;
+pixeis[354] = cor81;
 
-pixeis[17][5] = cor0;
+pixeis[355] = cor9;
 
-pixeis[17][6] = cor0;
+pixeis[356] = cor103;
 
-pixeis[17][7] = cor0;
+pixeis[357] = cor81;
 
-pixeis[17][8] = cor0;
+pixeis[358] = cor81;
 
-pixeis[17][9] = cor0;
+pixeis[359] = cor0;
 
-pixeis[17][10] = cor0;
+pixeis[360] = cor0;
 
-pixeis[17][11] = cor0;
+pixeis[361] = cor81;
 
-pixeis[17][12] = cor0;
+pixeis[362] = cor81;
 
-pixeis[17][13] = cor0;
+pixeis[363] = cor83;
 
-pixeis[17][14] = cor0;
+pixeis[364] = cor9;
 
-pixeis[17][15] = cor0;
+pixeis[365] = cor81;
 
-pixeis[17][16] = cor0;
+pixeis[366] = cor81;
 
-pixeis[17][17] = cor0;
+pixeis[367] = cor81;
 
-pixeis[17][18] = cor78;
+pixeis[368] = cor81;
 
-pixeis[17][19] = cor78;
+pixeis[369] = cor81;
 
-pixeis[18][0] = cor0;
+pixeis[370] = cor81;
 
-pixeis[18][1] = cor0;
+pixeis[371] = cor81;
 
-pixeis[18][2] = cor0;
+pixeis[372] = cor81;
 
-pixeis[18][3] = cor0;
+pixeis[373] = cor81;
 
-pixeis[18][4] = cor0;
+pixeis[374] = cor81;
 
-pixeis[18][5] = cor0;
+pixeis[375] = cor9;
 
-pixeis[18][6] = cor0;
+pixeis[376] = cor83;
 
-pixeis[18][7] = cor0;
+pixeis[377] = cor81;
 
-pixeis[18][8] = cor0;
+pixeis[378] = cor81;
 
-pixeis[18][9] = cor0;
+pixeis[379] = cor0;
 
-pixeis[18][10] = cor0;
+pixeis[380] = cor0;
 
-pixeis[18][11] = cor0;
+pixeis[381] = cor0;
 
-pixeis[18][12] = cor0;
+pixeis[382] = cor0;
 
-pixeis[18][13] = cor0;
+pixeis[383] = cor9;
 
-pixeis[18][14] = cor0;
+pixeis[384] = cor9;
 
-pixeis[18][15] = cor0;
+pixeis[385] = cor9;
 
-pixeis[18][16] = cor0;
+pixeis[386] = cor9;
 
-pixeis[18][17] = cor0;
+pixeis[387] = cor28;
 
-pixeis[18][18] = cor0;
+pixeis[388] = cor28;
 
-pixeis[18][19] = cor0;
+pixeis[389] = cor9;
 
-pixeis[19][0] = cor0;
+pixeis[390] = cor9;
 
-pixeis[19][1] = cor0;
+pixeis[391] = cor28;
 
-pixeis[19][2] = cor0;
+pixeis[392] = cor28;
 
-pixeis[19][3] = cor0;
+pixeis[393] = cor9;
 
-pixeis[19][4] = cor0;
+pixeis[394] = cor9;
 
-pixeis[19][5] = cor0;
+pixeis[395] = cor9;
 
-pixeis[19][6] = cor0;
+pixeis[396] = cor9;
 
-pixeis[19][7] = cor0;
+pixeis[397] = cor0;
 
-pixeis[19][8] = cor0;
+pixeis[398] = cor0;
 
-pixeis[19][9] = cor0;
-
-pixeis[19][10] = cor0;
-
-pixeis[19][11] = cor0;
-
-pixeis[19][12] = cor0;
-
-pixeis[19][13] = cor0;
-
-pixeis[19][14] = cor0;
-
-pixeis[19][15] = cor0;
-
-pixeis[19][16] = cor0;
-
-pixeis[19][17] = cor0;
-
-pixeis[19][18] = cor0;
-
-pixeis[19][19] = cor0;
+pixeis[399] = cor0;
 
