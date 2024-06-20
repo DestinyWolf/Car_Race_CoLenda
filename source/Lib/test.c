@@ -1,0 +1,884 @@
+#include <stdio.h>
+#include <unistd.h>
+#include "colenda.h"
+
+
+int main() {
+    GPU_open();
+
+    color_t white = {
+        .blue = 7,
+        .green = 7,
+        .red = 7,
+    };
+
+    set_background_color(white);
+
+
+   color_t pixeis[400];
+color_t cor0;
+
+cor0.blue = 7;
+cor0.green = 7;
+cor0.red = 6;
+pixeis[0] = cor0;
+
+pixeis[1] = cor0;
+
+pixeis[2] = cor0;
+
+pixeis[3] = cor0;
+
+pixeis[4] = cor0;
+
+pixeis[5] = cor0;
+
+color_t cor6;
+
+cor6.blue = 0;
+cor6.green = 6;
+cor6.red = 7;
+pixeis[6] = cor6;
+
+pixeis[7] = cor6;
+
+pixeis[8] = cor6;
+
+color_t cor9;
+
+cor9.blue = 1;
+cor9.green = 1;
+cor9.red = 6;
+pixeis[9] = cor9;
+
+pixeis[10] = cor9;
+
+pixeis[11] = cor6;
+
+pixeis[12] = cor6;
+
+pixeis[13] = cor6;
+
+pixeis[14] = cor0;
+
+pixeis[15] = cor0;
+
+pixeis[16] = cor0;
+
+pixeis[17] = cor0;
+
+pixeis[18] = cor0;
+
+pixeis[19] = cor0;
+
+pixeis[20] = cor0;
+
+pixeis[21] = cor0;
+
+pixeis[22] = cor0;
+
+pixeis[23] = cor0;
+
+pixeis[24] = cor0;
+
+pixeis[25] = cor9;
+
+pixeis[26] = cor9;
+
+pixeis[27] = cor9;
+
+color_t cor28;
+
+cor28.blue = 6;
+cor28.green = 6;
+cor28.red = 6;
+pixeis[28] = cor28;
+
+color_t cor29;
+
+cor29.blue = 2;
+cor29.green = 3;
+cor29.red = 7;
+pixeis[29] = cor29;
+
+pixeis[30] = cor29;
+
+pixeis[31] = cor28;
+
+pixeis[32] = cor9;
+
+pixeis[33] = cor9;
+
+pixeis[34] = cor9;
+
+pixeis[35] = cor0;
+
+pixeis[36] = cor0;
+
+pixeis[37] = cor0;
+
+pixeis[38] = cor0;
+
+pixeis[39] = cor0;
+
+pixeis[40] = cor0;
+
+pixeis[41] = cor0;
+
+pixeis[42] = cor0;
+
+pixeis[43] = cor0;
+
+pixeis[44] = cor9;
+
+pixeis[45] = cor9;
+
+pixeis[46] = cor9;
+
+pixeis[47] = cor28;
+
+pixeis[48] = cor28;
+
+pixeis[49] = cor29;
+
+pixeis[50] = cor29;
+
+pixeis[51] = cor28;
+
+pixeis[52] = cor28;
+
+pixeis[53] = cor9;
+
+pixeis[54] = cor9;
+
+pixeis[55] = cor9;
+
+pixeis[56] = cor0;
+
+pixeis[57] = cor0;
+
+pixeis[58] = cor0;
+
+pixeis[59] = cor0;
+
+pixeis[60] = cor0;
+
+pixeis[61] = cor0;
+
+pixeis[62] = cor0;
+
+pixeis[63] = cor9;
+
+pixeis[64] = cor9;
+
+pixeis[65] = cor9;
+
+pixeis[66] = cor9;
+
+pixeis[67] = cor28;
+
+pixeis[68] = cor28;
+
+pixeis[69] = cor29;
+
+pixeis[70] = cor29;
+
+pixeis[71] = cor28;
+
+pixeis[72] = cor28;
+
+pixeis[73] = cor9;
+
+pixeis[74] = cor9;
+
+pixeis[75] = cor9;
+
+pixeis[76] = cor9;
+
+pixeis[77] = cor0;
+
+pixeis[78] = cor0;
+
+pixeis[79] = cor0;
+
+pixeis[80] = cor0;
+
+color_t cor81;
+
+cor81.blue = 0;
+cor81.green = 0;
+cor81.red = 0;
+pixeis[81] = cor81;
+
+pixeis[82] = cor81;
+
+color_t cor83;
+
+cor83.blue = 0;
+cor83.green = 1;
+cor83.red = 4;
+pixeis[83] = cor83;
+
+pixeis[84] = cor9;
+
+pixeis[85] = cor9;
+
+pixeis[86] = cor29;
+
+pixeis[87] = cor28;
+
+color_t cor88;
+
+cor88.blue = 3;
+cor88.green = 3;
+cor88.red = 3;
+pixeis[88] = cor88;
+
+pixeis[89] = cor88;
+
+pixeis[90] = cor88;
+
+pixeis[91] = cor88;
+
+pixeis[92] = cor28;
+
+pixeis[93] = cor29;
+
+pixeis[94] = cor9;
+
+pixeis[95] = cor9;
+
+pixeis[96] = cor83;
+
+pixeis[97] = cor81;
+
+pixeis[98] = cor81;
+
+pixeis[99] = cor0;
+
+pixeis[100] = cor0;
+
+pixeis[101] = cor81;
+
+pixeis[102] = cor81;
+
+color_t cor103;
+
+cor103.blue = 1;
+cor103.green = 1;
+cor103.red = 1;
+pixeis[103] = cor103;
+
+pixeis[104] = cor9;
+
+pixeis[105] = cor29;
+
+pixeis[106] = cor88;
+
+pixeis[107] = cor88;
+
+pixeis[108] = cor88;
+
+pixeis[109] = cor88;
+
+pixeis[110] = cor88;
+
+pixeis[111] = cor88;
+
+pixeis[112] = cor88;
+
+pixeis[113] = cor88;
+
+pixeis[114] = cor29;
+
+pixeis[115] = cor9;
+
+pixeis[116] = cor103;
+
+pixeis[117] = cor81;
+
+pixeis[118] = cor81;
+
+pixeis[119] = cor0;
+
+pixeis[120] = cor0;
+
+pixeis[121] = cor81;
+
+pixeis[122] = cor81;
+
+pixeis[123] = cor103;
+
+pixeis[124] = cor29;
+
+pixeis[125] = cor88;
+
+pixeis[126] = cor88;
+
+pixeis[127] = cor88;
+
+pixeis[128] = cor88;
+
+pixeis[129] = cor88;
+
+pixeis[130] = cor88;
+
+pixeis[131] = cor88;
+
+pixeis[132] = cor88;
+
+pixeis[133] = cor88;
+
+pixeis[134] = cor88;
+
+pixeis[135] = cor29;
+
+pixeis[136] = cor103;
+
+pixeis[137] = cor81;
+
+pixeis[138] = cor81;
+
+pixeis[139] = cor0;
+
+pixeis[140] = cor0;
+
+pixeis[141] = cor81;
+
+pixeis[142] = cor81;
+
+pixeis[143] = cor83;
+
+pixeis[144] = cor88;
+
+pixeis[145] = cor88;
+
+pixeis[146] = cor88;
+
+pixeis[147] = cor88;
+
+pixeis[148] = cor88;
+
+pixeis[149] = cor88;
+
+pixeis[150] = cor88;
+
+pixeis[151] = cor88;
+
+pixeis[152] = cor88;
+
+pixeis[153] = cor88;
+
+pixeis[154] = cor88;
+
+pixeis[155] = cor88;
+
+pixeis[156] = cor83;
+
+pixeis[157] = cor81;
+
+pixeis[158] = cor81;
+
+pixeis[159] = cor0;
+
+pixeis[160] = cor0;
+
+pixeis[161] = cor0;
+
+pixeis[162] = cor0;
+
+pixeis[163] = cor9;
+
+pixeis[164] = cor88;
+
+pixeis[165] = cor88;
+
+pixeis[166] = cor88;
+
+pixeis[167] = cor88;
+
+pixeis[168] = cor88;
+
+pixeis[169] = cor88;
+
+pixeis[170] = cor88;
+
+pixeis[171] = cor88;
+
+pixeis[172] = cor88;
+
+pixeis[173] = cor88;
+
+pixeis[174] = cor88;
+
+pixeis[175] = cor88;
+
+pixeis[176] = cor9;
+
+pixeis[177] = cor0;
+
+pixeis[178] = cor0;
+
+pixeis[179] = cor0;
+
+pixeis[180] = cor0;
+
+pixeis[181] = cor0;
+
+pixeis[182] = cor0;
+
+pixeis[183] = cor9;
+
+pixeis[184] = cor88;
+
+pixeis[185] = cor88;
+
+pixeis[186] = cor88;
+
+pixeis[187] = cor88;
+
+pixeis[188] = cor88;
+
+pixeis[189] = cor88;
+
+pixeis[190] = cor88;
+
+pixeis[191] = cor88;
+
+pixeis[192] = cor88;
+
+pixeis[193] = cor88;
+
+pixeis[194] = cor88;
+
+pixeis[195] = cor88;
+
+pixeis[196] = cor9;
+
+pixeis[197] = cor0;
+
+pixeis[198] = cor0;
+
+pixeis[199] = cor0;
+
+pixeis[200] = cor0;
+
+pixeis[201] = cor0;
+
+pixeis[202] = cor0;
+
+pixeis[203] = cor0;
+
+pixeis[204] = cor9;
+
+pixeis[205] = cor29;
+
+pixeis[206] = cor29;
+
+color_t cor207;
+
+cor207.blue = 7;
+cor207.green = 7;
+cor207.red = 7;
+pixeis[207] = cor207;
+
+pixeis[208] = cor207;
+
+pixeis[209] = cor9;
+
+pixeis[210] = cor9;
+
+pixeis[211] = cor207;
+
+pixeis[212] = cor207;
+
+pixeis[213] = cor29;
+
+pixeis[214] = cor29;
+
+pixeis[215] = cor9;
+
+pixeis[216] = cor0;
+
+pixeis[217] = cor0;
+
+pixeis[218] = cor0;
+
+pixeis[219] = cor0;
+
+pixeis[220] = cor0;
+
+pixeis[221] = cor0;
+
+pixeis[222] = cor0;
+
+pixeis[223] = cor0;
+
+pixeis[224] = cor0;
+
+pixeis[225] = cor29;
+
+pixeis[226] = cor29;
+
+pixeis[227] = cor207;
+
+pixeis[228] = cor207;
+
+pixeis[229] = cor9;
+
+pixeis[230] = cor9;
+
+pixeis[231] = cor207;
+
+pixeis[232] = cor207;
+
+pixeis[233] = cor29;
+
+pixeis[234] = cor29;
+
+pixeis[235] = cor0;
+
+pixeis[236] = cor0;
+
+pixeis[237] = cor0;
+
+pixeis[238] = cor0;
+
+pixeis[239] = cor0;
+
+pixeis[240] = cor0;
+
+pixeis[241] = cor0;
+
+pixeis[242] = cor0;
+
+pixeis[243] = cor0;
+
+pixeis[244] = cor9;
+
+pixeis[245] = cor29;
+
+pixeis[246] = cor29;
+
+pixeis[247] = cor207;
+
+pixeis[248] = cor207;
+
+pixeis[249] = cor9;
+
+pixeis[250] = cor9;
+
+pixeis[251] = cor207;
+
+pixeis[252] = cor207;
+
+pixeis[253] = cor29;
+
+pixeis[254] = cor29;
+
+pixeis[255] = cor9;
+
+pixeis[256] = cor0;
+
+pixeis[257] = cor0;
+
+pixeis[258] = cor0;
+
+pixeis[259] = cor0;
+
+pixeis[260] = cor0;
+
+pixeis[261] = cor0;
+
+pixeis[262] = cor0;
+
+pixeis[263] = cor9;
+
+pixeis[264] = cor9;
+
+pixeis[265] = cor29;
+
+pixeis[266] = cor29;
+
+pixeis[267] = cor207;
+
+pixeis[268] = cor207;
+
+pixeis[269] = cor9;
+
+pixeis[270] = cor9;
+
+pixeis[271] = cor207;
+
+pixeis[272] = cor207;
+
+pixeis[273] = cor29;
+
+pixeis[274] = cor29;
+
+pixeis[275] = cor9;
+
+pixeis[276] = cor9;
+
+pixeis[277] = cor0;
+
+pixeis[278] = cor0;
+
+pixeis[279] = cor0;
+
+pixeis[280] = cor0;
+
+pixeis[281] = cor0;
+
+pixeis[282] = cor0;
+
+pixeis[283] = cor9;
+
+pixeis[284] = cor9;
+
+pixeis[285] = cor29;
+
+pixeis[286] = cor29;
+
+pixeis[287] = cor207;
+
+pixeis[288] = cor207;
+
+pixeis[289] = cor9;
+
+pixeis[290] = cor9;
+
+pixeis[291] = cor207;
+
+pixeis[292] = cor207;
+
+pixeis[293] = cor29;
+
+pixeis[294] = cor29;
+
+pixeis[295] = cor9;
+
+pixeis[296] = cor9;
+
+pixeis[297] = cor0;
+
+pixeis[298] = cor0;
+
+pixeis[299] = cor0;
+
+pixeis[300] = cor0;
+
+pixeis[301] = cor81;
+
+pixeis[302] = cor81;
+
+pixeis[303] = cor83;
+
+pixeis[304] = cor9;
+
+pixeis[305] = cor29;
+
+pixeis[306] = cor29;
+
+pixeis[307] = cor207;
+
+pixeis[308] = cor207;
+
+pixeis[309] = cor9;
+
+pixeis[310] = cor9;
+
+pixeis[311] = cor207;
+
+pixeis[312] = cor207;
+
+pixeis[313] = cor29;
+
+pixeis[314] = cor29;
+
+pixeis[315] = cor9;
+
+pixeis[316] = cor83;
+
+pixeis[317] = cor81;
+
+pixeis[318] = cor81;
+
+pixeis[319] = cor0;
+
+pixeis[320] = cor0;
+
+pixeis[321] = cor81;
+
+pixeis[322] = cor81;
+
+pixeis[323] = cor103;
+
+pixeis[324] = cor9;
+
+pixeis[325] = cor81;
+
+pixeis[326] = cor81;
+
+pixeis[327] = cor207;
+
+pixeis[328] = cor207;
+
+pixeis[329] = cor9;
+
+pixeis[330] = cor9;
+
+pixeis[331] = cor207;
+
+pixeis[332] = cor207;
+
+pixeis[333] = cor81;
+
+pixeis[334] = cor81;
+
+pixeis[335] = cor9;
+
+pixeis[336] = cor103;
+
+pixeis[337] = cor81;
+
+pixeis[338] = cor81;
+
+pixeis[339] = cor0;
+
+pixeis[340] = cor0;
+
+pixeis[341] = cor81;
+
+pixeis[342] = cor81;
+
+pixeis[343] = cor103;
+
+pixeis[344] = cor9;
+
+pixeis[345] = cor81;
+
+pixeis[346] = cor81;
+
+pixeis[347] = cor81;
+
+pixeis[348] = cor81;
+
+pixeis[349] = cor81;
+
+pixeis[350] = cor81;
+
+pixeis[351] = cor81;
+
+pixeis[352] = cor81;
+
+pixeis[353] = cor81;
+
+pixeis[354] = cor81;
+
+pixeis[355] = cor9;
+
+pixeis[356] = cor103;
+
+pixeis[357] = cor81;
+
+pixeis[358] = cor81;
+
+pixeis[359] = cor0;
+
+pixeis[360] = cor0;
+
+pixeis[361] = cor81;
+
+pixeis[362] = cor81;
+
+pixeis[363] = cor83;
+
+pixeis[364] = cor9;
+
+pixeis[365] = cor81;
+
+pixeis[366] = cor81;
+
+pixeis[367] = cor81;
+
+pixeis[368] = cor81;
+
+pixeis[369] = cor81;
+
+pixeis[370] = cor81;
+
+pixeis[371] = cor81;
+
+pixeis[372] = cor81;
+
+pixeis[373] = cor81;
+
+pixeis[374] = cor81;
+
+pixeis[375] = cor9;
+
+pixeis[376] = cor83;
+
+pixeis[377] = cor81;
+
+pixeis[378] = cor81;
+
+pixeis[379] = cor0;
+
+pixeis[380] = cor0;
+
+pixeis[381] = cor0;
+
+pixeis[382] = cor0;
+
+pixeis[383] = cor9;
+
+pixeis[384] = cor9;
+
+pixeis[385] = cor9;
+
+pixeis[386] = cor9;
+
+pixeis[387] = cor28;
+
+pixeis[388] = cor28;
+
+pixeis[389] = cor9;
+
+pixeis[390] = cor9;
+
+pixeis[391] = cor28;
+
+pixeis[392] = cor28;
+
+pixeis[393] = cor9;
+
+pixeis[394] = cor9;
+
+pixeis[395] = cor9;
+
+pixeis[396] = cor9;
+
+pixeis[397] = cor0;
+
+pixeis[398] = cor0;
+
+pixeis[399] = cor0;
+
+    create_sprite_by_matrix(pixeis, 26);
+
+    sprite_t new_sprite = {
+        .coord_x = 340,
+        .coord_y = 240,
+        .data_register = 1,
+        .offset = 26,
+        .visibility = 1,
+    };
+
+    set_sprite(new_sprite);
+
+    GPU_close();
+
+    return 0;
+}
