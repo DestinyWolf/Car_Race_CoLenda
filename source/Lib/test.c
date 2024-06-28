@@ -3,7 +3,7 @@
 #include "colenda.h"
 
 
-int main() {
+int sprite_carro_1() {
     GPU_open();
 
     color_t white = {
