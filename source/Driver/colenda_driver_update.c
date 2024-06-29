@@ -43,8 +43,8 @@
 #include<asm/atomic.h>
 #include<linux/mutex.h>
 #include<linux/kfifo.h>
-//#include "/usr/src/3.18.0/arch/arm/include/asm/io.h"
-//#include "./address_map_arm.h"
+#include "/usr/src/3.18.0/arch/arm/include/asm/io.h"
+#include "./address_map_arm.h"
 
 /* Meta information*/
 MODULE_LICENSE("GPL");
