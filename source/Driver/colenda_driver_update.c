@@ -299,6 +299,9 @@ static int __init colenda_driver_init(void){
 * Implementação da função exit
 */
 static void __exit colenda_driver_exit(void){
+  /*Liberando espaço alocado para a kfifo de instruções*/
+  kfifo_free(&kfifo_instructions);
+
   /* Liberando o mapeamento do barramento de dados */
   iounmap(colenda_driver_data.LW_virtual);
 
