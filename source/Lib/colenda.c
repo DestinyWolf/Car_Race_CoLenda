@@ -93,7 +93,7 @@ set_background_block(background_block_t bg_block) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 80 || bg_block.coord_y > 60)) {
+    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 79 || bg_block.coord_y > 59)) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -122,7 +122,7 @@ int set_background_block_movel(background_block_movel_t bg_block)
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 80 || bg_block.coord_y > 60)) {
+    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 79 || bg_block.coord_y > 59)) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -151,7 +151,7 @@ set_sprite(sprite_t sprite) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 40 || sprite.data_register > 32) || sprite.data_register < 1) {
+    if ((sprite.visibility > 1 || sprite.coord_x > 639 || sprite.coord_y > 479 || sprite.offset > 40 || sprite.data_register > 32) || sprite.data_register < 1) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -177,7 +177,7 @@ set_polygon(polygon_t polygon) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 || polygon.coord_y > 480 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
+    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 || polygon.coord_y > 479 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
         printf("valor fora do alcance de representação\n");
         return 0;
     }
@@ -305,7 +305,7 @@ draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, co
     bg_block.coord_y = coord_y;
 
     /* validação dos valores inseridos pelo usuario  */
-    if (coord_x > 79 || coord_y > 59 || coord_x + size > 60) {
+    if (coord_x > 79 || coord_y > 59 || coord_x + size > 80) {
         printf("valor fora do limite de representação");
         return 0;
     }

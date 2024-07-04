@@ -257,9 +257,6 @@ wchar_to_string(wchar_t data_a, wchar_t data_b, char* retorno);
 void 
 write_in_gpu(char* instruction_binary_string);
 
-int
-render_screen_signal(int* render);
-
 /**
  * \brief           encessa a comunicação entre a biblioteca e a gpu
  * \return          retorna erro ou sucesso
