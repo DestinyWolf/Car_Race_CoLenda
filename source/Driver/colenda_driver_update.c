@@ -115,16 +115,14 @@ int consume_instruction(void *data){
   while(!kthread_should_stop()){
 
     /*Checando se a tela não está sendo renderizada e se a fila não está cheia*/
-    if(*colenda_driver_data.screen && (!*colenda_driver_data.wr_full)){
+    if(!*colenda_driver_data.screen || *colenda_driver_data.wr_full) continue;
 
-      if(mutex_lock_interruptible(&read_lock)){
-        return -ERESTARTSYS;
-      }
+    if(mutex_lock_interruptible(&read_lock)){
+      return -ERESTARTSYS;
+    }
 
-      /*Checando se algum elemento foi removido*/
-      if(kfifo_out(&kfifo_instructions, instruction, INSTRUCTION_SIZE) == 0) continue;
-
-      mutex_unlock(&read_lock);
+    /*Checando se algum elemento foi removido*/
+    if(kfifo_out(&kfifo_instructions, instruction, INSTRUCTION_SIZE)){
 
       /*Escrevendo nos barramentos data A e data B */
       *colenda_driver_data.data_a = (instruction[4]) << 24 | (instruction[5]) << 16 | (instruction[6]) << 8 | (instruction[7]);
@@ -134,7 +132,9 @@ int consume_instruction(void *data){
       /*Enviando sinal para escrita na fila */
       *colenda_driver_data.wr_reg = 1;
       *colenda_driver_data.wr_reg = 0;
+
     }
+    mutex_unlock(&read_lock);
   }
   
   pr_info("%s: %s stopped!", DRIVER_NAME, KTHREAD_NAME);
@@ -147,8 +147,18 @@ int consume_instruction(void *data){
 static int colenda_driver_open(struct inode *device_file, struct file *instance){
   /*Incrementando contador de processos*/
   if(atomic_inc_return(&colenda_driver_data.counter) == 1){
+    /*Criando kthread*/
+    kthread_instruction_consumer = kthread_create(consume_instruction, NULL, "consumer_thread");
+
+    if (kthread_instruction_consumer == NULL)
+    {
+      pr_err("%s: failed to create %s", DRIVER_NAME, KTHREAD_NAME);
+      return -1;
+    }
     /*Acordando kthread caso seja o primeiro processo*/
     wake_up_process(kthread_instruction_consumer);
+    pr_info("%s: %s created!\n", DRIVER_NAME, KTHREAD_NAME);
+    
   }
 
   pr_info("%s: open was called!\n", DRIVER_NAME);
@@ -251,17 +261,6 @@ static int __init colenda_driver_init(void){
     return result;
   }
 
-  /*Criando kthread*/
-  kthread_instruction_consumer = kthread_create(consume_instruction, NULL, "consumer_thread");
-  if (kthread_instruction_consumer != NULL)
-  {
-    pr_info("%s: %s created", DRIVER_NAME, KTHREAD_NAME);
-  }else{
-    pr_err("%s: failed to create %s", DRIVER_NAME, KTHREAD_NAME);
-    unregister_chrdev_region(colenda_driver_data.devnum, 1);
-    return -1;
-  }
-
   /*Criando buffer de instruções*/
   result = kfifo_alloc(&kfifo_instructions, KFIFO_SIZE, GFP_KERNEL);
   if (result)
@@ -293,6 +292,7 @@ static int __init colenda_driver_init(void){
 
   pr_info("%s: initialized!\n",DRIVER_NAME);
   return 0;
+
 }
 
 /*
