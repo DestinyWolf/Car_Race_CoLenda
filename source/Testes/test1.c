@@ -92,7 +92,7 @@ int main(){
 
         }
         usleep(500);
-        if(change == 59){
+        if(change == 6){
             change = 0;
         } else{
             change++;

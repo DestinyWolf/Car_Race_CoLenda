@@ -19,14 +19,9 @@ int read_mouse_event(int* key, int* coord_x) {
         if(ev.type == EV_REL){
             if (ev.code == REL_X) {
                 printf("X: %d\n", ev.value);
-                x += ev.value;
-                
-                if (x <= 0) {
-                    x = 639;
-                }
-                if (x >= 640) {
-                    x = 0;
-                }
+
+                //indica qual sprite a ser exibido
+
             } else if (ev.code == REL_WHEEL) {
                 printf("WHEEL: %d\n", ev.value);
             }
