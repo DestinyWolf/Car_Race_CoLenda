@@ -189,6 +189,8 @@ loff_t *ppos){
   /* Atualizando offset passado pelo usuário*/
   *ppos = 0;
   
+  while (kfifo_is_full(&kfifo_instruction)){}
+  
   if(mutex_lock_interruptible(&write_lock)){
     return -ERESTARTSYS;
   }
