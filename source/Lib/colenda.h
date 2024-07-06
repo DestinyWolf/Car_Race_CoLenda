@@ -93,11 +93,12 @@ typedef struct {
  * \note            Essa struct é utilizada para separar os campos que um sprite deve conter
 */
 typedef struct {
-    uint64_t coord_x;               /*!< Coordenada do eixo x do centro do sprite: 0 a 639*/
-    uint64_t coord_y;               /*!< Coordenada do eixo y do centro do sprite: 0 a 479*/
-    uint64_t offset;                /*!< Identificação do sprite:                  0 a 24 */ 
-    uint64_t data_register;         /*!< Localização do sprite na memoria:         1 a 31 */
-    uint64_t visibility;            /*!< Visibilidade do sprite: 0. invisivel  1. visivel */ 
+    uint64_t coord_x;               /*!< Coordenada do eixo x do centro do sprite:        0 a 639*/
+    uint64_t coord_y;               /*!< Coordenada do eixo y do centro do sprite:        0 a 479*/
+    uint64_t offset;                /*!< Identificação do sprite:                         0 a 24 */ 
+    uint64_t data_register;         /*!< Localização do sprite na memoria:                1 a 31 */
+    uint64_t visibility;            /*!< Visibilidade do sprite: 0. invisivel         1. visivel */ 
+    uint64_t speed;                 /*!< Velocidade que o sprite se move, 0 se for um sprite fixo*/
 } sprite_t;
 
 /**
@@ -122,6 +123,14 @@ typedef struct {
     uint64_t coord_y;           /*!< Endereço do bloco: 0 a 59 */ 
     color_t color;              /*!< Cor referente ao bloco */ 
 } background_block_t;
+
+
+typedef struct{
+    uint64_t coord_x;           /*!< Endereço do bloco: 0 a 79      */ 
+    uint64_t coord_y;           /*!< Endereço do bloco: 0 a 59      */ 
+    color_t color;              /*!< Cor referente ao bloco         */ 
+    uint64_t speed;             /*!< Velocidade que o bloco se move */
+} background_block_movel_t;
 
 /**
  * \brief           Estrutura de um pixel 
@@ -155,6 +164,14 @@ set_background_color(color_t color);
 */
 int 
 set_background_block(background_block_t bg_block);
+
+/**
+ * \brief           Altera a cor ou desativa um bloco do fundo do tipo movel
+ * \param[in]       bg_block: bloco que sera alterado
+ * \return          se a operação ocorreu ou não
+*/
+int 
+set_background_block_movel(background_block_movel_t bg_block);
 
 /**
  * \brief           Insere ou desabilita um sprite da tela

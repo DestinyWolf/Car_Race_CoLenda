@@ -93,7 +93,7 @@ set_background_block(background_block_t bg_block) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 80 || bg_block.coord_y > 60)) {
+    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 79 || bg_block.coord_y > 59)) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -115,13 +115,43 @@ set_background_block(background_block_t bg_block) {
     return 1;
 }
 
+int set_background_block_movel(background_block_movel_t bg_block)
+{
+    char instruction_to_driver[8] = {0};            /* string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU  */ 
+    uint64_t mem_adress;
+    wchar_t data_a, data_b;
+
+    /* validação dos valores inseridos pelo usuario  */
+    if ((bg_block.color.blue > 7 || bg_block.color.green > 7 || bg_block.color.red > 7 || bg_block.coord_x > 79 || bg_block.coord_y > 59)) {
+        printf("valor fora do limite de representação\n");
+        return 0;
+    }
+    
+    /* calcula o endereço do bloco */
+    mem_adress = (bg_block.coord_y * 80) + bg_block.coord_x;
+
+    data_a = (mem_adress << 4) | WBM;
+    data_b = (bg_block.color.blue << 6) | (bg_block.color.green << 3) | bg_block.color.red;
+
+    /* converte os wchar_t em um buffer de 8 char */
+    wchar_to_string(data_a, data_b, instruction_to_driver);
+
+    /* coloca o ponteiro de escrita no arquivo no começo do documento */ 
+    lseek(dev, 0, SEEK_SET);
+
+    /* escrita da instrução no arquivo de comunicação com a gpu */ 
+    write_in_gpu(instruction_to_driver);
+
+    return 1;
+}
+
 int 
 set_sprite(sprite_t sprite) {
     char instruction_to_driver[8] = {0};            /* string que guarda a instrução a ser escrita no arquivo de comunicação com a GPU  */
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((sprite.visibility > 1 || sprite.coord_x > 640 || sprite.coord_y > 480 || sprite.offset > 40 || sprite.data_register > 32) || sprite.data_register < 1) {
+    if ((sprite.visibility > 1 || sprite.coord_x > 639 || sprite.coord_y > 479 || sprite.offset > 40 || sprite.data_register > 32) || sprite.data_register < 1) {
         printf("valor fora do limite de representação\n");
         return 0;
     }
@@ -147,7 +177,7 @@ set_polygon(polygon_t polygon) {
     wchar_t data_a, data_b;
 
     /* validação dos valores inseridos pelo usuario  */
-    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 || polygon.coord_y > 480 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
+    if ((polygon.shape > 1 || polygon.color.blue > 7 || polygon.color.green > 7 || polygon.color.red > 7 || polygon.size > 15 || polygon.coord_y > 479 || polygon.coord_x > 511 || polygon.mem_address > 15)) {
         printf("valor fora do alcance de representação\n");
         return 0;
     }
@@ -275,7 +305,7 @@ draw_horizontal_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, co
     bg_block.coord_y = coord_y;
 
     /* validação dos valores inseridos pelo usuario  */
-    if (coord_x > 79 || coord_y > 59 || coord_x + size > 79) {
+    if (coord_x > 79 || coord_y > 59 || coord_x + size > 80) {
         printf("valor fora do limite de representação");
         return 0;
     }
@@ -295,7 +325,7 @@ draw_vertical_block_line(uint64_t size, uint64_t coord_x, uint64_t coord_y, colo
     };
 
     /* validação dos valores inseridos pelo usuario  */
-    if (coord_x > 79 || coord_y > 59 || coord_y + size > 59) {
+    if (coord_x > 79 || coord_y > 59 || coord_y + size > 60) {
         printf("valor fora do limite de representação");
         return 0;
     }
@@ -345,18 +375,10 @@ wchar_to_string(wchar_t data_a, wchar_t data_b, char* retorno) {
 void 
 write_in_gpu(char* instruction_binary_string) {
     ssize_t bytes_written;
-
-    if (inst_count == 12) {
-        usleep(7500);
-        inst_count = 0;
-    }
-
-    ++inst_count;
     bytes_written = write(dev, instruction_binary_string, 8);
-    printf("escrevendo\n");
     while (bytes_written == -1) {
-        usleep(8000);
         bytes_written = write(dev, instruction_binary_string, 8);
+        usleep(100);
     }
 }
 
