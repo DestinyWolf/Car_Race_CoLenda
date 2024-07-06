@@ -81,7 +81,6 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com o processador gr
 static struct task_struct *kthread_instruction_consumer;
 
 /* Definição de mutexes */
-static struct mutex read_lock;
 static struct mutex write_lock;
 
 /* Definição da kfifo */
@@ -117,10 +116,6 @@ int consume_instruction(void *data){
     /*Checando se a tela não está sendo renderizada e se a fila não está cheia*/
     if(!*colenda_driver_data.screen || *colenda_driver_data.wr_full) continue;
 
-    if(mutex_lock_interruptible(&read_lock)){
-      return -ERESTARTSYS;
-    }
-
     /*Checando se algum elemento foi removido*/
     if(kfifo_out(&kfifo_instructions, instruction, INSTRUCTION_SIZE)){
 
@@ -134,7 +129,6 @@ int consume_instruction(void *data){
       *colenda_driver_data.wr_reg = 0;
 
     }
-    mutex_unlock(&read_lock);
   }
   
   pr_info("%s: %s stopped!", DRIVER_NAME, KTHREAD_NAME);
@@ -273,8 +267,7 @@ static int __init colenda_driver_init(void){
   /*Inicializando contador atômico*/
   atomic_set(&colenda_driver_data.counter, 0);
 
-  /*Incializando mutexes*/
-  mutex_init(&read_lock);
+  /*Incializando mutex*/
   mutex_init(&write_lock);
 
 
