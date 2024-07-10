@@ -86,14 +86,15 @@ static struct mutex write_lock;
 /* Definição da kfifo */
 static struct kfifo kfifo_instructions;
 
+/*Definição das waitqueues */
+DECLARE_WAIT_QUEUE_HEAD(consumer_wq);
+DECLARE_WAIT_QUEUE_HEAD(write_wq);
 
 /*Driver data*/
 static struct
 {
   dev_t devnum;
   struct cdev cdev;
-  size_t buffer_size; //tamanho do buffer do kernel
-  atomic_t counter; //number of prrocesses using the driver
   void *LW_virtual;
   volatile int *data_a;
   volatile int *data_b;
@@ -107,54 +108,43 @@ static struct
 /* Função a ser executada pela kthread*/
 int consume_instruction(void *data){
   char instruction[INSTRUCTION_SIZE];
-  int ret;
 
   pr_info("%s: %s is running now!", DRIVER_NAME, KTHREAD_NAME);
-
+  //screen = 1 -> tela foi renderizada
   while(!kthread_should_stop()){
+    
+    if (wait_event_interruptible(consumer_wq, !kfifo_is_empty(&kfifo_instructions)  || kthread_should_stop())) return -ERESTARTSYS;
 
-    /*Checando se a tela não está sendo renderizada e se a fila não está cheia*/
-    if(!*colenda_driver_data.screen || *colenda_driver_data.wr_full) continue;
-
-    /*Checando se algum elemento foi removido*/
-    if(kfifo_out(&kfifo_instructions, instruction, INSTRUCTION_SIZE)){
-
-      /*Escrevendo nos barramentos data A e data B */
-      *colenda_driver_data.data_a = (instruction[4]) << 24 | (instruction[5]) << 16 | (instruction[6]) << 8 | (instruction[7]);
-      *colenda_driver_data.data_b = (instruction[0]) << 24 | (instruction[1]) << 16 | (instruction[2]) << 8 | (instruction[3]);
-      
-
-      /*Enviando sinal para escrita na fila */
-      *colenda_driver_data.wr_reg = 1;
-      *colenda_driver_data.wr_reg = 0;
-
+    if (kthread_should_stop()){
+      pr_info("%s: %s stopped!", DRIVER_NAME, KTHREAD_NAME);
+      return 0;
+    }else if (!*colenda_driver_data.screen || *colenda_driver_data.wr_full){
+      continue;
     }
+     
+    
+    /*Checando se algum elemento foi removido*/
+    kfifo_out(&kfifo_instructions, instruction, INSTRUCTION_SIZE);
+    wake_up_interruptible(&write_wq);
+
+    /*Escrevendo nos barramentos data A e data B */
+    *colenda_driver_data.data_a = (instruction[4]) << 24 | (instruction[5]) << 16 | (instruction[6]) << 8 | (instruction[7]);
+    *colenda_driver_data.data_b = (instruction[0]) << 24 | (instruction[1]) << 16 | (instruction[2]) << 8 | (instruction[3]);
+    
+
+    /*Enviando sinal para escrita na fila */
+    *colenda_driver_data.wr_reg = 1;
+    *colenda_driver_data.wr_reg = 0;
+
   }
   
-  pr_info("%s: %s stopped!", DRIVER_NAME, KTHREAD_NAME);
   return 0;
-}
+  }
 
 /*
 * Implementação da função open
 */
 static int colenda_driver_open(struct inode *device_file, struct file *instance){
-  /*Incrementando contador de processos*/
-  if(atomic_inc_return(&colenda_driver_data.counter) == 1){
-    /*Criando kthread*/
-    kthread_instruction_consumer = kthread_create(consume_instruction, NULL, "consumer_thread");
-
-    if (kthread_instruction_consumer == NULL)
-    {
-      pr_err("%s: failed to create %s", DRIVER_NAME, KTHREAD_NAME);
-      return -1;
-    }
-    /*Acordando kthread caso seja o primeiro processo*/
-    wake_up_process(kthread_instruction_consumer);
-    pr_info("%s: %s created!\n", DRIVER_NAME, KTHREAD_NAME);
-    
-  }
-
   pr_info("%s: open was called!\n", DRIVER_NAME);
   return 0;
 }
@@ -163,12 +153,6 @@ static int colenda_driver_open(struct inode *device_file, struct file *instance)
 * Implementação da função close
 */
 static int colenda_driver_close(struct inode *device_file, struct file *instance){
-  /*Decrementando contador de processos*/
-  if(atomic_dec_and_test(&colenda_driver_data.counter)){
-    /*Finalizando kthread caso não existam mais processos*/
-    kthread_stop(kthread_instruction_consumer);
-  }
-
   pr_info("%s: close was called!\n", DRIVER_NAME);
   return 0;
 }
@@ -179,36 +163,39 @@ static int colenda_driver_close(struct inode *device_file, struct file *instance
 static ssize_t colenda_driver_write(struct file *file, const char __user *buffer, size_t count,
 loff_t *ppos){
   unsigned int copied; //bytes copiados do usuário
-  int ret;
-
-  pr_info("%s: write was called!", DRIVER_NAME);
+  int ret = 0;
 
   /* Verificando se o tamanho da instrução está correto */
   if(count != INSTRUCTION_SIZE) return -1;
    
-  /* Atualizando offset passado pelo usuário*/
-  *ppos = 0;
   
-  while (kfifo_is_full(&kfifo_instruction)){}
+  if(mutex_lock_interruptible(&write_lock)) return -ERESTARTSYS;
   
-  if(mutex_lock_interruptible(&write_lock)){
-    return -ERESTARTSYS;
+  while (kfifo_is_full(&kfifo_instructions)){ // kfifo full
+    mutex_unlock(&write_lock); // release lock
+    /*wait for space in kfifo*/
+    if (wait_event_interruptible(write_wq, !kfifo_is_full(&kfifo_instructions)))
+      return -ERESTARTSYS;
+
+    if (mutex_lock_interruptible(&write_lock))
+      return -ERESTARTSYS; // adquire lock
   }
   
   ret = kfifo_from_user(&kfifo_instructions, buffer, count, &copied);
 
   mutex_unlock(&write_lock);
 
-  /*TODO - verificação para garantir que as instruções tenham 8 bytes */
-
+  wake_up_interruptible(&consumer_wq);
+  
+  /* Atualizando offset passado pelo usuário*/
+  *ppos = 0;
+  
   return ret ? ret : copied;
 }
 
 static ssize_t colenda_driver_read(struct file *file, char __user *buf, size_t count, 
 loff_t *ppos){
   int ret;
-
-  pr_info("%s: read was called!", DRIVER_NAME);
   
   if(count != 1) return -1;
 
@@ -241,7 +228,7 @@ static int __init colenda_driver_init(void){
   if(result)
   {
     pr_err("%s: failed to allocate device number!\n",DRIVER_NAME);
-    return result;
+    goto ChrRegionError;
   }
 
   /*Registrando dispositivo de caractere*/
@@ -253,8 +240,7 @@ static int __init colenda_driver_init(void){
   if (result)
   {
     pr_err("%s: char device registration failed!\n",DRIVER_NAME);
-    unregister_chrdev_region(colenda_driver_data.devnum, 1); // desalocando chrdev
-    return result;
+    goto CdevAddError;
   }
 
   /*Criando buffer de instruções*/
@@ -262,12 +248,15 @@ static int __init colenda_driver_init(void){
   if (result)
   {
     pr_err("%s: erro no malloc da fifo!", DRIVER_NAME);
-    unregister_chrdev_region(colenda_driver_data.devnum, 1);
-    return result;
+    goto KfifoAllocError;
   }
 
-  /*Inicializando contador atômico*/
-  atomic_set(&colenda_driver_data.counter, 0);
+  kthread_instruction_consumer = kthread_run(consume_instruction, NULL, KTHREAD_NAME);
+  if (kthread_instruction_consumer == NULL)
+  {
+    pr_err("%s: failed to create %s", DRIVER_NAME, KTHREAD_NAME);
+    goto KthreadCreateError;
+  }
 
   /*Incializando mutex*/
   mutex_init(&write_lock);
@@ -288,12 +277,23 @@ static int __init colenda_driver_init(void){
   pr_info("%s: initialized!\n",DRIVER_NAME);
   return 0;
 
+KthreadCreateError:
+  kfifo_free(&kfifo_instructions);
+KfifoAllocError:
+  cdev_del(&colenda_driver_data.cdev);
+CdevAddError:
+  unregister_chrdev_region(colenda_driver_data.devnum, 1);
+ChrRegionError:
+  return -1;
 }
 
 /*
 * Implementação da função exit
 */
 static void __exit colenda_driver_exit(void){
+ /* Stopping consumer kthread*/
+ kthread_stop(kthread_instruction_consumer);
+
   /*Liberando espaço alocado para a kfifo de instruções*/
   kfifo_free(&kfifo_instructions);
 
@@ -307,7 +307,6 @@ static void __exit colenda_driver_exit(void){
   unregister_chrdev_region(colenda_driver_data.devnum, 1);
 
   pr_info("%s: exiting!\n",DRIVER_NAME);
-
 }
 
 /*
