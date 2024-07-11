@@ -1,4 +1,4 @@
-obj-m += colenda_driver.o
+obj-m += colenda_driver_update.o
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 clean:

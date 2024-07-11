@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "../Lib/colenda.h"
-#include "obstacle.h"
 #include "mouse_read.c"
+#include "colision_module.h"
 #include <unistd.h>
 #include <pthread.h>
 
@@ -13,6 +13,7 @@ int key, coord_x, coord_y;
 int pause_thread = 0;
 int pause_obstacle = 0;
 sprite_t sp;
+obstacle_t arvore;
 
 void* rotina(void* arg) {
     while (1) {
@@ -23,7 +24,6 @@ void* rotina(void* arg) {
         }
         pthread_mutex_unlock(&mutex);
 
-        printf("continuou\n");
         read_mouse_event(&key, &coord_y, &coord_x);
         
     }
@@ -42,7 +42,12 @@ void* obstaculo(void* arg) {
         }
         pthread_mutex_unlock(&obs_mutex);
 
-        random_obstacle(sp.coord_x, sp.coord_y);
+        if (check_colision_player(sp, arvore))
+        {
+            random_obstacle(sp.coord_x, sp.coord_y, &arvore);
+            printf("colidiu\n");
+        }
+        
         
     }
     
@@ -52,6 +57,19 @@ void* obstaculo(void* arg) {
 int main() {
     pthread_t thread, obs_thread;
     key = 0; coord_x = 0; coord_y = 0;
+
+    arvore.coord_x = 320;
+    arvore.coord_y = 240;
+    arvore.size = 10;
+    arvore.type = 1;
+
+    sprite_t arvore_sprite;
+    arvore_sprite.coord_x = 320;
+    arvore_sprite.coord_y = 240;
+    arvore_sprite.data_register = 1;
+    arvore_sprite.offset = BOMB;
+    arvore_sprite.visibility = 1;
+
 
     
     sp.coord_x = 0;
@@ -70,6 +88,7 @@ int main() {
     clear();
     set_background_color(white);
     set_sprite(sp);
+    set_sprite(arvore_sprite);
     
     if (!module_init()) {
         printf("erro ao iniciar modulo do mouse\n");

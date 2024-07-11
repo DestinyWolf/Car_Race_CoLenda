@@ -18,9 +18,23 @@ int read_mouse_event(int* key, int* coord_x) {
 
         if(ev.type == EV_REL){
             if (ev.code == REL_X) {
-                printf("X: %d\n", ev.value);
-
                 //indica qual sprite a ser exibido
+                if(ev.value > 5) {
+                    x = 2;
+                    key_press = 0;
+                } else if(ev.value > 0) {
+                    x = 1;
+                    key_press = 0;
+                } else if (ev.value < -5){
+                    x = -2;
+                    key_press = 0;
+                } else if (ev.value < 0) {
+                    x = -1;
+                    key_press = 0;
+                } else {
+                    x = 0;
+                    key_press = 0;
+                }
 
             } else if (ev.code == REL_WHEEL) {
                 printf("WHEEL: %d\n", ev.value);
@@ -29,24 +43,16 @@ int read_mouse_event(int* key, int* coord_x) {
             if (ev.code == BTN_LEFT) {
                 if (ev.value) {
                     key_press = 1;
+                    x = 0;
+                } else {
+                    key_press = 0;
+                    x = 0;
                 }
-                printf("botão esquerdo do mouse: %s", ev.value ? "Pressinado":"Solto");
-            } else if(ev.code == BTN_RIGHT) {
-                if (ev.value) {
-                    key_press = 2;
-                }
-                printf("botão direito do mouse: %s", ev.value ? "Pressinado":"Solto");
-            } else if (ev.code == BTN_MIDDLE) {
-                if (ev.value) {
-                    key_press = 3;
-                }
-                printf("botão esquerdo do mouse: %s", ev.value ? "Pressinado":"Solto");
-            }
+            } 
         }
 
     *coord_x = x;
     *key = key_press;
-    key_press = 0;
     return 1;
     
 }
