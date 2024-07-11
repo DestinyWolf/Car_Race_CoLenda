@@ -9,7 +9,10 @@ typedef struct {
     uint64_t type;
     uint64_t id;
     uint64_t speed;       
-    uint64_t reward;        
+    uint64_t reward;
+    uint64_t coord_x;
+    uint64_t coord_y;
+    uint64_t size;        
 } obstacle_t;
 
 int 
