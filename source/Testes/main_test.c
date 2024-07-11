@@ -1,5 +1,6 @@
 #include "mouse_module.h"
 #include "colision_module.h"
+#include "obstacle.h"
 #include "../Lib/colenda.h"
 #include "background_animation_module.h"
 #include <stdio.h>
@@ -12,33 +13,66 @@
 #define BULLET_SPEED_BASE 15
 
 //do registrador 1 ao 10 são as balas, do 11 ao 20 são cenarios, do 21 ao 30 são obstaculos e o 31
-sprite_t obstaculos_sprite[10];
+obstacle_t obstacle[20];
 sprite_t cenario[10];
 sprite_t sprite_bullets[10];
 sprite_t player_sprite;
 
-background_block_movel_t obstaculos_block[10];
-
-
+//mutex utilizados
 pthread_mutex_t gpu_mutex;
 pthread_mutex_t background_mutex;
 pthread_mutex_t mouse_mutex;
 pthread_mutex_t obstaculos_mutex;
 pthread_mutex_t bullets_routine_mutex;
 pthread_mutex_t bullets_mutex;
+pthread_mutex_t player_invunerability_mutex;
+
+//condicionais utilizadas
 pthread_cond_t mouse_cond;
 pthread_cond_t obstacle_cond;
 pthread_cond_t background_cond;
 pthread_cond_t bullets_routine_cond;
-
-
+pthread_cond_t player_invulnerability_cond;
 
 int pause_background, pause_obstacle, pause_mouse, pause_bullets;
-
-int obstaculos_gerados[10] = {0,0,0,0,0,0,0,0,0,0};
+int player_invunerability;
+int obstaculos_gerados[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 int score;
 int bullets[10] = {0,0,0,0,0,0,0,0,0,0};
 int key_press;
+
+
+//fazer a parte de piscar
+void* player_invulnerability_timer(void* args) {
+    while(1){
+        pthread_mutex_lock(&player_invunerability_mutex);
+        while(!player_invunerability){
+            pthread_cond_wait(&player_invulnerability_cond, &player_invunerability_mutex);
+        }
+        pthread_mutex_unlock(&player_invunerability_mutex);
+
+        for(int i = 0; i < 10; i++) {
+            pthread_mutex_lock(&mouse_mutex);
+            pause_mouse = 1;
+            pthread_mutex_unlock(&mouse_mutex);
+            player_sprite.visibility = (player_sprite.visibility) ? 0:1;
+
+            usleep(200000000);
+
+            thread_mutex_lock(&mouse_mutex);
+            pause_mouse = 0;
+            pthread_cond_signal(&mouse_cond);
+            pthread_mutex_unlock(&mouse_mutex);
+        }
+        
+
+        pthread_mutex_lock(&player_invunerability_mutex);
+        player_invunerability = 0;
+        pthread_mutex_unlock(&player_invunerability_mutex);
+    }
+    
+}
+
 
 //esta rotina já esta completa, apenas basta ver o tempo de delay de alteração do fundo 
 void* change_background_routine(void* args) {
@@ -164,13 +198,77 @@ void game_main_loop(){
     bg_animation_module_init();
     while (1)
     {
-        for (int i = 0; i < 10; i++){
-            if (obstaculos_gerados[i]) {
+        for (int i = 0; i < 20; i++)
+        {
+            if(obstaculos_gerados[i]) {
                 pthread_mutex_lock(&obstaculos_mutex);
                 pause_obstacle = 1;
-                pthread_mutex_un
+                pthread_mutex_unlock(&obstaculos_mutex);
+                for (int j = 0; i < 10; j++)
+                {
+                    if (bullets[j]) {
+
+                        pthread_mutex_lock(&bullets_mutex);
+                        pause_bullets = 1;
+                        pthread_mutex_unlock(&bullets_mutex);
+
+                        if (check_colision_bullet(sprite_bullets[j], obstacle[i])) {
+                            score += obstacle[i].reward;
+                        }
+                        pthread_mutex_lock(&bullets_mutex);
+                        pause_bullets = 0;
+                        pthread_cond_signal(&bullets_routine_cond);
+                        pthread_mutex_unlock(&bullets_mutex);
+                    }
+                }
+                pthread_mutex_lock(&obstaculos_mutex);
+                pause_obstacle = 0;
+                pthread_cond_signal(&obstacle_cond);
+                pthread_mutex_unlock(&obstaculos_mutex);
             }
         }
+
+        pthread_mutex_lock(&player_invunerability_mutex);
+        if (!player_invunerability){
+            for (int i = 0; i < 20; i++) {
+                if(obstaculos_gerados[i]) {
+                    pthread_mutex_lock(&obstaculos_mutex);
+                    pause_obstacle = 1;
+                    pthread_mutex_unlock(&obstaculos_mutex);
+
+                    pthread_mutex_lock(&mouse_mutex);
+                    pause_mouse = 1;
+                    pthread_mutex_unlock(&mouse_mutex);
+
+                    if(check_colision_player(player_sprite, obstacle[i])){
+                        score -= obstacle[i].reward;
+                        player_invunerability = 1;
+                        pthread_cond_signal(&player_invulnerability_cond);
+                        pthread_mutex_lock(&mouse_mutex);
+                        pause_mouse = 0;
+                        pthread_cond_signal(&mouse_cond);
+                        pthread_mutex_unlock(&mouse_mutex);
+                        break;
+                    }
+                    pthread_mutex_lock(&mouse_mutex);
+                    pause_mouse = 0;
+                    pthread_cond_signal(&mouse_cond);
+                    pthread_mutex_unlock(&mouse_mutex);
+                }
+            }
+            pthread_mutex_lock(&obstaculos_mutex);
+            pause_obstacle = 0;
+            pthread_cond_signal(&obstacle_cond);
+            pthread_mutex_unlock(&obstaculos_mutex);
+        }
+        pthread_mutex_unlock(&player_invunerability_mutex);
+        
+
+        if(score < 0) {
+            printf("jogador perdeu");
+            break;
+        }
+        
 
     }
 }
@@ -180,13 +278,13 @@ void game_main_loop(){
 int main() {
 
     //inicializacao dos inteiros
-    obstaculos_gerados = 0;
     score = 0;
     pause_background = 0;
     pause_mouse = 0;
     pause_obstacle = 0;
+    player_invunerability = 0;
 
-    pthread_t obstacle_thread, background_thread, mouse_thread; 
+    pthread_t obstacle_thread, background_thread, mouse_thread, bullets_thread, player_timer_thread; 
     GPU_open();
 
     player_sprite.coord_x = 320;
@@ -201,16 +299,20 @@ int main() {
     pthread_mutex_init(&background_mutex, NULL);
     pthread_mutex_init(&mouse_mutex, NULL);
     pthread_mutex_init(&obstaculos_mutex, NULL);
+    pthread_mutex_init(&player_invunerability_mutex, NULL);
 
     //inicialização das condições
     pthread_cond_init(&mouse_cond, NULL);
     pthread_cond_init(&obstacle_cond, NULL);
     pthread_cond_init(&background_cond, NULL);
+    pthread_cond_init(&player_invulnerability_cond, NULL);
 
     //inicialização das threads
     pthread_create(&obstacle_thread, NULL, random_obstacle_generate_routine, NULL);
     pthread_create(&background_thread, NULL, change_background_routine, NULL);
     pthread_create(&mouse_thread, NULL, mouse_polling_routine, NULL);
+    pthread_create(&bullets_thread, NULL, bullets_update_routine, NULL);
+    pthread_create(&player_timer_thread, NULL, player_invulnerability_timer, NULL);
 
     //loop principal do jogo
     game_main_loop();
@@ -220,10 +322,14 @@ int main() {
     pthread_cancel(obstacle_thread);
     pthread_cancel(background_thread);
     pthread_cancel(mouse_thread);
+    pthread_cancel(bullets_thread);
+    pthread_cancel(player_timer_thread);
 
     pthread_join(obstacle_thread, NULL);
     pthread_join(background_thread, NULL);
     pthread_join(mouse_thread, NULL);
+    pthread_join(bullets_thread, NULL);
+    pthread_join(player_timer_thread, NULL);
 
 
     //encerrando os mutex
@@ -231,11 +337,15 @@ int main() {
     pthread_mutex_destroy(&background_mutex);
     pthread_mutex_destroy(&mouse_mutex);
     pthread_mutex_destroy(&obstaculos_mutex);
+    pthread_mutex_destroy(&bullets_mutex);
+    pthread_mutex_destroy(&player_invunerability_mutex);
 
     //encerrando as condicionais
     pthread_cond_destroy(&mouse_cond);
     pthread_cond_destroy(&obstacle_cond);
     pthread_cond_destroy(&background_cond);
+    pthread_cond_destroy(&bullets_routine_cond);
+    pthread_cond_destroy(&player_invulnerability_cond);
 
 
     GPU_close();
