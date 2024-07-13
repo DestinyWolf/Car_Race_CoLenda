@@ -85,7 +85,6 @@ void bg_animation() {
                 draw_background_block(((i * 6) + 1) + 42, ((j * 2) * 6) + (frame - 1) + 6, branco);
             }
         }
-        printf("%d\n", frame);
     } else {
         for (i = 0; i < 4; i++){
             for (j = 0; j < 5; j++) {
@@ -95,7 +94,6 @@ void bg_animation() {
                 draw_background_block(((i * 6) + 1) + 42, ((j * 2) * 6) + (frame - 7), branco);
             }
         }
-        printf("%d\n", frame);
     }
     
 }
