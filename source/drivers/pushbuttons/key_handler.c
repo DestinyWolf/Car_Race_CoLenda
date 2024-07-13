@@ -75,11 +75,11 @@ int handler_key_press(void *data){
 		*key_handler_data.wr_reg = 1;
 		*key_handler_data.wr_reg = 0;
 		
-		if(key_handler_data.counter == 0b111111111) key_handler_data.counter = 0;
-		
+		if(key_handler_data.counter == 511) key_handler_data.counter = 0;
 		
 	}
 
+	pr_info("%s: %s finished!\n", DRIVER_NAME, KTHREAD_NAME);
 	return 0;
 }
 
@@ -121,12 +121,10 @@ static void __exit key_handler_exit(void){
  /* Stopping consumer kthread*/
   kthread_stop(kthread_key_handler);
 
-  
   /* Liberando o mapeamento do barramento de dados */
   iounmap(key_handler_data.LW_virtual);
 
-
-  pr_info("%s: exiting!\n",DRIVER_NAME);
+	pr_info("%s: exiting!\n",DRIVER_NAME);
 }
 
 /*
