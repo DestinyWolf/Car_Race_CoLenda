@@ -126,7 +126,7 @@ void* bullet_routine(void* args) {
         pthread_mutex_lock(&bullets_mutex);
         while (pause_bullets)
         {
-            pthread_cond_signal(&bullets_cond);
+            pthread_cond_wait(&bullets_cond, &bullets_mutex);
         }
         pthread_mutex_unlock(&bullets_mutex);
 
@@ -420,8 +420,8 @@ void lose_screen() {
 void init_game() {
     clear();
     module_init();
-    reestart_threads();
     bg_animation_module_init();
+    reestart_threads();
     //TODO: tela de iniciar o jogo
     set_sprite(player_sprite);
 }
@@ -430,6 +430,7 @@ void end_game() {
     pause_threads();
 
     //TODO: tela de finalizar o jogo
+    exit(0);
 }
 
 int main() {
