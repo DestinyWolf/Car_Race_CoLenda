@@ -86,7 +86,6 @@ void reestart_threads() {
     pthread_mutex_unlock(&background_mutex);
 }
 
-//fazer a parte de piscar
 void* player_invulnerability_timer(void* args) {
     while(1){
         pthread_mutex_lock(&player_invunerability_mutex);
@@ -140,6 +139,7 @@ void* bullet_routine(void* args) {
                 if (sprite_bullets[i].coord_y <= 0) {
                     bullets[i] = 0;
                     sprite_bullets[i].visibility = 0;
+                    sprite_bullets[i].coord_y = 0;
                 } else {
                     sprite_bullets[i].coord_y -= BULLET_SPEED_BASE;
                 }
