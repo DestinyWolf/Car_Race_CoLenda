@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <fcntl.h>
 #include <sys/mman.h>
+#include<sys/ioctl.h>
 #include <unistd.h>
-#include <time.h>
 #include <sys/stat.h>
-#include <wchar.h>
 #include <stdint.h>
+#include "display_7seg_driver.h"
 
-#define DRIVER_FILE "/dev/display_7seg"
+#define DRIVER_PATH "/dev/display_7seg"
 
 #define OFF 0 //0000000
 #define ZERO 126 //1111110
@@ -23,54 +22,78 @@
 #define EIGHT 127 //1111111
 #define NINE 123 //1111011
 
-int dev = -1;
+/* Identificadores dos displays*/
+#define HEX0 0
+#define HEX1 1
+#define HEX2 2
+#define HEX3 3
+#define HEX4 4
+#define HEX5 5
 
+/* Variáveis globais*/
+static int dev = -1;
+
+/*Protótipos das funções*/
 int display_open();
-int display_write(short int, int);
+int display_write(uint8_t, uint8_t);
+int display_write_all(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
 int display_close();
 int display_clear();
 
 int display_open(){
 
     /* abrir o arquivo com permissão de escrita e caso exista, sobreescreve o arquivo */
-    dev = open(DRIVER_FILE, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+    dev = open(DRIVER_PATH, O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
     if (dev == -1) {
         printf("Failed to open file!\n");
-        return 0;
+        return -1;
     }
-    return 1;
-}
-
-int display_write(short int hex, int info){
-
-    if(hex > 7 || info > 127) return -1;
-    //TODO: pass info to display
-
-
-
-    return 0;
-
-}
-
-int display_write_all(int hex0, int hex1, int hex2, int hex3, int hex4, int hex5){
-
-    if(hex0+hex1+hex2+hex3+hex4+hex5 >  762) return -1;
-
-    //TODO : pass info to display
     return 0;
 }
 
-int display_clear(){
+int display_write(uint8_t hex, uint8_t data){
+    /*Verificando limites de representação dos displays*/
+    if(hex > 5 || hex < 0 || data > 127) return -1;
+    
+    struct ioctl_args args = {hex, data};
 
-    //TODO: pass off to displays
+    ioctl(dev, WR_VALUE, &args);
+    return 0;
+}
 
+int display_write_all(uint8_t *data){
+    /* erificando limites de representação dos displays*/
+    if(data[0]+data[1]+data[2]+data[3]+data[4]+data[5] > 762) return -1;
+    
+    /*Escrevendo dados nos displays*/
+    struct ioctl_args args;
+
+    for (size_t i = 0; i < 6; i++)
+    {
+        args.hex_id = i;
+        args.data = data[i];
+        ioctl(dev, WR_VALUE, &args);
+    }
+
+    return 0;
+}
+
+void display_clear(){
+    struct ioctl_args args;
+    args.data = OFF;
+
+    for (size_t i = 0; i < 6; i++)
+    {
+        args.hex_id = i;
+        ioctl(dev, WR_VALUE, &args);
+    }
 }
 int display_close(){
     /* caso haja algum erro ao encerrar a comunicação retorna 0 */ 
     if (close(dev) == -1) {
         printf("Failed to close file!\n");
-        return 0;
+        return -1;
     }
-    return 1;
+    return 0;
 }
 
