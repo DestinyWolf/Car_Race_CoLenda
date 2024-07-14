@@ -10816,7 +10816,6 @@ int main(){
     // brick_block_1.visibility = 1;
     // matrix_brick_block_1_sprite(pixels);
     // create_sprite_by_matrix(pixels, 1); 
-    // //clear(); 
     // set_sprite(brick_block_1);
 
     // //brick block 2
@@ -10829,7 +10828,6 @@ int main(){
     // brick_block_2.visibility = 1;
     // matrix_brick_block_2_sprite(pixels);
     // create_sprite_by_matrix(pixels, 2); 
-    // //clear(); 
     // set_sprite(brick_block_2);
 
     // //brick
@@ -10841,7 +10839,6 @@ int main(){
     // brick.visibility = 1;
     // matrix_brick_sprite(pixels);
     // create_sprite_by_matrix(pixels, 5); 
-    // clear(); 
     // set_sprite(brick);
 
     // //double wood
@@ -10853,7 +10850,6 @@ int main(){
     // double_wood.visibility = 1;
     // matrix_double_wood_sprite(pixels);
     // create_sprite_by_matrix(pixels, 6); 
-    // clear(); 
     // set_sprite(double_wood);
 
     // //single wood
@@ -10865,7 +10861,6 @@ int main(){
     // single_wood.visibility = 1;
     // matrix_single_wood_sprite(pixels);
     // create_sprite_by_matrix(pixels, 7); 
-    // clear(); 
     // set_sprite(single_wood);
 
     // //fire
@@ -10877,7 +10872,6 @@ int main(){
     // fire.visibility = 1;
     // matrix_fire_sprite(pixels);
     // create_sprite_by_matrix(pixels, 8); 
-    // clear(); 
     // set_sprite(fire);
 
     //rock 1
