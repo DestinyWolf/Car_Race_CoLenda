@@ -378,7 +378,6 @@ write_in_gpu(char* instruction_binary_string) {
     bytes_written = write(dev, instruction_binary_string, 8);
     while (bytes_written == -1) {
         bytes_written = write(dev, instruction_binary_string, 8);
-        usleep(100);
     }
 }
 

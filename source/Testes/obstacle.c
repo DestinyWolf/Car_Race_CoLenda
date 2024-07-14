@@ -68,21 +68,20 @@ sprite_t create_sprite_obstacle(int coord_x, int coord_y, int offset, int reg, i
     return obstacle;
 }
 
-void set_vector_obstacle(obstacle_t vetor_obstaculos[], int coord_x, int coord_y, int offset, int reg, int visibility, int speed){
-    vetor_obstaculos[0] = bomb;
-    vetor_obstaculos[1] = tree;
-    vetor_obstaculos[2] = yellow_car;
-    vetor_obstaculos[3] = blue_car;
-    vetor_obstaculos[4] = purple_car;
+// void create_sprite_vector_obstacle(obstacle_t *vetor_obstaculos, int coord_x, int coord_y, int offset, int reg, int visibility, int speed){
+//     vetor_obstaculos[0] = bomb;
+//     vetor_obstaculos[1] = tree;
+//     vetor_obstaculos[2] = yellow_car;
+//     vetor_obstaculos[3] = blue_car;
+//     vetor_obstaculos[4] = purple_car;
 
-
-    // VETOR DE SPRITES CRIADOS - coordenadas fixas
-    // vetor_obstaculos[0] = create_sprite_obstacle(coord_x, coord_y, BOMB, 1, 1, 1);
-    // vetor_obstaculos[1] = create_sprite_obstacle(coord_x, coord_y, TREE, 2, 1, 2);
-    // vetor_obstaculos[2] = create_sprite_obstacle(coord_x, coord_y, YELLOW_CAR, 3, 1, 1);
-    // vetor_obstaculos[3] = create_sprite_obstacle(coord_x, coord_y, PURPLE_CAR, 4, 1, 2);
-    // vetor_obstaculos[4] = create_sprite_obstacle(coord_x, coord_y, BLUE_CAR, 5, 1, 3);
-}
+//     // VETOR DE SPRITES CRIADOS - coordenadas fixas
+//     // vetor_obstaculos[0] = create_sprite_obstacle(coord_x, coord_y, BOMB, 1, 1, 1);
+//     // vetor_obstaculos[1] = create_sprite_obstacle(coord_x, coord_y, TREE, 2, 1, 2);
+//     // vetor_obstaculos[2] = create_sprite_obstacle(coord_x, coord_y, YELLOW_CAR, 3, 1, 1);
+//     // vetor_obstaculos[3] = create_sprite_obstacle(coord_x, coord_y, PURPLE_CAR, 4, 1, 2);
+//     // vetor_obstaculos[4] = create_sprite_obstacle(coord_x, coord_y, BLUE_CAR, 5, 1, 3);
+// }
 
 int range_min_coord_x(int coord_x_player, int limite_min_pista){
     int range_min = limite_min_pista;
