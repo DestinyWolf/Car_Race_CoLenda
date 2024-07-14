@@ -2,7 +2,7 @@ from numpy import asarray
 from PIL import Image
 
 
-img = Image.open("image2.png")
+img = Image.open("images/trash_bag_pixel.png")
 
 rgb_img = img.convert('RGB')
 
