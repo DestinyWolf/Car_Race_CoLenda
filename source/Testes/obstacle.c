@@ -289,12 +289,11 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
 }
 
 
-int random_obstacle(int cord_x_player, int cord_y_player, obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]){
+int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]){
     obstacle_t new_obstacle;
     sprite_t new_sprite;
     
     int coord_x_obstacle, coord_y_obstacle;
-    int limite_min_pista, limite_max_pista;
 
     int base_reg_obstacles = 21, unidade = 1;
     //gera coordenada aleatória entre 
