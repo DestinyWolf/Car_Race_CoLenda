@@ -42,9 +42,9 @@ for i in range(0, 20):
         if cores.get(rgb):
             instrucao = f"pixeis[{(i*20) + j}] = {cores.get(rgb)};\n"
         else:
-            count +=1
             cores[rgb] = cor
             instrucao = f"color_t cor{count} = {{{b}, {g}, {r}}};\npixeis[{(i*20)+j}] = cor{count};\n"
+            count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:
             arquivo.write(instrucao)
