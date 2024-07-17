@@ -44,7 +44,7 @@ int
 check_for_empity_reg(int sprites_obstacle_status[]);
 
 int 
-create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[]);
+create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t obstaculos_na_tela[]);
 
 void 
 initialize_obstacle_vector(obstacle_t vetor_obstaculos[]);
@@ -62,6 +62,6 @@ void
 move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], int unidade, int reg_base_obstacles);
 
 int 
-random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]);
+random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista, obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]);
     
 
