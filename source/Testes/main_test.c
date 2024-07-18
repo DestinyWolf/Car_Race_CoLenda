@@ -367,6 +367,10 @@ void* colision_routine(void* args){
                         pause_mouse = 0;
                         pthread_cond_signal(&mouse_cond);
                         pthread_mutex_unlock(&mouse_mutex);
+                        pthread_mutex_lock(&obstacle_mutex);
+                        pause_obstacle = 0;
+                        pthread_cond_signal(&obstacle_cond);
+                        pthread_mutex_unlock(&obstacle_mutex);
                         pthread_cond_signal(&player_invulnerability_cond);
                         break;
                     }
@@ -374,12 +378,13 @@ void* colision_routine(void* args){
                     pause_mouse = 0;
                     pthread_cond_signal(&mouse_cond);
                     pthread_mutex_unlock(&mouse_mutex);
+                    pthread_mutex_lock(&obstacle_mutex);
+                    pause_obstacle = 0;
+                    pthread_cond_signal(&obstacle_cond);
+                    pthread_mutex_unlock(&obstacle_mutex);
                 }
             }
-            pthread_mutex_lock(&obstacle_mutex);
-            pause_obstacle = 0;
-            pthread_cond_signal(&obstacle_cond);
-            pthread_mutex_unlock(&obstacle_mutex);
+            
         }
         pthread_mutex_unlock(&player_invunerability_mutex);
         
