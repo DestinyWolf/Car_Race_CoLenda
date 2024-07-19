@@ -72,62 +72,76 @@ int key_press_2;
 
 
 void pause_threads() {
-    if (game_mode == dual_player) {
-        pthread_mutex_lock(&mouse_2_mutex);
-        pause_mouse_2 = 1;
-        pthread_mutex_unlock(&mouse_2_mutex);
-        pthread_mutex_lock(&obstacle_2_mutex);
-        pause_obstacle_2 = 1;
-        pthread_mutex_unlock(&obstacle_2_mutex);
-    }
+    
+    pthread_mutex_lock(&mouse_2_mutex);
+    pause_mouse_2 = 1;
+    pthread_mutex_unlock(&mouse_2_mutex);
+    printf("pause o mouse 2\n");
+    pthread_mutex_lock(&obstacle_2_mutex);
+    pause_obstacle_2 = 1;
+    pthread_mutex_unlock(&obstacle_2_mutex);
+    printf("pause obstacle 2\n");
+    
     pthread_mutex_lock(&mouse_1_mutex);
     pause_mouse_1 = 1;
     pthread_mutex_unlock(&mouse_1_mutex);
+    printf("pause o mouse 1\n");
     pthread_mutex_lock(&bullets_mutex);
     pause_bullets = 1;
     pthread_mutex_unlock(&bullets_mutex);
+    printf("pause bullets\n");
     pthread_mutex_lock(&obstacle_1_mutex);
     pause_obstacle_1 = 1;
     pthread_mutex_unlock(&obstacle_1_mutex);
+    printf("pause obstacle 1\n");
     pthread_mutex_lock(&background_mutex);
     pause_background = 1;
     pthread_mutex_unlock(&background_mutex);
+    printf("pause o bg\n");
     pthread_mutex_lock(&colision_mutex);
     pause_colision = 1;
     pthread_mutex_unlock(&colision_mutex);
+    printf("pause colision\n");
 }
 
 void reestart_threads() {
-    if(game_mode == dual_player) {
-        pthread_mutex_lock(&mouse_2_mutex);
-        pause_mouse_2 = 0;
-        pthread_cond_signal(&mouse_2_cond);
-        pthread_mutex_unlock(&mouse_2_mutex);
-        pthread_mutex_lock(&obstacle_2_mutex);
-        pause_obstacle_2 = 0;
-        pthread_cond_signal(&obstacle_2_cond);
-        pthread_mutex_unlock(&obstacle_2_mutex);
-    } 
+    
+    pthread_mutex_lock(&mouse_2_mutex);
+    pause_mouse_2 = 0;
+    pthread_cond_signal(&mouse_2_cond);
+    pthread_mutex_unlock(&mouse_2_mutex);
+    printf("voltou o mouse 2\n");
+    pthread_mutex_lock(&obstacle_2_mutex);
+    pause_obstacle_2 = 0;
+    pthread_cond_signal(&obstacle_2_cond);
+    pthread_mutex_unlock(&obstacle_2_mutex);
+    printf("voltou os obstaculos 2\n");
     pthread_mutex_lock(&mouse_1_mutex);
     pause_mouse_1 = 0;
+    
     pthread_cond_signal(&mouse_1_cond);
     pthread_mutex_unlock(&mouse_1_mutex);
+    printf("voltou o mouse 1\n");
     pthread_mutex_lock(&bullets_mutex);
     pause_bullets = 0;
     pthread_cond_signal(&bullets_cond);
     pthread_mutex_unlock(&bullets_mutex);
+    printf("voltou os disparos\n");
     pthread_mutex_lock(&obstacle_1_mutex);
     pause_obstacle_1 = 0;
     pthread_cond_signal(&obstacle_1_cond);
     pthread_mutex_unlock(&obstacle_1_mutex);
+    printf("voltou o obstaculo 1\n");
     pthread_mutex_lock(&background_mutex);
     pause_background = 0;
     pthread_cond_signal(&background_cond);
     pthread_mutex_unlock(&background_mutex);
+    printf("voltou o bg\n");
     pthread_mutex_lock(&colision_mutex);
     pause_colision = 0;
     pthread_cond_signal(&colision_cond);
     pthread_mutex_unlock(&colision_mutex);
+    printf("voltou a colisão\n");
 }
 
 void* player_1_invulnerability_timer(void* args) {
@@ -495,12 +509,17 @@ void* random_obstacle_1_generate_routine(void* args) {
         pthread_mutex_lock(&obstacle_1_mutex);
         while (pause_obstacle_1)
         {
+            printf("ta pausado obstacle1\n");
             pthread_cond_wait(&obstacle_1_cond, &obstacle_1_mutex);
+            
         }
         pthread_mutex_unlock(&obstacle_1_mutex);
 
         pthread_mutex_lock(&gpu_mutex);
-        random_obstacle(player_1_sprite.coord_x, player_1_sprite.coord_y, 96, 289, screen_obs, obs, obstaculos_gerados);
+        if(!pause_obstacle_1) {
+            random_obstacle(player_1_sprite.coord_x, player_1_sprite.coord_y, 96, 289, screen_obs, obs, obstaculos_gerados);
+        }
+        
         pthread_mutex_unlock(&gpu_mutex);
         usleep(100000);
     }
@@ -513,12 +532,16 @@ void* random_obstacle_2_generate_routine(void* args) {
         pthread_mutex_lock(&obstacle_2_mutex);
         while (pause_obstacle_2)
         {
+            printf("ta pausado obstacle2\n");
             pthread_cond_wait(&obstacle_2_cond, &obstacle_2_mutex);
+            
         }
         pthread_mutex_unlock(&obstacle_2_mutex);
 
         pthread_mutex_lock(&gpu_mutex);
-        random_obstacle(player_2_sprite.coord_x, player_2_sprite.coord_y, 336, 528, screen_obs, obs, obstaculos_gerados);
+        if(!pause_obstacle_2) {
+            random_obstacle(player_2_sprite.coord_x, player_2_sprite.coord_y, 336, 528, screen_obs, obs, obstaculos_gerados);
+        }
         pthread_mutex_unlock(&gpu_mutex);
         usleep(100000);
     }
@@ -538,6 +561,7 @@ void* colision_routine(void* args){
         }
         pthread_mutex_unlock(&colision_mutex);
 
+        // printf("colisão voltou\n");
         if (game_mode == single_player) {
             for (int i = 0; i < 10; i++){
                 if (obstaculos_gerados[i]) {
@@ -618,7 +642,7 @@ void* colision_routine(void* args){
             }
             pthread_mutex_unlock(&player_1_invunerability_mutex);
 
-            printf("score 1: %d\n", score_1);
+            // printf("score 1: %d\n", score_1);
             if (score_1 < 0) {
                 printf("jogador 1 perdeu\n");
                 lose_screen();
@@ -799,7 +823,7 @@ void* colision_routine(void* args){
             }
             pthread_mutex_unlock(&player_2_invunerability_mutex);
             
-            printf("score 1: %d\tscore 2: %d\n", score_1, score_2);
+            // printf("score 1: %d\tscore 2: %d\n", score_1, score_2);
             if(score_1 < 0) {
                 printf("jogador 1 perdeu\n");
                 lose_screen(); // colocar o jogar que perdeu
@@ -826,7 +850,7 @@ void* colision_routine(void* args){
 void menu() {
     state = in_menu;
     int btn_val;
-    if(pause_background || pause_bullets || pause_colision || pause_mouse_1 || pause_obstacle_1 || pause_mouse_2 || pause_obstacle_2) {
+    if(pause_background || pause_bullets || pause_colision || pause_mouse_1 || pause_obstacle_1 || pause_mouse_2 && game_mode == dual_player || pause_obstacle_2 && game_mode == dual_player) {
         pause_threads();
     }
     while(1) {
@@ -890,6 +914,8 @@ void lose_screen() {
     }
     clear();
 
+    player_1_invunerability = 0;
+    player_2_invunerability = 0;
     //TODO: tela de perder o jogo
     state = in_menu;
     menu();

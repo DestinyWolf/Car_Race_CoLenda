@@ -15,14 +15,14 @@
 
 obstacle_t cone = {
     .offset = 0,
-    .speed= 5,
-    .reward = 15,
+    .speed= 8,
+    .reward = 14,
     .on_frame = 0
 };
 
 obstacle_t single_wood = {
     .offset = 1,
-    .speed= 10,
+    .speed= 12,
     .reward = 25,
     .on_frame = 0
 
@@ -31,7 +31,7 @@ obstacle_t single_wood = {
 obstacle_t double_wood = {
     .offset = 2,
     .speed= 5,
-    .reward = 15,
+    .reward = 10,
     .on_frame =0
 };
 
@@ -45,14 +45,14 @@ obstacle_t bomb = {
 obstacle_t brick = {
     .offset = 4,
     .speed= 15,
-    .reward = 50,
+    .reward = 30,
     .on_frame = 0
 };
 
 obstacle_t brick_block_1 = {
     .offset = 5,
-    .speed= 20,
-    .reward = 40,
+    .speed= 5,
+    .reward = 10,
     .on_frame = 0
 };
 
@@ -93,25 +93,28 @@ obstacle_t rock_2 = {
 
 obstacle_t rock_block = {
     .offset = 11,
-    .speed= 2,
-    .reward = 5,
+    .speed= 4,
+    .reward = 8,
     .on_frame = 0
 };
 
 obstacle_t trash_bag = {
     .offset = 13,
-    .speed= 2,
-    .reward = 20,
+    .speed= 6,
+    .reward = 11,
     .on_frame = 0
 };   
 
 //obstaculo ou nao
 obstacle_t fire = {
     .offset = 13,
-    .speed= 2,
-    .reward = 20
+    .speed= 0,
+    .reward = 0
 };
 
+//spike
+
+//purple block
 
 // obstacle_t tree = {
 //     .speed = 1,
@@ -150,15 +153,13 @@ int random_number(int min, int max){
     return num;
 }
 
-int check_for_empity_reg(int sprites_obstacle_status[]){
+int check_for_empty_reg(int sprites_obstacle_status[]){
     int i =0, status, reg;
 
     while(i < 10){
-        // printf("indice: %d \tvetor: %d\n", i, sprites_obstacle_status[i]);
         if(sprites_obstacle_status[i] == 0){
             //reg = base_reg + i;
             sprites_obstacle_status[i] = 1; //status registrador ocupado
-            // printf("Return check empity reg: %d\n", i);
             return i; 
         }
         i++;
@@ -171,11 +172,9 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
     int index, reg;
     
     base_reg = 21;
-    index = check_for_empity_reg(sprites_obstacle_status);
-    
+    index = check_for_empty_reg(sprites_obstacle_status);
     if(index == -1) return -1; //não há registrador vazio. Nao é possivel criar o sprite
     else{
-        // printf("index in create sprite: %d\n", index);
         reg = base_reg + index;
         obstacle_sprite.coord_x = coord_x;
         obstacle_sprite.coord_y = coord_y;
@@ -184,7 +183,6 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
         obstacle_sprite.data_register = reg;
         obstacle_sprite.visibility = 1;
         set_sprite(obstacle_sprite);
-        // printf("reg: %d, offset: %d\n", reg, obstacle.offset);
         sprites_obstacle_status[index] = 1;
 
         //identificando obstaculo ativo na tela
@@ -276,7 +274,7 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
                 new_sprite.offset = 0;
                 new_sprite.visibility = 0;
                 
-                // Libera o regustrador para uso
+                // Libera o registrador para uso
                 sprites_obstacle_status[i] = 0;
 
             }else{
@@ -291,12 +289,9 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
                 new_sprite.data_register = reg_base_obstacles + i; //21 + i
                 new_sprite.visibility = 1;
             } 
-
             set_sprite(new_sprite);
-        }
-        
-    }
-    
+        }       
+    }    
 }
 
 
@@ -313,9 +308,7 @@ int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, 
 
     //Executar antes do random_obstacle
     //initialize_obstacle_vector(vetor_obstaculos);
-    // printf("coord x player: %d y player: %d coord obstaculo x: %d y: %d\n", cord_x_player, cord_y_player, coord_x_obstacle, coord_y_obstacle);
     new_obstacle = select_random_obstacle_from_vector(vetor_obstaculos);
-    // printf("selected obstacle offset: %d\n", new_obstacle.offset);
     create_sprite_obstacle(new_obstacle,coord_x_obstacle, coord_y_obstacle, base_reg_obstacles, sprites_obstacle_status, obstaculos_na_tela);
     move_obstacles(obstaculos_na_tela, sprites_obstacle_status, unidade, base_reg_obstacles);
 

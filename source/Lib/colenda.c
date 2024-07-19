@@ -152,7 +152,7 @@ set_sprite(sprite_t sprite) {
 
     /* validação dos valores inseridos pelo usuario  */
     if ((sprite.visibility > 1 || sprite.coord_x > 639 || sprite.coord_y > 479 || sprite.offset > 40 || sprite.data_register > 32) || sprite.data_register < 1) {
-        printf("valor fora do limite de representação\n");
+        // printf("valor fora do limite de representação\n");
         return 0;
     }
 
