@@ -8,7 +8,7 @@
 #include <linux/slab.h> //kmalloc
 #include "/usr/src/3.18.0/arch/arm/include/asm/io.h"
 #include "../colenda/address_map_arm.h"
-#include "display_7seg_driver.h"
+#include "./display_7seg_driver.h"
 
 /* Meta information*/
 MODULE_LICENSE("GPL");
@@ -16,8 +16,7 @@ MODULE_AUTHOR("Brenda Barbosa, Camila Boa Morte, Maike de Oliveira");
 MODULE_DESCRIPTION("Um módulo kernel para realizar a comunicação com os displays de 7 segmentos na FPGA");
 
 /*Driver data*/
-static struct
-{
+static struct{
   dev_t devnum;
   struct cdev cdev;
   void *LW_virtual;
@@ -27,7 +26,6 @@ static struct
   volatile int *hex3_ptr;
   volatile int *hex4_ptr;
   volatile int *hex5_ptr;
-  
 } display_7seg_data;
 
 
