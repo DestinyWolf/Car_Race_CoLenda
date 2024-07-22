@@ -206,7 +206,7 @@ static int __init key_driver_init(void){
   key_driver_data.LW_virtual = ioremap(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
   key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEYS_BASE;
 
-  key_driver_datat.ready = ATOMIC_INIT(0);
+  key_driver_data.ready = ATOMIC_INIT(0);
   
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
