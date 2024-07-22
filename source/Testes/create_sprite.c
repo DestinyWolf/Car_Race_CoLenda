@@ -10782,6 +10782,1268 @@ void matrix_trash_bag_sprite(color_t pixels[]){
 
 }
 
+void matrix_spike_sprite(color_t pixels[]){
+    color_t cor0 = {7, 7, 6};
+    pixels[0] = cor0;
+    pixels[1] = cor0;
+    pixels[2] = cor0;
+    pixels[3] = cor0;
+    pixels[4] = cor0;
+    pixels[5] = cor0;
+    pixels[6] = cor0;
+    pixels[7] = cor0;
+    pixels[8] = cor0;
+    pixels[9] = cor0;
+    pixels[10] = cor0;
+    pixels[11] = cor0;
+    pixels[12] = cor0;
+    pixels[13] = cor0;
+    pixels[14] = cor0;
+    pixels[15] = cor0;
+    pixels[16] = cor0;
+    pixels[17] = cor0;
+    pixels[18] = cor0;
+    pixels[19] = cor0;
+    pixels[20] = cor0;
+    pixels[21] = cor0;
+    pixels[22] = cor0;
+    pixels[23] = cor0;
+    pixels[24] = cor0;
+    pixels[25] = cor0;
+    pixels[26] = cor0;
+    pixels[27] = cor0;
+    pixels[28] = cor0;
+    pixels[29] = cor0;
+    pixels[30] = cor0;
+    pixels[31] = cor0;
+    pixels[32] = cor0;
+    pixels[33] = cor0;
+    pixels[34] = cor0;
+    pixels[35] = cor0;
+    pixels[36] = cor0;
+    pixels[37] = cor0;
+    pixels[38] = cor0;
+    pixels[39] = cor0;
+    pixels[40] = cor0;
+    pixels[41] = cor0;
+    pixels[42] = cor0;
+    pixels[43] = cor0;
+    pixels[44] = cor0;
+    pixels[45] = cor0;
+    pixels[46] = cor0;
+    pixels[47] = cor0;
+    pixels[48] = cor0;
+    pixels[49] = cor0;
+    pixels[50] = cor0;
+    pixels[51] = cor0;
+    pixels[52] = cor0;
+    pixels[53] = cor0;
+    pixels[54] = cor0;
+    pixels[55] = cor0;
+    pixels[56] = cor0;
+    pixels[57] = cor0;
+    pixels[58] = cor0;
+    pixels[59] = cor0;
+    pixels[60] = cor0;
+    pixels[61] = cor0;
+    pixels[62] = cor0;
+    pixels[63] = cor0;
+    pixels[64] = cor0;
+    pixels[65] = cor0;
+    pixels[66] = cor0;
+    pixels[67] = cor0;
+    pixels[68] = cor0;
+    pixels[69] = cor0;
+    pixels[70] = cor0;
+    pixels[71] = cor0;
+    pixels[72] = cor0;
+    pixels[73] = cor0;
+    pixels[74] = cor0;
+    pixels[75] = cor0;
+    pixels[76] = cor0;
+    pixels[77] = cor0;
+    pixels[78] = cor0;
+    pixels[79] = cor0;
+    pixels[80] = cor0;
+    pixels[81] = cor0;
+    pixels[82] = cor0;
+    pixels[83] = cor0;
+    pixels[84] = cor0;
+    pixels[85] = cor0;
+    pixels[86] = cor0;
+    pixels[87] = cor0;
+    pixels[88] = cor0;
+    pixels[89] = cor0;
+    pixels[90] = cor0;
+    pixels[91] = cor0;
+    pixels[92] = cor0;
+    pixels[93] = cor0;
+    pixels[94] = cor0;
+    pixels[95] = cor0;
+    pixels[96] = cor0;
+    pixels[97] = cor0;
+    pixels[98] = cor0;
+    pixels[99] = cor0;
+    pixels[100] = cor0;
+    pixels[101] = cor0;
+    pixels[102] = cor0;
+    pixels[103] = cor0;
+    pixels[104] = cor0;
+    pixels[105] = cor0;
+    pixels[106] = cor0;
+    pixels[107] = cor0;
+    pixels[108] = cor0;
+    pixels[109] = cor0;
+    pixels[110] = cor0;
+    pixels[111] = cor0;
+    pixels[112] = cor0;
+    pixels[113] = cor0;
+    pixels[114] = cor0;
+    pixels[115] = cor0;
+    pixels[116] = cor0;
+    pixels[117] = cor0;
+    pixels[118] = cor0;
+    pixels[119] = cor0;
+    pixels[120] = cor0;
+    pixels[121] = cor0;
+    pixels[122] = cor0;
+    pixels[123] = cor0;
+    pixels[124] = cor0;
+    pixels[125] = cor0;
+    pixels[126] = cor0;
+    pixels[127] = cor0;
+    pixels[128] = cor0;
+    pixels[129] = cor0;
+    pixels[130] = cor0;
+    pixels[131] = cor0;
+    pixels[132] = cor0;
+    pixels[133] = cor0;
+    pixels[134] = cor0;
+    pixels[135] = cor0;
+    pixels[136] = cor0;
+    pixels[137] = cor0;
+    pixels[138] = cor0;
+    pixels[139] = cor0;
+    pixels[140] = cor0;
+    pixels[141] = cor0;
+    pixels[142] = cor0;
+    pixels[143] = cor0;
+    pixels[144] = cor0;
+    pixels[145] = cor0;
+    pixels[146] = cor0;
+    pixels[147] = cor0;
+    pixels[148] = cor0;
+    pixels[149] = cor0;
+    pixels[150] = cor0;
+    pixels[151] = cor0;
+    pixels[152] = cor0;
+    pixels[153] = cor0;
+    pixels[154] = cor0;
+    pixels[155] = cor0;
+    pixels[156] = cor0;
+    pixels[157] = cor0;
+    pixels[158] = cor0;
+    pixels[159] = cor0;
+    pixels[160] = cor0;
+    pixels[161] = cor0;
+    pixels[162] = cor0;
+    pixels[163] = cor0;
+    pixels[164] = cor0;
+    pixels[165] = cor0;
+    pixels[166] = cor0;
+    pixels[167] = cor0;
+    pixels[168] = cor0;
+    pixels[169] = cor0;
+    pixels[170] = cor0;
+    pixels[171] = cor0;
+    pixels[172] = cor0;
+    pixels[173] = cor0;
+    pixels[174] = cor0;
+    pixels[175] = cor0;
+    pixels[176] = cor0;
+    pixels[177] = cor0;
+    pixels[178] = cor0;
+    pixels[179] = cor0;
+    pixels[180] = cor0;
+    pixels[181] = cor0;
+    pixels[182] = cor0;
+    pixels[183] = cor0;
+    pixels[184] = cor0;
+    pixels[185] = cor0;
+    pixels[186] = cor0;
+    pixels[187] = cor0;
+    pixels[188] = cor0;
+    pixels[189] = cor0;
+    pixels[190] = cor0;
+    pixels[191] = cor0;
+    pixels[192] = cor0;
+    pixels[193] = cor0;
+    pixels[194] = cor0;
+    pixels[195] = cor0;
+    pixels[196] = cor0;
+    pixels[197] = cor0;
+    pixels[198] = cor0;
+    pixels[199] = cor0;
+    pixels[200] = cor0;
+    pixels[201] = cor0;
+    pixels[202] = cor0;
+    pixels[203] = cor0;
+    pixels[204] = cor0;
+    pixels[205] = cor0;
+    pixels[206] = cor0;
+    pixels[207] = cor0;
+    pixels[208] = cor0;
+    pixels[209] = cor0;
+    pixels[210] = cor0;
+    pixels[211] = cor0;
+    pixels[212] = cor0;
+    pixels[213] = cor0;
+    pixels[214] = cor0;
+    pixels[215] = cor0;
+    pixels[216] = cor0;
+    pixels[217] = cor0;
+    pixels[218] = cor0;
+    pixels[219] = cor0;
+    pixels[220] = cor0;
+    pixels[221] = cor0;
+    pixels[222] = cor0;
+    pixels[223] = cor0;
+    pixels[224] = cor0;
+    pixels[225] = cor0;
+    pixels[226] = cor0;
+    pixels[227] = cor0;
+    pixels[228] = cor0;
+    pixels[229] = cor0;
+    pixels[230] = cor0;
+    pixels[231] = cor0;
+    pixels[232] = cor0;
+    pixels[233] = cor0;
+    pixels[234] = cor0;
+    pixels[235] = cor0;
+    pixels[236] = cor0;
+    pixels[237] = cor0;
+    pixels[238] = cor0;
+    pixels[239] = cor0;
+    pixels[240] = cor0;
+    pixels[241] = cor0;
+    pixels[242] = cor0;
+    pixels[243] = cor0;
+    color_t cor1 = {0, 0, 0};
+    pixels[244] = cor1;
+    pixels[245] = cor0;
+    pixels[246] = cor0;
+    pixels[247] = cor0;
+    pixels[248] = cor0;
+    pixels[249] = cor0;
+    pixels[250] = cor1;
+    pixels[251] = cor0;
+    pixels[252] = cor0;
+    pixels[253] = cor0;
+    pixels[254] = cor0;
+    pixels[255] = cor0;
+    pixels[256] = cor1;
+    pixels[257] = cor0;
+    pixels[258] = cor0;
+    pixels[259] = cor0;
+    pixels[260] = cor0;
+    pixels[261] = cor0;
+    pixels[262] = cor0;
+    pixels[263] = cor1;
+    color_t cor2 = {7, 7, 7};
+    pixels[264] = cor2;
+    pixels[265] = cor1;
+    pixels[266] = cor0;
+    pixels[267] = cor0;
+    pixels[268] = cor0;
+    pixels[269] = cor1;
+    pixels[270] = cor2;
+    pixels[271] = cor1;
+    pixels[272] = cor0;
+    pixels[273] = cor0;
+    pixels[274] = cor0;
+    pixels[275] = cor1;
+    pixels[276] = cor2;
+    pixels[277] = cor1;
+    pixels[278] = cor0;
+    pixels[279] = cor0;
+    pixels[280] = cor0;
+    pixels[281] = cor0;
+    pixels[282] = cor0;
+    pixels[283] = cor1;
+    pixels[284] = cor2;
+    pixels[285] = cor1;
+    pixels[286] = cor0;
+    pixels[287] = cor0;
+    pixels[288] = cor0;
+    pixels[289] = cor1;
+    pixels[290] = cor2;
+    pixels[291] = cor1;
+    pixels[292] = cor0;
+    pixels[293] = cor0;
+    pixels[294] = cor0;
+    pixels[295] = cor1;
+    pixels[296] = cor2;
+    pixels[297] = cor1;
+    pixels[298] = cor0;
+    pixels[299] = cor0;
+    pixels[300] = cor0;
+    pixels[301] = cor0;
+    pixels[302] = cor1;
+    pixels[303] = cor2;
+    color_t cor3 = {5, 5, 5};
+    pixels[304] = cor3;
+    color_t cor4 = {2, 2, 2};
+    pixels[305] = cor4;
+    pixels[306] = cor1;
+    pixels[307] = cor0;
+    pixels[308] = cor1;
+    pixels[309] = cor2;
+    pixels[310] = cor3;
+    pixels[311] = cor4;
+    pixels[312] = cor1;
+    pixels[313] = cor0;
+    pixels[314] = cor1;
+    pixels[315] = cor2;
+    pixels[316] = cor3;
+    pixels[317] = cor4;
+    pixels[318] = cor1;
+    pixels[319] = cor0;
+    pixels[320] = cor0;
+    pixels[321] = cor0;
+    pixels[322] = cor1;
+    pixels[323] = cor2;
+    pixels[324] = cor3;
+    pixels[325] = cor4;
+    pixels[326] = cor1;
+    pixels[327] = cor0;
+    pixels[328] = cor1;
+    pixels[329] = cor2;
+    pixels[330] = cor3;
+    pixels[331] = cor4;
+    pixels[332] = cor1;
+    pixels[333] = cor0;
+    pixels[334] = cor1;
+    pixels[335] = cor2;
+    pixels[336] = cor3;
+    pixels[337] = cor4;
+    pixels[338] = cor1;
+    pixels[339] = cor0;
+    pixels[340] = cor0;
+    pixels[341] = cor1;
+    pixels[342] = cor2;
+    pixels[343] = cor3;
+    pixels[344] = cor3;
+    pixels[345] = cor3;
+    pixels[346] = cor4;
+    pixels[347] = cor1;
+    pixels[348] = cor2;
+    pixels[349] = cor3;
+    pixels[350] = cor3;
+    pixels[351] = cor3;
+    pixels[352] = cor4;
+    pixels[353] = cor1;
+    pixels[354] = cor2;
+    pixels[355] = cor3;
+    pixels[356] = cor3;
+    pixels[357] = cor3;
+    pixels[358] = cor4;
+    pixels[359] = cor1;
+    pixels[360] = cor0;
+    pixels[361] = cor1;
+    pixels[362] = cor4;
+    pixels[363] = cor4;
+    pixels[364] = cor4;
+    pixels[365] = cor4;
+    pixels[366] = cor4;
+    pixels[367] = cor1;
+    pixels[368] = cor4;
+    pixels[369] = cor4;
+    pixels[370] = cor4;
+    pixels[371] = cor4;
+    pixels[372] = cor4;
+    pixels[373] = cor1;
+    pixels[374] = cor4;
+    pixels[375] = cor4;
+    pixels[376] = cor4;
+    pixels[377] = cor4;
+    pixels[378] = cor4;
+    pixels[379] = cor1;
+    pixels[380] = cor0;
+    pixels[381] = cor0;
+    pixels[382] = cor0;
+    pixels[383] = cor0;
+    pixels[384] = cor0;
+    pixels[385] = cor0;
+    pixels[386] = cor0;
+    pixels[387] = cor0;
+    pixels[388] = cor0;
+    pixels[389] = cor0;
+    pixels[390] = cor0;
+    pixels[391] = cor0;
+    pixels[392] = cor0;
+    pixels[393] = cor0;
+    pixels[394] = cor0;
+    pixels[395] = cor0;
+    pixels[396] = cor0;
+    pixels[397] = cor0;
+    pixels[398] = cor0;
+    pixels[399] = cor0;
+
+
+}
+
+void matrix_player_car_sprite(color_t pixels[]){
+    color_t cor0;
+
+    cor0.blue = 7;
+    cor0.green = 7;
+    cor0.red = 6;
+    pixels[0] = cor0;
+
+    pixels[1] = cor0;
+
+    pixels[2] = cor0;
+
+    pixels[3] = cor0;
+
+    pixels[4] = cor0;
+
+    pixels[5] = cor0;
+
+    color_t cor6;
+
+    cor6.blue = 0;
+    cor6.green = 6;
+    cor6.red = 7;
+    pixels[6] = cor6;
+
+    pixels[7] = cor6;
+
+    pixels[8] = cor6;
+
+    color_t cor9;
+
+    cor9.blue = 1;
+    cor9.green = 1;
+    cor9.red = 6;
+    pixels[9] = cor9;
+
+    pixels[10] = cor9;
+
+    pixels[11] = cor6;
+
+    pixels[12] = cor6;
+
+    pixels[13] = cor6;
+
+    pixels[14] = cor0;
+
+    pixels[15] = cor0;
+
+    pixels[16] = cor0;
+
+    pixels[17] = cor0;
+
+    pixels[18] = cor0;
+
+    pixels[19] = cor0;
+
+    pixels[20] = cor0;
+
+    pixels[21] = cor0;
+
+    pixels[22] = cor0;
+
+    pixels[23] = cor0;
+
+    pixels[24] = cor0;
+
+    pixels[25] = cor9;
+
+    pixels[26] = cor9;
+
+    pixels[27] = cor9;
+
+    color_t cor28;
+
+    cor28.blue = 6;
+    cor28.green = 6;
+    cor28.red = 6;
+    pixels[28] = cor28;
+
+    color_t cor29;
+
+    cor29.blue = 2;
+    cor29.green = 3;
+    cor29.red = 7;
+    pixels[29] = cor29;
+
+    pixels[30] = cor29;
+
+    pixels[31] = cor28;
+
+    pixels[32] = cor9;
+
+    pixels[33] = cor9;
+
+    pixels[34] = cor9;
+
+    pixels[35] = cor0;
+
+    pixels[36] = cor0;
+
+    pixels[37] = cor0;
+
+    pixels[38] = cor0;
+
+    pixels[39] = cor0;
+
+    pixels[40] = cor0;
+
+    pixels[41] = cor0;
+
+    pixels[42] = cor0;
+
+    pixels[43] = cor0;
+
+    pixels[44] = cor9;
+
+    pixels[45] = cor9;
+
+    pixels[46] = cor9;
+
+    pixels[47] = cor28;
+
+    pixels[48] = cor28;
+
+    pixels[49] = cor29;
+
+    pixels[50] = cor29;
+
+    pixels[51] = cor28;
+
+    pixels[52] = cor28;
+
+    pixels[53] = cor9;
+
+    pixels[54] = cor9;
+
+    pixels[55] = cor9;
+
+    pixels[56] = cor0;
+
+    pixels[57] = cor0;
+
+    pixels[58] = cor0;
+
+    pixels[59] = cor0;
+
+    pixels[60] = cor0;
+
+    pixels[61] = cor0;
+
+    pixels[62] = cor0;
+
+    pixels[63] = cor9;
+
+    pixels[64] = cor9;
+
+    pixels[65] = cor9;
+
+    pixels[66] = cor9;
+
+    pixels[67] = cor28;
+
+    pixels[68] = cor28;
+
+    pixels[69] = cor29;
+
+    pixels[70] = cor29;
+
+    pixels[71] = cor28;
+
+    pixels[72] = cor28;
+
+    pixels[73] = cor9;
+
+    pixels[74] = cor9;
+
+    pixels[75] = cor9;
+
+    pixels[76] = cor9;
+
+    pixels[77] = cor0;
+
+    pixels[78] = cor0;
+
+    pixels[79] = cor0;
+
+    pixels[80] = cor0;
+
+    color_t cor81;
+
+    cor81.blue = 0;
+    cor81.green = 0;
+    cor81.red = 0;
+    pixels[81] = cor81;
+
+    pixels[82] = cor81;
+
+    color_t cor83;
+
+    cor83.blue = 0;
+    cor83.green = 1;
+    cor83.red = 4;
+    pixels[83] = cor83;
+
+    pixels[84] = cor9;
+
+    pixels[85] = cor9;
+
+    pixels[86] = cor29;
+
+    pixels[87] = cor28;
+
+    color_t cor88;
+
+    cor88.blue = 3;
+    cor88.green = 3;
+    cor88.red = 3;
+    pixels[88] = cor88;
+
+    pixels[89] = cor88;
+
+    pixels[90] = cor88;
+
+    pixels[91] = cor88;
+
+    pixels[92] = cor28;
+
+    pixels[93] = cor29;
+
+    pixels[94] = cor9;
+
+    pixels[95] = cor9;
+
+    pixels[96] = cor83;
+
+    pixels[97] = cor81;
+
+    pixels[98] = cor81;
+
+    pixels[99] = cor0;
+
+    pixels[100] = cor0;
+
+    pixels[101] = cor81;
+
+    pixels[102] = cor81;
+
+    color_t cor103;
+
+    cor103.blue = 1;
+    cor103.green = 1;
+    cor103.red = 1;
+    pixels[103] = cor103;
+
+    pixels[104] = cor9;
+
+    pixels[105] = cor29;
+
+    pixels[106] = cor88;
+
+    pixels[107] = cor88;
+
+    pixels[108] = cor88;
+
+    pixels[109] = cor88;
+
+    pixels[110] = cor88;
+
+    pixels[111] = cor88;
+
+    pixels[112] = cor88;
+
+    pixels[113] = cor88;
+
+    pixels[114] = cor29;
+
+    pixels[115] = cor9;
+
+    pixels[116] = cor103;
+
+    pixels[117] = cor81;
+
+    pixels[118] = cor81;
+
+    pixels[119] = cor0;
+
+    pixels[120] = cor0;
+
+    pixels[121] = cor81;
+
+    pixels[122] = cor81;
+
+    pixels[123] = cor103;
+
+    pixels[124] = cor29;
+
+    pixels[125] = cor88;
+
+    pixels[126] = cor88;
+
+    pixels[127] = cor88;
+
+    pixels[128] = cor88;
+
+    pixels[129] = cor88;
+
+    pixels[130] = cor88;
+
+    pixels[131] = cor88;
+
+    pixels[132] = cor88;
+
+    pixels[133] = cor88;
+
+    pixels[134] = cor88;
+
+    pixels[135] = cor29;
+
+    pixels[136] = cor103;
+
+    pixels[137] = cor81;
+
+    pixels[138] = cor81;
+
+    pixels[139] = cor0;
+
+    pixels[140] = cor0;
+
+    pixels[141] = cor81;
+
+    pixels[142] = cor81;
+
+    pixels[143] = cor83;
+
+    pixels[144] = cor88;
+
+    pixels[145] = cor88;
+
+    pixels[146] = cor88;
+
+    pixels[147] = cor88;
+
+    pixels[148] = cor88;
+
+    pixels[149] = cor88;
+
+    pixels[150] = cor88;
+
+    pixels[151] = cor88;
+
+    pixels[152] = cor88;
+
+    pixels[153] = cor88;
+
+    pixels[154] = cor88;
+
+    pixels[155] = cor88;
+
+    pixels[156] = cor83;
+
+    pixels[157] = cor81;
+
+    pixels[158] = cor81;
+
+    pixels[159] = cor0;
+
+    pixels[160] = cor0;
+
+    pixels[161] = cor0;
+
+    pixels[162] = cor0;
+
+    pixels[163] = cor9;
+
+    pixels[164] = cor88;
+
+    pixels[165] = cor88;
+
+    pixels[166] = cor88;
+
+    pixels[167] = cor88;
+
+    pixels[168] = cor88;
+
+    pixels[169] = cor88;
+
+    pixels[170] = cor88;
+
+    pixels[171] = cor88;
+
+    pixels[172] = cor88;
+
+    pixels[173] = cor88;
+
+    pixels[174] = cor88;
+
+    pixels[175] = cor88;
+
+    pixels[176] = cor9;
+
+    pixels[177] = cor0;
+
+    pixels[178] = cor0;
+
+    pixels[179] = cor0;
+
+    pixels[180] = cor0;
+
+    pixels[181] = cor0;
+
+    pixels[182] = cor0;
+
+    pixels[183] = cor9;
+
+    pixels[184] = cor88;
+
+    pixels[185] = cor88;
+
+    pixels[186] = cor88;
+
+    pixels[187] = cor88;
+
+    pixels[188] = cor88;
+
+    pixels[189] = cor88;
+
+    pixels[190] = cor88;
+
+    pixels[191] = cor88;
+
+    pixels[192] = cor88;
+
+    pixels[193] = cor88;
+
+    pixels[194] = cor88;
+
+    pixels[195] = cor88;
+
+    pixels[196] = cor9;
+
+    pixels[197] = cor0;
+
+    pixels[198] = cor0;
+
+    pixels[199] = cor0;
+
+    pixels[200] = cor0;
+
+    pixels[201] = cor0;
+
+    pixels[202] = cor0;
+
+    pixels[203] = cor0;
+
+    pixels[204] = cor9;
+
+    pixels[205] = cor29;
+
+    pixels[206] = cor29;
+
+    color_t cor207;
+
+    cor207.blue = 7;
+    cor207.green = 7;
+    cor207.red = 7;
+    pixels[207] = cor207;
+
+    pixels[208] = cor207;
+
+    pixels[209] = cor9;
+
+    pixels[210] = cor9;
+
+    pixels[211] = cor207;
+
+    pixels[212] = cor207;
+
+    pixels[213] = cor29;
+
+    pixels[214] = cor29;
+
+    pixels[215] = cor9;
+
+    pixels[216] = cor0;
+
+    pixels[217] = cor0;
+
+    pixels[218] = cor0;
+
+    pixels[219] = cor0;
+
+    pixels[220] = cor0;
+
+    pixels[221] = cor0;
+
+    pixels[222] = cor0;
+
+    pixels[223] = cor0;
+
+    pixels[224] = cor0;
+
+    pixels[225] = cor29;
+
+    pixels[226] = cor29;
+
+    pixels[227] = cor207;
+
+    pixels[228] = cor207;
+
+    pixels[229] = cor9;
+
+    pixels[230] = cor9;
+
+    pixels[231] = cor207;
+
+    pixels[232] = cor207;
+
+    pixels[233] = cor29;
+
+    pixels[234] = cor29;
+
+    pixels[235] = cor0;
+
+    pixels[236] = cor0;
+
+    pixels[237] = cor0;
+
+    pixels[238] = cor0;
+
+    pixels[239] = cor0;
+
+    pixels[240] = cor0;
+
+    pixels[241] = cor0;
+
+    pixels[242] = cor0;
+
+    pixels[243] = cor0;
+
+    pixels[244] = cor9;
+
+    pixels[245] = cor29;
+
+    pixels[246] = cor29;
+
+    pixels[247] = cor207;
+
+    pixels[248] = cor207;
+
+    pixels[249] = cor9;
+
+    pixels[250] = cor9;
+
+    pixels[251] = cor207;
+
+    pixels[252] = cor207;
+
+    pixels[253] = cor29;
+
+    pixels[254] = cor29;
+
+    pixels[255] = cor9;
+
+    pixels[256] = cor0;
+
+    pixels[257] = cor0;
+
+    pixels[258] = cor0;
+
+    pixels[259] = cor0;
+
+    pixels[260] = cor0;
+
+    pixels[261] = cor0;
+
+    pixels[262] = cor0;
+
+    pixels[263] = cor9;
+
+    pixels[264] = cor9;
+
+    pixels[265] = cor29;
+
+    pixels[266] = cor29;
+
+    pixels[267] = cor207;
+
+    pixels[268] = cor207;
+
+    pixels[269] = cor9;
+
+    pixels[270] = cor9;
+
+    pixels[271] = cor207;
+
+    pixels[272] = cor207;
+
+    pixels[273] = cor29;
+
+    pixels[274] = cor29;
+
+    pixels[275] = cor9;
+
+    pixels[276] = cor9;
+
+    pixels[277] = cor0;
+
+    pixels[278] = cor0;
+
+    pixels[279] = cor0;
+
+    pixels[280] = cor0;
+
+    pixels[281] = cor0;
+
+    pixels[282] = cor0;
+
+    pixels[283] = cor9;
+
+    pixels[284] = cor9;
+
+    pixels[285] = cor29;
+
+    pixels[286] = cor29;
+
+    pixels[287] = cor207;
+
+    pixels[288] = cor207;
+
+    pixels[289] = cor9;
+
+    pixels[290] = cor9;
+
+    pixels[291] = cor207;
+
+    pixels[292] = cor207;
+
+    pixels[293] = cor29;
+
+    pixels[294] = cor29;
+
+    pixels[295] = cor9;
+
+    pixels[296] = cor9;
+
+    pixels[297] = cor0;
+
+    pixels[298] = cor0;
+
+    pixels[299] = cor0;
+
+    pixels[300] = cor0;
+
+    pixels[301] = cor81;
+
+    pixels[302] = cor81;
+
+    pixels[303] = cor83;
+
+    pixels[304] = cor9;
+
+    pixels[305] = cor29;
+
+    pixels[306] = cor29;
+
+    pixels[307] = cor207;
+
+    pixels[308] = cor207;
+
+    pixels[309] = cor9;
+
+    pixels[310] = cor9;
+
+    pixels[311] = cor207;
+
+    pixels[312] = cor207;
+
+    pixels[313] = cor29;
+
+    pixels[314] = cor29;
+
+    pixels[315] = cor9;
+
+    pixels[316] = cor83;
+
+    pixels[317] = cor81;
+
+    pixels[318] = cor81;
+
+    pixels[319] = cor0;
+
+    pixels[320] = cor0;
+
+    pixels[321] = cor81;
+
+    pixels[322] = cor81;
+
+    pixels[323] = cor103;
+
+    pixels[324] = cor9;
+
+    pixels[325] = cor81;
+
+    pixels[326] = cor81;
+
+    pixels[327] = cor207;
+
+    pixels[328] = cor207;
+
+    pixels[329] = cor9;
+
+    pixels[330] = cor9;
+
+    pixels[331] = cor207;
+
+    pixels[332] = cor207;
+
+    pixels[333] = cor81;
+
+    pixels[334] = cor81;
+
+    pixels[335] = cor9;
+
+    pixels[336] = cor103;
+
+    pixels[337] = cor81;
+
+    pixels[338] = cor81;
+
+    pixels[339] = cor0;
+
+    pixels[340] = cor0;
+
+    pixels[341] = cor81;
+
+    pixels[342] = cor81;
+
+    pixels[343] = cor103;
+
+    pixels[344] = cor9;
+
+    pixels[345] = cor81;
+
+    pixels[346] = cor81;
+
+    pixels[347] = cor81;
+
+    pixels[348] = cor81;
+
+    pixels[349] = cor81;
+
+    pixels[350] = cor81;
+
+    pixels[351] = cor81;
+
+    pixels[352] = cor81;
+
+    pixels[353] = cor81;
+
+    pixels[354] = cor81;
+
+    pixels[355] = cor9;
+
+    pixels[356] = cor103;
+
+    pixels[357] = cor81;
+
+    pixels[358] = cor81;
+
+    pixels[359] = cor0;
+
+    pixels[360] = cor0;
+
+    pixels[361] = cor81;
+
+    pixels[362] = cor81;
+
+    pixels[363] = cor83;
+
+    pixels[364] = cor9;
+
+    pixels[365] = cor81;
+
+    pixels[366] = cor81;
+
+    pixels[367] = cor81;
+
+    pixels[368] = cor81;
+
+    pixels[369] = cor81;
+
+    pixels[370] = cor81;
+
+    pixels[371] = cor81;
+
+    pixels[372] = cor81;
+
+    pixels[373] = cor81;
+
+    pixels[374] = cor81;
+
+    pixels[375] = cor9;
+
+    pixels[376] = cor83;
+
+    pixels[377] = cor81;
+
+    pixels[378] = cor81;
+
+    pixels[379] = cor0;
+
+    pixels[380] = cor0;
+
+    pixels[381] = cor0;
+
+    pixels[382] = cor0;
+
+    pixels[383] = cor9;
+
+    pixels[384] = cor9;
+
+    pixels[385] = cor9;
+
+    pixels[386] = cor9;
+
+    pixels[387] = cor28;
+
+    pixels[388] = cor28;
+
+    pixels[389] = cor9;
+
+    pixels[390] = cor9;
+
+    pixels[391] = cor28;
+
+    pixels[392] = cor28;
+
+    pixels[393] = cor9;
+
+    pixels[394] = cor9;
+
+    pixels[395] = cor9;
+
+    pixels[396] = cor9;
+
+    pixels[397] = cor0;
+
+    pixels[398] = cor0;
+
+    pixels[399] = cor0;
+
+}
 
 
 int main(){
@@ -10789,157 +12051,195 @@ int main(){
     GPU_open();
     //reg 21 a 30
     sprite_t cone, brick_block_1, brick_block_2, brick, double_wood, single_wood, fire, rock_1, rock_2, rock_block,
-    screwdriver, tool, trash_bag;
+    spikes, screwdriver, tool, trash_bag;
     
     //matrix pixels
     color_t pixels[400];
     
     //cone
 
-    // cone.coord_x = 50;
-    // cone.coord_y = 240;
+    cone.coord_x = 0;
+    cone.coord_y = 0;
+    cone.offset = 0;
+    matrix_cone_sprite(pixels);
+    create_sprite_by_matrix(pixels, 0);
     // cone.data_register = 21;
-    // cone.offset = 0;
     // cone.speed = 2;
     // cone.visibility = 1;
     // matrix_cone_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 0); 
     // clear(); 
     // set_sprite(cone);
 
-    // //brick block 1
-    // brick_block_1.coord_x = 70;
-    // brick_block_1.coord_y = 240;
-    // brick_block_1.data_register = 22;
-    // brick_block_1.offset = 1;
-    // brick_block_1.speed = 1;
-    // brick_block_1.visibility = 1;
-    // matrix_brick_block_1_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 1); 
-    // set_sprite(brick_block_1);
-
-    // //brick block 2
-    // sprite_t brick_block_2;
-    // brick_block_2.coord_x = 90;
-    // brick_block_2.coord_y = 240;
-    // brick_block_2.data_register = 23;
-    // brick_block_2.offset = 2;
-    // brick_block_2.speed = 1;
-    // brick_block_2.visibility = 1;
-    // matrix_brick_block_2_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 2); 
-    // set_sprite(brick_block_2);
-
-    // //brick
-    // brick.coord_x = 110;
-    // brick.coord_y = 240;
-    // brick.data_register = 24;
-    // brick.offset = 5;
-    // brick.speed = 1;
-    // brick.visibility = 1;
-    // matrix_brick_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 5); 
-    // set_sprite(brick);
-
-    // //double wood
-    // double_wood.coord_x = 130;
-    // double_wood.coord_y = 240;
-    // double_wood.data_register = 25;
-    // double_wood.offset = 6;
-    // double_wood.speed = 1;
-    // double_wood.visibility = 1;
-    // matrix_double_wood_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 6); 
-    // set_sprite(double_wood);
-
-    // //single wood
-    // single_wood.coord_x = 150;
-    // single_wood.coord_y = 240;
+    //single wood
+    single_wood.coord_x = 0;
+    single_wood.coord_y = 0;
+    single_wood.offset = 1;
+    matrix_single_wood_sprite(pixels);
+    create_sprite_by_matrix(pixels, 1);
     // single_wood.data_register = 26;
-    // single_wood.offset = 7;
     // single_wood.speed = 1;
     // single_wood.visibility = 1;
     // matrix_single_wood_sprite(pixels);
     // create_sprite_by_matrix(pixels, 7); 
     // set_sprite(single_wood);
 
+    //double wood
+    double_wood.coord_x = 0;
+    double_wood.coord_y = 0;
+    double_wood.offset = 2;
+    matrix_double_wood_sprite(pixels);
+    create_sprite_by_matrix(pixels, 2);
+    // double_wood.data_register = 25;
+    // double_wood.speed = 1;
+    // double_wood.visibility = 1;
+    // matrix_double_wood_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 6); 
+    // set_sprite(double_wood);
+
+    //brick
+    brick.coord_x = 0;
+    brick.coord_y = 0;
+    brick.offset = 4;
+    matrix_brick_sprite(pixels);
+    create_sprite_by_matrix(pixels, 4); 
+    // brick.data_register = 24;
+    // brick.speed = 1;
+    // brick.visibility = 1;
+    // matrix_brick_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 5); 
+    // set_sprite(brick);
+
+    //brick block 1
+    brick_block_1.coord_x = 0;
+    brick_block_1.coord_y = 0;
+    brick_block_1.offset = 5;
+    matrix_brick_block_1_sprite(pixels);
+    create_sprite_by_matrix(pixels, 5);
+    // brick_block_1.data_register = 22;
+    // brick_block_1.speed = 1;
+    // brick_block_1.visibility = 1;
+    // matrix_brick_block_1_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 1); 
+    // set_sprite(brick_block_1);
+
+    //brick block 2
+    brick_block_2.coord_x = 0;
+    brick_block_2.coord_y = 0;
+    brick_block_2.offset = 6;
+    matrix_brick_block_2_sprite(pixels);
+    create_sprite_by_matrix(pixels, 6);
+    // brick_block_2.data_register = 23;
+    // brick_block_2.speed = 1;
+    // brick_block_2.visibility = 1;
+    // matrix_brick_block_2_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 2); 
+    // set_sprite(brick_block_2);
+
+    //screwdriver
+    screwdriver.coord_x = 0;
+    screwdriver.coord_y = 0;
+    screwdriver.offset = 7;
+    matrix_screwdriver_sprite(pixels);
+    create_sprite_by_matrix(pixels, 7);
+    // screwdriver.data_register = 24;
+    // screwdriver.speed = 1;
+    // screwdriver.visibility = 1;
+    // matrix_screwdriver_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 5); 
+    // set_sprite(screwdriver);
+
+    //tool
+    tool.coord_x = 0;
+    tool.coord_y = 0;
+    tool.offset = 8;
+    matrix_tool_sprite(pixels);
+    create_sprite_by_matrix(pixels, 8); 
+    // tool.data_register = 26;
+    // tool.speed = 1;
+    // tool.visibility = 1;
+    // matrix_tool_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 7); 
+    // set_sprite(tool);
+    
+    //rock 1
+    rock_1.coord_x = 0;
+    rock_1.coord_y = 0;
+    rock_1.offset = 9;
+    matrix_rock_1_sprite(pixels);
+    create_sprite_by_matrix(pixels, 9);
+    // rock_1.data_register = 21;
+    // rock_1.speed = 2;
+    // rock_1.visibility = 1;
+    // matrix_rock_1_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 0); 
+    // clear(); 
+    // set_sprite(rock_1);
+
+    //rock 2
+    rock_2.coord_x = 0;
+    rock_2.coord_y = 0;
+    rock_2.offset = 10;
+    matrix_rock_2_sprite(pixels);
+    create_sprite_by_matrix(pixels, 10);
+    // rock_2.data_register = 22;
+    // rock_2.speed = 2;
+    // rock_2.visibility = 1;
+    // matrix_rock_2_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 1); 
+    // set_sprite(rock_2);
+    
+    //rock block
+    rock_block.coord_x = 0;
+    rock_block.coord_y = 0;
+    rock_block.offset = 12;
+    matrix_rock_block_sprite(pixels);
+    create_sprite_by_matrix(pixels, 12);
+    // rock_block.data_register = 23;
+    // rock_block.speed = 2;
+    // rock_block.visibility = 1;
+    // matrix_rock_block_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 2); 
+    //set_sprite(rock_block);
+    
+    //trash bag
+    trash_bag.coord_x = 0;
+    trash_bag.coord_y = 0;
+    trash_bag.offset = 13;
+    matrix_trash_bag_sprite(pixels);
+    create_sprite_by_matrix(pixels, 13); 
+    // trash_bag.data_register = 27;
+    // trash_bag.speed = 1;
+    // trash_bag.visibility = 1;
+    // matrix_trash_bag_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 8); 
+    //set_sprite(trash_bag);
+
     // //fire
-    // fire.coord_x = 170;
-    // fire.coord_y = 240;
+    fire.coord_x = 0;
+    fire.coord_y = 0;
     // fire.data_register = 27;
-    // fire.offset = 8;
+    fire.offset = 14;
+    matrix_fire_sprite(pixels);
+    create_sprite_by_matrix(pixels, 14); 
     // fire.speed = 1;
     // fire.visibility = 1;
     // matrix_fire_sprite(pixels);
     // create_sprite_by_matrix(pixels, 8); 
     // set_sprite(fire);
 
-    //rock 1
-    rock_1.coord_x = 50;
-    rock_1.coord_y = 240;
-    rock_1.data_register = 21;
-    rock_1.offset = 0;
-    rock_1.speed = 2;
-    rock_1.visibility = 1;
-    matrix_rock_1_sprite(pixels);
-    create_sprite_by_matrix(pixels, 0); 
-    clear(); 
-    set_sprite(rock_1);
-
-    //rock 2
-    rock_2.coord_x = 70;
-    rock_2.coord_y = 240;
-    rock_2.data_register = 22;
-    rock_2.offset = 1;
-    rock_2.speed = 2;
-    rock_2.visibility = 1;
-    matrix_rock_2_sprite(pixels);
-    create_sprite_by_matrix(pixels, 1); 
-    set_sprite(rock_2);
-    
-    //rock block
-    rock_block.coord_x = 50;
-    rock_block.coord_y = 240;
-    rock_block.data_register = 23;
-    rock_block.offset = 2;
-    rock_block.speed = 2;
-    rock_block.visibility = 1;
-    matrix_rock_block_sprite(pixels);
-    create_sprite_by_matrix(pixels, 2); 
-    set_sprite(rock_block);
-
-
-    
-    screwdriver.coord_x = 110;
-    screwdriver.coord_y = 240;
-    screwdriver.data_register = 24;
-    screwdriver.offset = 5;
-    screwdriver.speed = 1;
-    screwdriver.visibility = 1;
+    //spikes
+    spikes.coord_x = 0;
+    spikes.coord_y = 0;
+    spikes.offset = 15;
     matrix_screwdriver_sprite(pixels);
-    create_sprite_by_matrix(pixels, 5); 
-    set_sprite(screwdriver);
+    create_sprite_by_matrix(pixels, 15); 
+    // spikes.data_register = 24;
+    // spikes.speed = 1;
+    // spikes.visibility = 1;
+    // matrix_screwdriver_sprite(pixels);
+    // create_sprite_by_matrix(pixels, 5); 
+    // //set_sprite(spikes);
 
-    tool.coord_x = 150;
-    tool.coord_y = 240;
-    tool.data_register = 26;
-    tool.offset = 7;
-    tool.speed = 1;
-    tool.visibility = 1;
-    matrix_tool_sprite(pixels);
-    create_sprite_by_matrix(pixels, 7); 
-    set_sprite(tool);
-
-    //trash bag
-    trash_bag.coord_x = 170;
-    trash_bag.coord_y = 240;
-    trash_bag.data_register = 27;
-    trash_bag.offset = 8;
-    trash_bag.speed = 1;
-    trash_bag.visibility = 1;
-    matrix_trash_bag_sprite(pixels);
-    create_sprite_by_matrix(pixels, 8); 
-    set_sprite(trash_bag);
     
     GPU_close(); 
 }

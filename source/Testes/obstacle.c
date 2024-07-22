@@ -15,14 +15,14 @@
 
 obstacle_t cone = {
     .offset = 0,
-    .speed= 5,
-    .reward = 15,
+    .speed= 8,
+    .reward = 14,
     .on_frame = 0
 };
 
 obstacle_t single_wood = {
     .offset = 1,
-    .speed= 10,
+    .speed= 12,
     .reward = 25,
     .on_frame = 0
 
@@ -31,7 +31,7 @@ obstacle_t single_wood = {
 obstacle_t double_wood = {
     .offset = 2,
     .speed= 5,
-    .reward = 15,
+    .reward = 10,
     .on_frame =0
 };
 
@@ -45,14 +45,14 @@ obstacle_t bomb = {
 obstacle_t brick = {
     .offset = 4,
     .speed= 15,
-    .reward = 50,
+    .reward = 30,
     .on_frame = 0
 };
 
 obstacle_t brick_block_1 = {
     .offset = 5,
-    .speed= 20,
-    .reward = 40,
+    .speed= 5,
+    .reward = 10,
     .on_frame = 0
 };
 
@@ -93,25 +93,28 @@ obstacle_t rock_2 = {
 
 obstacle_t rock_block = {
     .offset = 11,
-    .speed= 2,
-    .reward = 5,
+    .speed= 4,
+    .reward = 8,
     .on_frame = 0
 };
 
 obstacle_t trash_bag = {
     .offset = 13,
-    .speed= 2,
-    .reward = 20,
+    .speed= 6,
+    .reward = 11,
     .on_frame = 0
 };   
 
 //obstaculo ou nao
 obstacle_t fire = {
     .offset = 13,
-    .speed= 2,
-    .reward = 20
+    .speed= 0,
+    .reward = 0
 };
 
+//spike
+
+//purple block
 
 // obstacle_t tree = {
 //     .speed = 1,
@@ -134,28 +137,27 @@ obstacle_t fire = {
 // };
 
 
-int sprites_obstacle_status[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+// int sprites_obstacle_status[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-obstacle_t vetor_obstaculos[13];
-obstacle_t obstaculos_na_tela[10];
+// obstacle_t vetor_obstaculos[13];
+// obstacle_t obstaculos_na_tela[10];
 
 // cor, speed e reward mini_bloco = red, 1;
 
 
 int random_number(int min, int max){
-    int num, value;
-    value = rand();
+    int num;
 
     //coordenada aleatória gerada
-    num = ((rand() % (max - min)) + min);
+    num = (rand() % (max - min +1 ) + min);
     return num;
 }
 
-int check_for_empity_reg(int sprites_obstacle_status[]){
+int check_for_empty_reg(int sprites_obstacle_status[]){
     int i =0, status, reg;
 
     while(i < 10){
-        if(sprites_obstacle_status[i] != 0){
+        if(sprites_obstacle_status[i] == 0){
             //reg = base_reg + i;
             sprites_obstacle_status[i] = 1; //status registrador ocupado
             return i; 
@@ -165,13 +167,12 @@ int check_for_empity_reg(int sprites_obstacle_status[]){
     return -1; //não há registrador vazio.
 }
 
-int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[]){
+int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t obstaculos_na_tela[]){
     sprite_t obstacle_sprite;
     int index, reg;
     
     base_reg = 21;
-    index = check_for_empity_reg(sprites_obstacle_status);
-
+    index = check_for_empty_reg(sprites_obstacle_status);
     if(index == -1) return -1; //não há registrador vazio. Nao é possivel criar o sprite
     else{
         reg = base_reg + index;
@@ -182,7 +183,7 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
         obstacle_sprite.data_register = reg;
         obstacle_sprite.visibility = 1;
         set_sprite(obstacle_sprite);
-
+        printf("reg: %d, offset: %d\n", reg, obstacle.offset);
         sprites_obstacle_status[index] = 1;
 
         //identificando obstaculo ativo na tela
@@ -200,7 +201,8 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
 }
 
 void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
- 
+    srand(time(NULL));
+
     vetor_obstaculos[0] = cone;
     vetor_obstaculos[1] = single_wood;
     vetor_obstaculos[2] = double_wood;
@@ -221,7 +223,13 @@ obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
     int i;
 
     i = random_number(0, 13);
-    selected_obstacle = vetor_obstaculos[i];
+    selected_obstacle.coord_x = 0;
+    selected_obstacle.coord_y = 0;
+    selected_obstacle.offset = vetor_obstaculos[i].offset;
+    selected_obstacle.reward = vetor_obstaculos[i].reward;
+    selected_obstacle.size = vetor_obstaculos[i].size;
+    selected_obstacle.speed = vetor_obstaculos[i].speed;
+    selected_obstacle.on_frame = 0;
     return selected_obstacle;   
 }
 
@@ -253,43 +261,42 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
 
     for (int i = 0; i < 10; i++)
     {
-        deslocamento = obstaculos_na_tela[i].speed * unidade;
-        new_coord_y = obstaculos_na_tela[i].coord_y + deslocamento;
-        if(obstaculos_na_tela[i].coord_y >= 480 || new_coord_y >= 471){
-            obstaculos_na_tela[i].coord_x = 0;
-            obstaculos_na_tela[i].coord_y = 0;
-            obstaculos_na_tela[i].on_frame = 0;
+        if(obstaculos_na_tela[i].on_frame){
+            deslocamento = obstaculos_na_tela[i].speed * unidade;
+            new_coord_y = obstaculos_na_tela[i].coord_y + deslocamento;
+            if(obstaculos_na_tela[i].coord_y >= 480 || new_coord_y >= 471){
+                obstaculos_na_tela[i].coord_x = 0;
+                obstaculos_na_tela[i].coord_y = 0;
+                obstaculos_na_tela[i].on_frame = 0;
 
-             /* Cria um sprite invisivel */
-            new_sprite.coord_x = 0;
-            new_sprite.coord_y = 0;
-            new_sprite.offset = 0;
-            new_sprite.visibility = 0;
-             
-            // Libera o regustrador para uso
-            sprites_obstacle_status[i] = 0;
+                /* Cria um sprite invisivel */
+                new_sprite.coord_x = 0;
+                new_sprite.coord_y = 0;
+                new_sprite.offset = 0;
+                new_sprite.visibility = 0;
+                
+                // Libera o registrador para uso
+                sprites_obstacle_status[i] = 0;
 
-        }else{
-            obstaculos_na_tela[i].coord_y = new_coord_y;
-            obstaculos_na_tela[i].on_frame = 1;
+            }else{
+                obstaculos_na_tela[i].coord_y = new_coord_y;
+                obstaculos_na_tela[i].on_frame = 1;
 
-             /* Atualiza o sprite */
-            new_sprite.coord_x = obstaculos_na_tela[i].coord_x;
-            new_sprite.coord_y = new_coord_y;
-            new_sprite.offset = obstaculos_na_tela[i].offset;
-            new_sprite.speed = obstaculos_na_tela[i].speed;
-            new_sprite.data_register = reg_base_obstacles + i; //21 + i
-            new_sprite.visibility = 1;
-
-        } 
-
-        set_sprite(new_sprite);
-    }
-    
+                /* Atualiza o sprite */
+                new_sprite.coord_x = obstaculos_na_tela[i].coord_x;
+                new_sprite.coord_y = new_coord_y;
+                new_sprite.offset = obstaculos_na_tela[i].offset;
+                new_sprite.speed = obstaculos_na_tela[i].speed;
+                new_sprite.data_register = reg_base_obstacles + i; //21 + i
+                new_sprite.visibility = 1;
+            } 
+            set_sprite(new_sprite);
+        }       
+    }    
 }
 
 
-int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]){
+int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista, obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]){
     obstacle_t new_obstacle;
     sprite_t new_sprite;
     
@@ -302,12 +309,9 @@ int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, 
 
     //Executar antes do random_obstacle
     //initialize_obstacle_vector(vetor_obstaculos);
-
     new_obstacle = select_random_obstacle_from_vector(vetor_obstaculos);
     create_sprite_obstacle(new_obstacle,coord_x_obstacle, coord_y_obstacle, base_reg_obstacles, sprites_obstacle_status);
     move_obstacles(obstaculos_na_tela, sprites_obstacle_status, unidade, base_reg_obstacles);
-
-    sleep(1);
 
     return 1; // sucess
 }

@@ -15,16 +15,17 @@
 #define TOOL                8
 #define ROCK_1              9
 #define ROCK_2              10
-#define ROCK_BLOCK          11
-#define TRASH_BAG           12
-#define FIRE                13
-#define LASER_DIAGONAL2     14
-#define HEART               15
-#define LOG                 16
-#define BLUE_CAR            17
-#define GREEN_CAR           18
-#define PURPLE_CAR          19
-#define YELLOW_CAR          20
+#define LASER_VERTICAL      11
+#define ROCK_BLOCK          12
+#define TRASH_BAG           13
+#define FIRE                14
+#define LASER_DIAGONAL2     15
+#define HEART               16
+#define LOG                 17
+#define BLUE_CAR            18
+#define GREEN_CAR           19
+#define PURPLE_CAR          20
+#define YELLOW_CAR          21
 
 typedef struct {
     uint64_t coord_x;       
@@ -41,10 +42,10 @@ int
 random_number(int min, int max);
 
 int 
-check_for_empity_reg(int sprites_obstacle_status[]);
+check_for_empty_reg(int sprites_obstacle_status[]);
 
 int 
-create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[]);
+create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t obstaculos_na_tela[]);
 
 void 
 initialize_obstacle_vector(obstacle_t vetor_obstaculos[]);
@@ -62,6 +63,6 @@ void
 move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], int unidade, int reg_base_obstacles);
 
 int 
-random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]);
+random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista, obstacle_t obstaculos_na_tela[], obstacle_t vetor_obstaculos[], int sprites_obstacle_status[]);
     
 
