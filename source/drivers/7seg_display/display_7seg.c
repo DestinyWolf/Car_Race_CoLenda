@@ -10,17 +10,17 @@
 
 #define DRIVER_PATH "/dev/display_7seg"
 
-#define OFF 0 //0000000
-#define ZERO 126 //1111110
-#define ONE 48 //0110000
-#define TWO 109 //1101101
-#define THREE 121 //1111001
-#define FOUR 51 //0110011
-#define FIVE 91 //1011011
-#define SIX  95 //1011111
-#define SEVEN 112 //1110000
-#define EIGHT 127 //1111111
-#define NINE 123 //1111011
+#define OFF 127 //1111111
+#define ZERO 64 //1000000
+#define ONE 121 //1111001
+#define TWO 36 //0100100
+#define THREE 48 //0110000
+#define FOUR 25 //0011001
+#define FIVE 18 // 0010010
+#define SIX  2 //0000010
+#define SEVEN 120 //1111000
+#define EIGHT 0 //0000000
+#define NINE 16 //0010000
 
 /* Identificadores dos displays*/
 #define HEX0 0
@@ -36,9 +36,9 @@ static int dev = -1;
 /*Protótipos das funções*/
 int display_open();
 int display_write(uint8_t, uint8_t);
-int display_write_all(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t);
+int display_write_all(uint8_t*);
 int display_close();
-int display_clear();
+void display_clear();
 
 int display_open(){
 

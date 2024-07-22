@@ -2,7 +2,8 @@ from numpy import asarray
 from PIL import Image
 
 img_name = input("image name: ")
-file_name = input("file name destiny: ");
+file_name = input("file name destiny: ")
+function_name = input("name for function: ")
 
 img = Image.open(f"images/{img_name}.png")
 
@@ -11,8 +12,8 @@ rgb_img = img.convert('RGB')
 len = img.size
 
 
-sizex = len[0]//20
-sizey = len[1]//20
+sizex = len[0]//80
+sizey = len[1]//60
 
 px = img.load()
 px_rgb = rgb_img.load()
@@ -20,11 +21,11 @@ px_rgb = rgb_img.load()
 cores = {}
 
 with open(f"{file_name}.txt", "w") as arquivo:
-    arquivo.write('color_t pixeis[400];\n')
+    arquivo.write(f'int {function_name}() {{\n')
 
 count = 0;
-for i in range(0, 20):
-    for j in range(0, 20):
+for i in range(0, 80):
+    for j in range(0, 60):
 
         if(px[(j*sizey + sizey//2), (i*sizex + sizex//2)][3] == 0):
             r = 6
@@ -40,10 +41,10 @@ for i in range(0, 20):
         rgb = "".join(f"{r} {g} {b}")
 
         if cores.get(rgb):
-            instrucao = f"pixeis[{(i*20) + j}] = {cores.get(rgb)};\n"
+            instrucao = f"\tdraw_background_block({i}, {j}, {cores.get(rgb)});\n"
         else:
             cores[rgb] = cor
-            instrucao = f"color_t cor{count} = {{{b}, {g}, {r}}};\npixeis[{(i*20)+j}] = cor{count};\n"
+            instrucao = f"\tcolor_t cor{count} = {{{b}, {g}, {r}}};\n\tdraw_brackground_block({i}, {j}, cor{count});\n"
             count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:
@@ -51,5 +52,7 @@ for i in range(0, 20):
 
         print(f"R: {r}\tG: {g}\t B:{b}")
     
+with open(f"{file_name}.txt", "a") as arquivo:
+    arquivo.write("\treturn 0;\n}\n")
 print(img.getpalette)
 print(rgb_img.getpalette)

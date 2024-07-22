@@ -183,7 +183,6 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
         obstacle_sprite.data_register = reg;
         obstacle_sprite.visibility = 1;
         set_sprite(obstacle_sprite);
-        printf("reg: %d, offset: %d\n", reg, obstacle.offset);
         sprites_obstacle_status[index] = 1;
 
         //identificando obstaculo ativo na tela
@@ -310,7 +309,7 @@ int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, 
     //Executar antes do random_obstacle
     //initialize_obstacle_vector(vetor_obstaculos);
     new_obstacle = select_random_obstacle_from_vector(vetor_obstaculos);
-    create_sprite_obstacle(new_obstacle,coord_x_obstacle, coord_y_obstacle, base_reg_obstacles, sprites_obstacle_status);
+    create_sprite_obstacle(new_obstacle,coord_x_obstacle, coord_y_obstacle, base_reg_obstacles, sprites_obstacle_status, obstaculos_na_tela);
     move_obstacles(obstaculos_na_tela, sprites_obstacle_status, unidade, base_reg_obstacles);
 
     return 1; // sucess
