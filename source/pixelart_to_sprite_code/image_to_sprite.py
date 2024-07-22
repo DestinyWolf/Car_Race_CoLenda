@@ -4,7 +4,7 @@ from PIL import Image
 img_name = input("image name: ")
 file_name = input("file name destiny: ");
 
-img = Image.open(f"{img_name}.png")
+img = Image.open(f"images/{img_name}.png")
 
 rgb_img = img.convert('RGB')
 
