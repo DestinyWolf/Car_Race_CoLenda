@@ -41,10 +41,10 @@
 struct ioctl_args{
   uint8_t hex_id;
   uint8_t data;
-}
+};
 
 /* Definição dos comandos ioctl*/
-#define WR_VALUE _IOW('a', 'a', display_info_t *)
+#define WR_VALUE _IOW('a', 'a', ioctl_args *)
 
 /* Endereços de memória para mapeamento dos displays de 7 segmentos*/
 #define HEX5_BASE 0x10
