@@ -97,3 +97,60 @@ int display_close(){
     return 0;
 }
 
+static int int2segcode(uint8_t value){
+    int seg_code = OFF;
+
+    switch (value)
+    {
+    case 0:
+       value = ZERO;
+        break;
+    case 1:
+       value = ONE;
+        break;
+    case 2:
+       value = TWO;
+        break;
+    case 3:
+       value = THREE;
+        break;
+    case 4:
+       value = FOUR;
+        break;
+    case 5:
+       value = FIVE;
+        break.
+    case 6:
+       value = SIX;
+        break;
+    case 7:
+       value = SEVEN;
+        break;
+    case 8:
+       value = EIGHT;
+        break;
+    case 9:
+       value = NINE;
+        break;
+    }
+
+    return seg_code;
+}
+
+int display_write_int(int score, int player){
+
+    if(score > 999) return -1;
+
+    uint8_t data[3] = {int2segcode(score / 100), int2segcode((score % 100) / 10), int2segcode(score % 10)};
+
+    if(player == 1){
+        display_write(HEX2, data[0]);
+        display_write(HEX1, data[1]);
+        display_write(HEX0, data[2]);
+    }else{
+        display_write(HEX5, data[0]);
+        display_write(HEX4, data[1]);
+        display_write(HEX3, data[2]);
+    }
+    return 0;
+}
