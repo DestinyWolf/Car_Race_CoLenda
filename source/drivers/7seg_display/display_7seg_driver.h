@@ -44,7 +44,7 @@ struct ioctl_args{
 };
 
 /* Definição dos comandos ioctl*/
-#define WR_VALUE _IOW('a', 'a', ioctl_args *)
+#define WR_VALUE _IOW('a', 'a', struct ioctl_args *)
 
 /* Endereços de memória para mapeamento dos displays de 7 segmentos*/
 #define HEX5_BASE 0x10
