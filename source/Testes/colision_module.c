@@ -17,7 +17,7 @@ int check_colision_player(sprite_t player, obstacle_t obstacle) {
 int check_colision_bullet(sprite_t bullet, obstacle_t obstacle) {
 
     /*caso alguma parte da area do tiro esteja dentro da area do obstaculo*/
-    if(((bullet.coord_x - 5 < obstacle.coord_x - 10 && bullet.coord_x + 5 > obstacle.coord_x - 10 && bullet.coord_x + 5 < obstacle.coord_x + 10) || (bullet.coord_x - 5 < obstacle.coord_x + 10 && bullet.coord_x - 5 > obstacle.coord_x - 10 && bullet.coord_x + 5 > obstacle.coord_x + 10)) && ((bullet.coord_y - 10 <= obstacle.coord_y + obstacle.size) && (bullet.coord_y + 10 >= obstacle.coord_y - obstacle.size))) {
+    if(((bullet.coord_x - 10 < obstacle.coord_x - 10 && bullet.coord_x + 10 > obstacle.coord_x - 10 && bullet.coord_x + 10 < obstacle.coord_x + 10) || (bullet.coord_x - 10 < obstacle.coord_x + 10 && bullet.coord_x - 10 > obstacle.coord_x - 10 && bullet.coord_x + 10 > obstacle.coord_x + 10)) && ((bullet.coord_y - 10 <= obstacle.coord_y + obstacle.size) && (bullet.coord_y + 10 >= obstacle.coord_y - obstacle.size))) {
         
         /*retorna 1, indicando que houve uma colisão*/
         return 1;
