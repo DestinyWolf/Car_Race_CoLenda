@@ -90,13 +90,13 @@ int polling_function(void *data){
         }
         break;
       case STATE_CLICK:
-        if(button_pressed != NO_KEY){
-          key_driver_data.state_machine.exit_value = -1;
-          key_driver_data.state_machine.state = STATE_PRESSED;
-        }
+        if(button_pressed != NO_KEY) key_driver_data.state_machine.state = STATE_PRESSED;
         break;
       case STATE_PRESSED:
-        if (button_pressed == NO_KEY) key_driver_data.state_machine.state = STATE_NOT_PRESSED;
+        if (button_pressed == NO_KEY){
+          key_driver_data.state_machine.state = STATE_NOT_PRESSED;
+          key_driver_data.state_machine.exit_value = -1;
+        }
         break; 
       }
     } 
@@ -206,7 +206,7 @@ static int __init key_driver_init(void){
   key_driver_data.LW_virtual = ioremap(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
   key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEYS_BASE;
 
-  key_driver_data.ready = ATOMIC_INIT(0);
+  atomic_set(&key_driver_data.ready, 0);
   
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
