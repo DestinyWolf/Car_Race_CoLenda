@@ -457,7 +457,6 @@ void* random_obstacle_generate_routine(void* args) {
         pthread_mutex_lock(&obstacle_mutex);
         while (pause_obstacle || state == in_pause || state == in_menu)
         {
-            printf("ta pausado obstacle1\n");
             pthread_cond_wait(&obstacle_cond, &obstacle_mutex);
         }
         pthread_mutex_unlock(&obstacle_mutex);
@@ -651,7 +650,7 @@ void win_screen() {
     state = in_menu;
     module_exit_mouse_1();
     module_exit_mouse_2();
-    menu();
+    
 }
 
 
@@ -667,10 +666,11 @@ void lose_screen() {
     state = in_menu;
     module_exit_mouse_1();
     module_exit_mouse_2();
-    menu();
+    
 }
 
 void init_game() {
+
     sprite_t invisible_obstacle = {.coord_x = 1, .coord_y = 1, .visibility = 0, .offset = 0, .speed = 0};
     clear();
     score_1 = 0;
@@ -763,7 +763,7 @@ int end_game() {
 void menu() {
     state = in_menu;
     int btn_val;
-    if (pause_background || pause_bullets || pause_colision || pause_mouse_1 || pause_obstacle || (pause_mouse_2 && game_mode == dual_player) || (pause_obstacle_2 && game_mode == dual_player)) {
+    if (pause_background || pause_bullets || pause_colision || pause_mouse_1 || pause_obstacle || (pause_mouse_2 && game_mode == dual_player)) {
         pause_threads();
     }
     while(1) {
