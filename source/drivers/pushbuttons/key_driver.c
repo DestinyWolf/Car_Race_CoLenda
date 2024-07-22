@@ -127,7 +127,7 @@ static ssize_t key_driver_read(struct file *file, char __user *buf, size_t count
 loff_t *ppos){
   int ret;
   uint8_t button;
-  char key;
+  char key = ' ';
 
   wait_event_interruptible(read_wq, atomic_read(&key_driver_data.ready) == 1);
   atomic_dec(&key_driver_data.ready);
@@ -149,7 +149,7 @@ loff_t *ppos){
     break;
   }
   
-  ret = put_user(key_driver_data.button_pressed, buf);
+  ret = put_user(key, buf);
 
   /* Atualizando offset passado pelo usuário*/
   *ppos = 0;
@@ -206,7 +206,7 @@ static int __init key_driver_init(void){
   key_driver_data.LW_virtual = ioremap(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
   key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEYS_BASE;
 
-  ready = ATOMIC_INIT(0);
+  key_driver_datat.ready = ATOMIC_INIT(0);
   
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
