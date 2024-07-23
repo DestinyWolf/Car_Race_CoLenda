@@ -20,22 +20,26 @@ px_rgb = rgb_img.load()
 
 cores = {}
 
+print(img.getpalette)
+print(rgb_img.getpalette)
+
 with open(f"{file_name}.txt", "w") as arquivo:
     arquivo.write(f'int {function_name}() {{\n')
 
 count = 0;
 for i in range(0, 80):
+    
     for j in range(0, 60):
-
-        if(px[(j*sizey + sizey//2), (i*sizex + sizex//2)][3] == 0):
+        print(f'{i}, {j}')
+        if(px[(i*sizey + sizey//2), (j*sizex + sizex//2)][3] == 0):
             r = 6
             g = 7
             b = 7
 
         else:
-            r = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][0])*(7/254)),0))
-            g = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][1])*(7/254)),0))
-            b = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][2])*(7/254)),0))
+            r = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][0])*(7/254)),0))
+            g = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][1])*(7/254)),0))
+            b = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][2])*(7/254)),0))
 
         cor = "".join(f"cor{count}")
         rgb = "".join(f"{r} {g} {b}")
@@ -44,15 +48,13 @@ for i in range(0, 80):
             instrucao = f"\tdraw_background_block({i}, {j}, {cores.get(rgb)});\n"
         else:
             cores[rgb] = cor
-            instrucao = f"\tcolor_t cor{count} = {{{b}, {g}, {r}}};\n\tdraw_brackground_block({i}, {j}, cor{count});\n"
+            instrucao = f"\tcolor_t cor{count} = {{{r}, {g}, {b}}};\n\tdraw_background_block({i}, {j}, cor{count});\n"
             count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:
             arquivo.write(instrucao)
 
-        print(f"R: {r}\tG: {g}\t B:{b}")
+        #print(f"R: {r}\tG: {g}\t B:{b}")
     
 with open(f"{file_name}.txt", "a") as arquivo:
     arquivo.write("\treturn 0;\n}\n")
-print(img.getpalette)
-print(rgb_img.getpalette)
