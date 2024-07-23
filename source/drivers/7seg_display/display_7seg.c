@@ -9,18 +9,21 @@
 #include "display_7seg_driver.h"
 
 #define DRIVER_PATH "/dev/display_7seg"
-
-#define OFF 127 //1111111
-#define ZERO 64 //1000000
-#define ONE 121 //1111001
-#define TWO 36 //0100100
-#define THREE 48 //0110000
-#define FOUR 25 //0011001
-#define FIVE 18 // 0010010
-#define SIX  2 //0000010
-#define SEVEN 120 //1111000
-#define EIGHT 0 //0000000
-#define NINE 16 //0010000
+#define OFF 10
+/*
+ZERO 64 //1000000
+ONE 121 //1111001
+TWO 36 //0100100
+THREE 48 //0110000
+FOUR 25 //0011001
+FIVE 18 // 0010010
+SIX  2 //0000010
+SEVEN 120 //1111000
+EIGHT 0 //0000000
+NINE 16 //0010000
+OFF 127 //1111111
+*/
+static const uint8_t segment_codes[11] = {64, 121, 36, 48, 25, 18, 2, 120, 0, 16, 127};
 
 /* Identificadores dos displays*/
 #define HEX0 0
@@ -51,45 +54,43 @@ int display_open(){
     return 0;
 }
 
-int display_write(uint8_t hex, uint8_t data){
+int display_write_digit(uint8_t hex, uint8_t data){
     /*Verificando limites de representação dos displays*/
-    if(hex > 5 || hex < 0 || data > 127) return -1;
+    if(hex > 5 || hex < 0 || data > 10) return -1;
     
-    struct ioctl_args args = {hex, data};
+    struct ioctl_args args = {hex, segment_codes[data]};
 
     ioctl(dev, WR_VALUE, &args);
     return 0;
 }
 
-int display_write_all(uint8_t *data){
-    /* erificando limites de representação dos displays*/
-    if(data[0]+data[1]+data[2]+data[3]+data[4]+data[5] > 762) return -1;
-    
+int display_write_int(uint32_t data){
+    /* verificando limites de representação dos displays*/
+    if(data > 999999) return -1;
+
     /*Escrevendo dados nos displays*/
     struct ioctl_args args;
 
-    for (size_t i = 0; i < 6; i++)
-    {
+    for (size_t i = 0; i < 6; i++){
         args.hex_id = i;
-        args.data = data[i];
+        args.data = segment_codes[data % 10];
         ioctl(dev, WR_VALUE, &args);
+        data /= 10;
     }
-
     return 0;
 }
 
 void display_clear(){
     struct ioctl_args args;
-    args.data = OFF;
+    args.data = segment_codes[OFF];
 
-    for (size_t i = 0; i < 6; i++)
-    {
+    for (size_t i = 0; i < 6; i++){
         args.hex_id = i;
         ioctl(dev, WR_VALUE, &args);
     }
 }
 int display_close(){
-    /* caso haja algum erro ao encerrar a comunicação retorna 0 */ 
+    /* caso haja algum erro ao encerrar a comunicação retorna -1 */ 
     if (close(dev) == -1) {
         printf("Failed to close file!\n");
         return -1;
@@ -97,60 +98,16 @@ int display_close(){
     return 0;
 }
 
-static int int2segcode(uint8_t value){
-    int seg_code = OFF;
-
-    switch (value)
-    {
-    case 0:
-       value = ZERO;
-        break;
-    case 1:
-       value = ONE;
-        break;
-    case 2:
-       value = TWO;
-        break;
-    case 3:
-       value = THREE;
-        break;
-    case 4:
-       value = FOUR;
-        break;
-    case 5:
-       value = FIVE;
-        break.
-    case 6:
-       value = SIX;
-        break;
-    case 7:
-       value = SEVEN;
-        break;
-    case 8:
-       value = EIGHT;
-        break;
-    case 9:
-       value = NINE;
-        break;
-    }
-
-    return seg_code;
-}
-
-int display_write_int(int score, int player){
+int display_write_score(uint16_t score, uint8_t player){ 
 
     if(score > 999) return -1;
 
-    uint8_t data[3] = {int2segcode(score / 100), int2segcode((score % 100) / 10), int2segcode(score % 10)};
+    int display = player ? 3 : 0; //player -> 0 (player 1)
 
-    if(player == 1){
-        display_write(HEX2, data[0]);
-        display_write(HEX1, data[1]);
-        display_write(HEX0, data[2]);
-    }else{
-        display_write(HEX5, data[0]);
-        display_write(HEX4, data[1]);
-        display_write(HEX3, data[2]);
+    for (size_t i = 0; i < 3; i++){
+        display_write(display++, segment_codes[data % 10]);
+        data /= 10;
     }
+         
     return 0;
 }
