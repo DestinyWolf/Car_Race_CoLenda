@@ -2,7 +2,7 @@ from numpy import asarray
 from PIL import Image
 
 img_name = input("image name: ")
-file_name = input("file name destiny: ");
+file_name = input("file name destiny: ")
 
 img = Image.open(f"images/{img_name}.png")
 
@@ -26,15 +26,15 @@ count = 0;
 for i in range(0, 20):
     for j in range(0, 20):
 
-        if(px[(j*sizey + sizey//2), (i*sizex + sizex//2)][3] == 0):
+        if(px[(i*sizey + sizey//2), (j*sizex + sizex//2)][3] == 0):
             r = 6
             g = 7
             b = 7
 
         else:
-            r = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][0])*(7/254)),0))
-            g = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][1])*(7/254)),0))
-            b = int(round(((px_rgb[(j*sizey + sizey//2), (i*sizex + sizex//2)][2])*(7/254)),0))
+            r = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][0])*(7/254)),0))
+            g = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][1])*(7/254)),0))
+            b = int(round(((px_rgb[(i*sizey + sizey//2), (j*sizex + sizex//2)][2])*(7/254)),0))
 
         cor = "".join(f"cor{count}")
         rgb = "".join(f"{r} {g} {b}")
@@ -43,7 +43,7 @@ for i in range(0, 20):
             instrucao = f"pixeis[{(i*20) + j}] = {cores.get(rgb)};\n"
         else:
             cores[rgb] = cor
-            instrucao = f"color_t cor{count} = {{{b}, {g}, {r}}};\npixeis[{(i*20)+j}] = cor{count};\n"
+            instrucao = f"color_t cor{count} = {{{r}, {g}, {b}}};\npixeis[{(i*20)+j}] = cor{count};\n"
             count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:
