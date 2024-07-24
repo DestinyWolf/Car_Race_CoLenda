@@ -22,10 +22,6 @@
 #define LASER_DIAGONAL2     15
 #define HEART               16
 #define LOG                 17
-#define BLUE_CAR            18
-#define GREEN_CAR           19
-#define PURPLE_CAR          20
-#define YELLOW_CAR          21
 
 typedef struct {
     uint64_t coord_x;       

@@ -5,12 +5,6 @@
 #include "../Lib/colenda.h"
 #include "obstacle.h"
 
-// color_t red = {7, 0, 0};
-// color_t black = {0, 0, 0};
-// color_t blue = {0, 0, 3};
-// color_t white = {7,7,7};
-
-
 // obstacles 
 
 obstacle_t cone = {
@@ -107,43 +101,10 @@ obstacle_t trash_bag = {
 
 //obstaculo ou nao
 obstacle_t fire = {
-    .offset = 13,
+    .offset = 14,
     .speed= 0,
     .reward = 0
 };
-
-//spike
-
-//purple block
-
-// obstacle_t tree = {
-//     .speed = 1,
-//     .reward = 10
-// };
-
-// obstacle_t yellow_car = {
-//     .speed = 3,
-//     .reward = 40
-// };
-
-// obstacle_t purple_car = {
-//     .speed = 4,
-//     .reward = 50
-// };
-
-// obstacle_t blue_car = {
-//     .speed = 3,
-//     .reward = 40
-// };
-
-
-// int sprites_obstacle_status[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-// obstacle_t vetor_obstaculos[13];
-// obstacle_t obstaculos_na_tela[10];
-
-// cor, speed e reward mini_bloco = red, 1;
-
 
 int random_number(int min, int max){
     int num;
@@ -171,7 +132,7 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
     sprite_t obstacle_sprite;
     int index, reg;
     
-    base_reg = 21;
+    base_reg = 20;
     index = check_for_empty_reg(sprites_obstacle_status);
     if(index == -1) return -1; //não há registrador vazio. Nao é possivel criar o sprite
     else{
@@ -260,7 +221,7 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
 
     for (int i = 0; i < 10; i++)
     {
-        if(obstaculos_na_tela[i].on_frame){
+        if(sprites_obstacle_status[i]){
             deslocamento = obstaculos_na_tela[i].speed * unidade;
             new_coord_y = obstaculos_na_tela[i].coord_y + deslocamento;
             if(obstaculos_na_tela[i].coord_y >= 480 || new_coord_y >= 471){
@@ -286,7 +247,7 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
                 new_sprite.coord_y = new_coord_y;
                 new_sprite.offset = obstaculos_na_tela[i].offset;
                 new_sprite.speed = obstaculos_na_tela[i].speed;
-                new_sprite.data_register = reg_base_obstacles + i; //21 + i
+                new_sprite.data_register = reg_base_obstacles + i; //20 + i
                 new_sprite.visibility = 1;
             } 
             set_sprite(new_sprite);
@@ -301,7 +262,7 @@ int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, 
     
     int coord_x_obstacle, coord_y_obstacle;
 
-    int base_reg_obstacles = 21, unidade = 1;
+    int base_reg_obstacles = 20, unidade = 1;
     //gera coordenada aleatória entre 
     coord_x_obstacle = random_number(range_min_coord_x(cord_x_player, limite_min_pista), range_max_coord_x(cord_x_player, limite_max_pista));
     coord_y_obstacle = 10; // 0 + 10
