@@ -1,6 +1,6 @@
 #include "../Lib/colenda.h"
 
-int capa() {
+int draw_cover_art() {
 	color_t cor0 = {4, 6, 6};
 	draw_background_block(0, 0, cor0);
 	draw_background_block(0, 1, cor0);
@@ -4822,16 +4822,5 @@ int capa() {
 	draw_background_block(79, 58, cor5);
 	draw_background_block(79, 59, cor5);
 	return 0;
-}
-
-
-int main(){
-
-    GPU_open();
-    clear();
-    capa();
-    GPU_close(); 
-
-    return 0;
 }
 

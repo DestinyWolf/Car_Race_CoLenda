@@ -12046,199 +12046,65 @@ void matrix_player_car_sprite(color_t pixels[]){
 }
 
 
-int main(){
-    
-    GPU_open();
-    //reg 21 a 30
-    sprite_t cone, brick_block_1, brick_block_2, brick, double_wood, single_wood, fire, rock_1, rock_2, rock_block,
-    spikes, screwdriver, tool, trash_bag;
-    
+int charge_sprites_on_memory(){
     //matrix pixels
     color_t pixels[400];
     
     //cone
-
-    cone.coord_x = 0;
-    cone.coord_y = 0;
-    cone.offset = 0;
     matrix_cone_sprite(pixels);
     create_sprite_by_matrix(pixels, 0);
-    // cone.data_register = 21;
-    // cone.speed = 2;
-    // cone.visibility = 1;
-    // matrix_cone_sprite(pixels);
-    // clear(); 
-    // set_sprite(cone);
 
     //single wood
-    single_wood.coord_x = 0;
-    single_wood.coord_y = 0;
-    single_wood.offset = 1;
     matrix_single_wood_sprite(pixels);
     create_sprite_by_matrix(pixels, 1);
-    // single_wood.data_register = 26;
-    // single_wood.speed = 1;
-    // single_wood.visibility = 1;
-    // matrix_single_wood_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 7); 
-    // set_sprite(single_wood);
 
     //double wood
-    double_wood.coord_x = 0;
-    double_wood.coord_y = 0;
-    double_wood.offset = 2;
     matrix_double_wood_sprite(pixels);
     create_sprite_by_matrix(pixels, 2);
-    // double_wood.data_register = 25;
-    // double_wood.speed = 1;
-    // double_wood.visibility = 1;
-    // matrix_double_wood_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 6); 
-    // set_sprite(double_wood);
 
     //brick
-    brick.coord_x = 0;
-    brick.coord_y = 0;
-    brick.offset = 4;
     matrix_brick_sprite(pixels);
     create_sprite_by_matrix(pixels, 4); 
-    // brick.data_register = 24;
-    // brick.speed = 1;
-    // brick.visibility = 1;
-    // matrix_brick_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 5); 
-    // set_sprite(brick);
 
     //brick block 1
-    brick_block_1.coord_x = 0;
-    brick_block_1.coord_y = 0;
-    brick_block_1.offset = 5;
     matrix_brick_block_1_sprite(pixels);
     create_sprite_by_matrix(pixels, 5);
-    // brick_block_1.data_register = 22;
-    // brick_block_1.speed = 1;
-    // brick_block_1.visibility = 1;
-    // matrix_brick_block_1_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 1); 
-    // set_sprite(brick_block_1);
 
     //brick block 2
-    brick_block_2.coord_x = 0;
-    brick_block_2.coord_y = 0;
-    brick_block_2.offset = 6;
     matrix_brick_block_2_sprite(pixels);
     create_sprite_by_matrix(pixels, 6);
-    // brick_block_2.data_register = 23;
-    // brick_block_2.speed = 1;
-    // brick_block_2.visibility = 1;
-    // matrix_brick_block_2_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 2); 
-    // set_sprite(brick_block_2);
 
     //screwdriver
-    screwdriver.coord_x = 0;
-    screwdriver.coord_y = 0;
-    screwdriver.offset = 7;
     matrix_screwdriver_sprite(pixels);
     create_sprite_by_matrix(pixels, 7);
-    // screwdriver.data_register = 24;
-    // screwdriver.speed = 1;
-    // screwdriver.visibility = 1;
-    // matrix_screwdriver_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 5); 
-    // set_sprite(screwdriver);
 
     //tool
-    tool.coord_x = 0;
-    tool.coord_y = 0;
-    tool.offset = 8;
     matrix_tool_sprite(pixels);
     create_sprite_by_matrix(pixels, 8); 
-    // tool.data_register = 26;
-    // tool.speed = 1;
-    // tool.visibility = 1;
-    // matrix_tool_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 7); 
-    // set_sprite(tool);
     
     //rock 1
-    rock_1.coord_x = 0;
-    rock_1.coord_y = 0;
-    rock_1.offset = 9;
     matrix_rock_1_sprite(pixels);
     create_sprite_by_matrix(pixels, 9);
-    // rock_1.data_register = 21;
-    // rock_1.speed = 2;
-    // rock_1.visibility = 1;
-    // matrix_rock_1_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 0); 
-    // clear(); 
-    // set_sprite(rock_1);
 
     //rock 2
-    rock_2.coord_x = 0;
-    rock_2.coord_y = 0;
-    rock_2.offset = 10;
     matrix_rock_2_sprite(pixels);
     create_sprite_by_matrix(pixels, 10);
-    // rock_2.data_register = 22;
-    // rock_2.speed = 2;
-    // rock_2.visibility = 1;
-    // matrix_rock_2_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 1); 
-    // set_sprite(rock_2);
     
     //rock block
-    rock_block.coord_x = 0;
-    rock_block.coord_y = 0;
-    rock_block.offset = 12;
     matrix_rock_block_sprite(pixels);
     create_sprite_by_matrix(pixels, 12);
-    // rock_block.data_register = 23;
-    // rock_block.speed = 2;
-    // rock_block.visibility = 1;
-    // matrix_rock_block_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 2); 
-    //set_sprite(rock_block);
     
     //trash bag
-    trash_bag.coord_x = 0;
-    trash_bag.coord_y = 0;
-    trash_bag.offset = 13;
     matrix_trash_bag_sprite(pixels);
     create_sprite_by_matrix(pixels, 13); 
-    // trash_bag.data_register = 27;
-    // trash_bag.speed = 1;
-    // trash_bag.visibility = 1;
-    // matrix_trash_bag_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 8); 
-    //set_sprite(trash_bag);
 
-    // //fire
-    fire.coord_x = 0;
-    fire.coord_y = 0;
-    // fire.data_register = 27;
-    fire.offset = 14;
+    //fire
     matrix_fire_sprite(pixels);
     create_sprite_by_matrix(pixels, 14); 
-    // fire.speed = 1;
-    // fire.visibility = 1;
-    // matrix_fire_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 8); 
-    // set_sprite(fire);
 
-    //spikes
-    spikes.coord_x = 0;
-    spikes.coord_y = 0;
-    spikes.offset = 15;
-    matrix_screwdriver_sprite(pixels);
+    //spike
+    matrix_spike_sprite(pixels);
     create_sprite_by_matrix(pixels, 15); 
-    // spikes.data_register = 24;
-    // spikes.speed = 1;
-    // spikes.visibility = 1;
-    // matrix_screwdriver_sprite(pixels);
-    // create_sprite_by_matrix(pixels, 5); 
-    // //set_sprite(spikes);
 
     
     GPU_close(); 
