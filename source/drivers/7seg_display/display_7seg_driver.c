@@ -78,6 +78,8 @@ static long int display_7seg_ioctl(struct file *file, unsigned int cmd, unsigned
       break;
     }  
   }
+  
+  kvfree(args_kernel);
   return 0;
 }
 /* Registrando callbacks*/

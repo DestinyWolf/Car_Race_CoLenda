@@ -1,5 +1,5 @@
 /**
- * \file            colenda.h
+ * \file            display_7seg_driver.h
  * \brief           arquivo de cabeçalho da biblioteca colenda
  */
 
