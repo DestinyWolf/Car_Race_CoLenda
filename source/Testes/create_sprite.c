@@ -12046,7 +12046,8 @@ void matrix_player_car_sprite(color_t pixels[]){
 }
 
 
-int charge_sprites_on_memory(){
+int main(){
+    GPU_open();
     //matrix pixels
     color_t pixels[400];
     
@@ -12106,6 +12107,5 @@ int charge_sprites_on_memory(){
     matrix_spike_sprite(pixels);
     create_sprite_by_matrix(pixels, 15); 
 
-    
-    GPU_close(); 
+    GPU_close();
 }
