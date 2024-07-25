@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stdint.h>
+#include<errno.h>
 #include "display_7seg_driver.h"
 
 #define DRIVER_PATH_7SEG "/dev/display_7seg"
@@ -50,10 +51,10 @@ static int dev_7seg = -1;
 int display_open();
 int display_write_digit(uint8_t, uint8_t);
 int display_write_int(uint32_t);
-int display_write_score(uint16_t, uint8_t);
-int display_close();
 void display_clear();
-int display_write_letter(uint8_t *);
+int display_write_score(uint16_t, uint8_t);
+int display_write_word(uint8_t []);
+int display_close();
 
 
 
@@ -70,7 +71,7 @@ int display_open(){
 
 int display_write_digit(uint8_t hex, uint8_t data){
     /*Verificando limites de representação dos displays*/
-    if(hex > 5 || hex < 0 || data > 10) return -1;
+    if(hex > 5 || hex < 0 || data > 10) return EINVAL;
     
     struct ioctl_args args = {hex, segment_codes[data]};
 
@@ -80,7 +81,7 @@ int display_write_digit(uint8_t hex, uint8_t data){
 
 int display_write_int(uint32_t data){
     /* verificando limites de representação dos displays*/
-    if(data > 999999) return -1;
+    if(data > 999999) return EINVAL;
 
     /*Escrevendo dados nos displays*/
     struct ioctl_args args;
@@ -105,23 +106,15 @@ void display_clear(){
 }
 
 int display_write_score(uint16_t score, uint8_t player){ 
-    if(score > 999) return -1;
+    if(score > 999) return EINVAL;
 
-    int display = player ? 3 : 0; //player -> 0 (player 1)
+    int display = player ? 3 : 0; //player = 0 -> exibe nos displays 0  2 
 
     for (size_t i = 0; i < 3; i++){
         display_write_digit(display++, (score % 10));
         score /= 10;
     }
          
-    return 0;
-}
-int display_close(){
-    /* caso haja algum erro ao encerrar a comunicação retorna -1 */ 
-    if (close(dev_7seg) == -1) {
-        printf("Failed to close file!\n");
-        return -1;
-    }
     return 0;
 }
 
@@ -134,4 +127,13 @@ int display_write_word(uint8_t data[]){
         ioctl(dev_7seg, WR_VALUE, &args);
     }
 	return 0;
+}
+
+int display_close(){
+    /* caso haja algum erro ao encerrar a comunicação retorna -1 */ 
+    if (close(dev_7seg) == -1) {
+        printf("Failed to close file!\n");
+        return -1;
+    }
+    return 0;
 }
