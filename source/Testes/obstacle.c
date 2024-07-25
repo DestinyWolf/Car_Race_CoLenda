@@ -86,7 +86,7 @@ obstacle_t rock_2 = {
 };
 
 obstacle_t rock_block = {
-    .offset = 11,
+    .offset = 12,
     .speed= 4,
     .reward = 8,
     .on_frame = 0
