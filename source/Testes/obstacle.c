@@ -86,7 +86,7 @@ obstacle_t rock_2 = {
 };
 
 obstacle_t rock_block = {
-    .offset = 11,
+    .offset = 12,
     .speed= 4,
     .reward = 8,
     .on_frame = 0
@@ -97,14 +97,28 @@ obstacle_t trash_bag = {
     .speed= 6,
     .reward = 11,
     .on_frame = 0
-};   
+}; 
 
-//obstaculo ou nao
-obstacle_t fire = {
+
+obstacle_t trash = {
     .offset = 14,
     .speed= 0,
     .reward = 0
 };
+
+//obstaculo ou nao
+obstacle_t hydrant = {
+    .offset = 15,
+    .speed= 0,
+    .reward = 0
+};
+
+// //obstaculo ou nao
+// obstacle_t fire = {
+//     .offset = 14,
+//     .speed= 0,
+//     .reward = 0
+// };
 
 int random_number(int min, int max){
     int num;
@@ -183,6 +197,7 @@ obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
     int i;
 
     i = random_number(0, 13);
+    if(vetor_obstaculos[i].offset == 11) i += 1;
     selected_obstacle.coord_x = 0;
     selected_obstacle.coord_y = 0;
     selected_obstacle.offset = vetor_obstaculos[i].offset;

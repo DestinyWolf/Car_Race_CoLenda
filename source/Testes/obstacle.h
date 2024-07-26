@@ -18,10 +18,12 @@
 #define LASER_VERTICAL      11
 #define ROCK_BLOCK          12
 #define TRASH_BAG           13
-#define FIRE                14
-#define LASER_DIAGONAL2     15
-#define HEART               16
-#define LOG                 17
+#define TRASH               14
+#define HYDRANT             15
+#define FIRE                16
+#define RED_CAR             17
+#define BLUE_CAR            18
+
 
 typedef struct {
     uint64_t coord_x;       
