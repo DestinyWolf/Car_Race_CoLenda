@@ -23,8 +23,8 @@ with open(f"{file_name}.txt", "w") as arquivo:
     arquivo.write('color_t pixeis[400];\n')
 
 count = 0;
-for i in range(0, 20):
-    for j in range(0, 20):
+for j in range(0, 20):
+    for i in range(0, 20):
 
         if(px[(i*sizey + sizey//2), (j*sizex + sizex//2)][3] == 0):
             r = 6
@@ -40,10 +40,10 @@ for i in range(0, 20):
         rgb = "".join(f"{r} {g} {b}")
 
         if cores.get(rgb):
-            instrucao = f"pixeis[{(i*20) + j}] = {cores.get(rgb)};\n"
+            instrucao = f"pixeis[{(j*20) + i}] = {cores.get(rgb)};\n"
         else:
             cores[rgb] = cor
-            instrucao = f"color_t cor{count} = {{{r}, {g}, {b}}};\npixeis[{(i*20)+j}] = cor{count};\n"
+            instrucao = f"color_t cor{count} = {{{r}, {g}, {b}}};\npixeis[{(j*20)+i}] = cor{count};\n"
             count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:

@@ -63,6 +63,7 @@ static struct
   volatile int *KEY_ptr;
   state_machine_t state_machine;
   atomic_t ready;
+  atomic_t count;
 } key_driver_data;
 
 
@@ -70,7 +71,7 @@ int polling_function(void *data){
   uint8_t button_pressed;
 
   while (!kthread_should_stop()){
-    wait_event_interruptible(poll_wq, kthread_should_stop() || (module_refcount(THIS_MODULE) != 0));
+    wait_event_interruptible(poll_wq, kthread_should_stop() || (atomic_read(&key_driver_data.count) != 0));
     
     if (kthread_should_stop()) break;
     
@@ -108,7 +109,8 @@ int polling_function(void *data){
 
 static int key_driver_open(struct inode *device_file, struct file *instance){
   pr_info("%s: open was called!\n", DRIVER_NAME);
-	wake_up_interruptible(&poll_wq);
+  atomic_inc(&key_driver_data.count);
+  wake_up_interruptible(&poll_wq);
   return 0;
 }
 
@@ -117,6 +119,7 @@ static int key_driver_open(struct inode *device_file, struct file *instance){
 */
 static int key_driver_close(struct inode *device_file, struct file *instance){
   pr_info("%s: close was called!\n", DRIVER_NAME);
+  atomic_dec(&key_driver_data.count);
   return 0;
 }
 
@@ -207,7 +210,7 @@ static int __init key_driver_init(void){
   key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEYS_BASE;
 
   atomic_set(&key_driver_data.ready, 0);
-  
+  atomic_set(&key_driver_data.count, 0);
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
 

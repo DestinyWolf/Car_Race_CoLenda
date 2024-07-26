@@ -14,11 +14,11 @@
 #define OFF 10 //index at the segment code array
 
 /* Letras*/
-#define P 12 //0001100
-#define A 8  //0001000
-#define U 65 //1000001
-#define S 18 //0010010
-#define E 6  //0000110
+#define P_DISPLAY 12 //0001100
+#define A_DISPLAY 8  //0001000
+#define U_DISPLAY 65 //1000001
+#define S_DISPLAY 18 //0010010
+#define E_DISPLAY 6  //0000110
 
 /*
 ZERO 64 //1000000
