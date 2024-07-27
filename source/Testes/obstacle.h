@@ -20,9 +20,15 @@
 #define TRASH_BAG           13
 #define TRASH               14
 #define HYDRANT             15
-#define FIRE                16
-#define RED_CAR             17
-#define BLUE_CAR            18
+#define SPIKE               16
+#define FIRE                17
+#define RED_CAR             18
+#define BLUE_CAR            19
+#define N1                  20
+#define N2                  21
+#define N3                  22
+#define X                   23
+#define JOYSTICK            24
 
 
 typedef struct {

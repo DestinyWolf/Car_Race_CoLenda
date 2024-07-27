@@ -102,15 +102,23 @@ obstacle_t trash_bag = {
 
 obstacle_t trash = {
     .offset = 14,
-    .speed= 0,
-    .reward = 0
+    .speed= 2,
+    .reward = 5,
+    .on_frame = 0
 };
 
-//obstaculo ou nao
 obstacle_t hydrant = {
     .offset = 15,
-    .speed= 0,
-    .reward = 0
+    .speed= 2,
+    .reward = 4,
+    .on_frame = 0
+};
+
+obstacle_t spike = {
+    .offset = 16,
+    .speed= 1,
+    .reward = 3,
+    .on_frame = 0
 };
 
 // //obstaculo ou nao

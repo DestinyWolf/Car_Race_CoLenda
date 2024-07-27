@@ -20,9 +20,9 @@ px_rgb = rgb_img.load()
 cores = {}
 
 with open(f"{file_name}.txt", "w") as arquivo:
-    arquivo.write('color_t pixeis[400];\n')
+    arquivo.write('color_t pixels[400];\n')
 
-count = 0;
+count = 0
 for j in range(0, 20):
     for i in range(0, 20):
 
@@ -40,10 +40,10 @@ for j in range(0, 20):
         rgb = "".join(f"{r} {g} {b}")
 
         if cores.get(rgb):
-            instrucao = f"pixeis[{(j*20) + i}] = {cores.get(rgb)};\n"
+            instrucao = f"pixels[{(j*20) + i}] = {cores.get(rgb)};\n"
         else:
             cores[rgb] = cor
-            instrucao = f"color_t cor{count} = {{{r}, {g}, {b}}};\npixeis[{(j*20)+i}] = cor{count};\n"
+            instrucao = f"color_t cor{count} = {{{r}, {g}, {b}}};\npixels[{(j*20)+i}] = cor{count};\n"
             count +=1
 
         with open(f"{file_name}.txt", "a") as arquivo:
