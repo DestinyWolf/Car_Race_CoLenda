@@ -50,7 +50,7 @@ typedef enum{
 typedef struct 
 {
   State state;
-  uint8_t exit_value;
+  int8_t exit_value;
 } state_machine_t;
 
 
@@ -62,13 +62,18 @@ static struct
   void *LW_virtual;
   volatile int *KEY_ptr;
   state_machine_t state_machine;
+<<<<<<< Updated upstream
   atomic_t ready;
   atomic_t count;
+=======
+  atomic_t ready; //flag que indica que o dado está pronto pra ser lido
+  atomic_t count; //numero de opens
+>>>>>>> Stashed changes
 } key_driver_data;
 
 
 int polling_function(void *data){
-  uint8_t button_pressed;
+  int8_t button_pressed;
 
   while (!kthread_should_stop()){
     wait_event_interruptible(poll_wq, kthread_should_stop() || (atomic_read(&key_driver_data.count) != 0));
@@ -78,7 +83,7 @@ int polling_function(void *data){
     key_driver_data.state_machine.state = STATE_NOT_PRESSED;
     key_driver_data.state_machine.exit_value = -1;
 
-    while (module_refcount(THIS_MODULE) != 0){
+    while (atomic_read(&key_driver_data.count) != 0){
       button_pressed = *key_driver_data.KEY_ptr;
 
       switch (key_driver_data.state_machine.state){
@@ -91,7 +96,12 @@ int polling_function(void *data){
         }
         break;
       case STATE_CLICK:
-        if(button_pressed != NO_KEY) key_driver_data.state_machine.state = STATE_PRESSED;
+        if(button_pressed != NO_KEY){
+          key_driver_data.state_machine.state = STATE_PRESSED;
+        }else if(button_pressed == NO_KEY){
+          key_driver_data.state_machine.exit_value = -1;
+          key_driver_data.state_machine.state = STATE_NOT_PRESSED;
+        }
         break;
       case STATE_PRESSED:
         if (button_pressed == NO_KEY){
@@ -110,7 +120,11 @@ int polling_function(void *data){
 static int key_driver_open(struct inode *device_file, struct file *instance){
   pr_info("%s: open was called!\n", DRIVER_NAME);
   atomic_inc(&key_driver_data.count);
+<<<<<<< Updated upstream
   wake_up_interruptible(&poll_wq);
+=======
+	wake_up_interruptible(&poll_wq);
+>>>>>>> Stashed changes
   return 0;
 }
 
@@ -129,7 +143,7 @@ static int key_driver_close(struct inode *device_file, struct file *instance){
 static ssize_t key_driver_read(struct file *file, char __user *buf, size_t count, 
 loff_t *ppos){
   int ret;
-  uint8_t button;
+  int8_t button;
   char key = ' ';
 
   wait_event_interruptible(read_wq, atomic_read(&key_driver_data.ready) == 1);
@@ -211,6 +225,10 @@ static int __init key_driver_init(void){
 
   atomic_set(&key_driver_data.ready, 0);
   atomic_set(&key_driver_data.count, 0);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
 
