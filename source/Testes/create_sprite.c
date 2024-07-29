@@ -14876,9 +14876,7 @@ void matrix_blue_car_sprite(color_t pixels[]){
     pixels[397] = cor0;
     pixels[398] = cor0;
     pixels[399] = cor0;
-
 }
-
 
 
 int main(){

@@ -1,4 +1,6 @@
 #include "../Lib/colenda.h"
+#include "offset_sprite.h"
+
 
 int draw_cover_art() {
 	color_t cor0 = {4, 6, 6};
@@ -4824,3 +4826,17 @@ int draw_cover_art() {
 	return 0;
 }
 
+int set_menu(){
+	sprite_t num_1, num_2, num_3;
+
+	//reg 11 - 19
+	num_1.coord_x = 9;
+	num_1.coord_y = 14;
+	num_1.data_register = 11;
+	num_1.offset = 20;
+	num_1.speed = 0;
+	num_1.visibility = 1;
+	set_sprite(num_1);
+	
+	return 0;
+}
