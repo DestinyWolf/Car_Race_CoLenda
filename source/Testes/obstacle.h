@@ -4,6 +4,7 @@
 #include <time.h>
 #include "../Lib/colenda.h"
 
+/*
 #define CONE                0
 #define SINGLE_WOOD         1
 #define DOUBLE_WOOD         2
@@ -29,7 +30,7 @@
 #define N3                  22
 #define X                   23
 #define JOYSTICK            24
-
+*/
 
 typedef struct {
     uint64_t coord_x;       
