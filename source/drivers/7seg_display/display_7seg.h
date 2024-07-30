@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright (c) 2024 Brenda Babosa, Camila queiroz, Maike Nascimento
+ * Copyright (c) 2024 Brenda Babosa, Camila Queiroz, Maike Nascimento
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -26,9 +26,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  *
- * This file is part of Colenda.
+ * This file is part of Super Auto.
  *
- * Authors:          Brenda Barbosa, Camila Boa Morte, Maike e Oliveira
+ * Authors:          Brenda Barbosa, Camila Queiroz, Maike e Oliveira
  */
 
 
@@ -47,29 +47,18 @@
 
 #define DRIVER_PATH_7SEG "/dev/display_7seg"
 
-/* Código dos segmentos de cada letra*/
-#define P 12 //0001100
-#define A 8  //0001000
-#define U 65 //1000001
-#define S 18 //0010010
-#define E 6  //0000110
+/* Letras */
+#define P_DISPLAY 0  /* 0001100 */
+#define A_DISPLAY 1   /* 0001000 */
+#define U_DISPLAY 2  /* 1000001 */
+#define S_DISPLAY 3  /* 0010010 */
+#define E_DISPLAY 4   /* 0000110 */
+#define R_DISPLAY 5  /* 1001110 */
+#define T_DISPLAY 6 /* 0000111 */
+#define O_DISPLAY 7  /* 1000000 */
 
-/*Códigos dos segmentos de cada dígito
-ZERO 64 //1000000
-ONE 121 //1111001
-TWO 36 //0100100
-THREE 48 //0110000
-FOUR 25 //0011001
-FIVE 18 // 0010010
-SIX  2 //0000010
-SEVEN 120 //1111000
-EIGHT 0 //0000000
-NINE 16 //0010000
-OFF 127 //1111111
-*/
-static const uint8_t segment_codes[11] = {64, 121, 36, 48, 25, 18, 2, 120, 0, 16, 127};
 
-#define OFF 10 //index do off no array segment_codes
+#define OFF_DISPLAY 10 //index do OFF no array numbers_segment_codes
 
 /* Identificadores dos displays*/
 #define HEX0 0
@@ -81,43 +70,43 @@ static const uint8_t segment_codes[11] = {64, 121, 36, 48, 25, 18, 2, 120, 0, 16
 
 
 /**
- * \brief           Inicia a comunicação com o driver dos botões
- * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
+ * \brief          Inicia a comunicação com o driver dos displays
+ * \return         Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
 int
 display_open();
 
 /**
- * \brief           Exibe um dígito em um dos displays
- * \param[in]       hex: display a ser escrito
- * \param[in]       data: dígito a ser exibido. De 0 a 9 ou OFF
- * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna EINVAL
+ * \brief          Exibe um dígito em um dos displays
+ * \param[in]      hex: display a ser escrito
+ * \param[in]      data: dígito a ser exibido. De 0 a 9 ou OFF
+ * \return         Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
 int
-display_write_digit(uint8_t hex, uint8_t data);
+display_write_digit(const uint8_t hex, const uint8_t data);
 
 /**
- * \brief           Exibe um inteiro nos displays
- * \param[in]       data: inteiro a ser exibido. De 0 a 999999
- * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna EINVAL
+ * \brief          Exibe um inteiro nos displays
+ * \param[in]      data: inteiro a ser exibido. De 0 a 999999
+ * \return         Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
-int display_write_int(uint32_t data);
+int display_write_int(const uint32_t data);
 
 /**
  * \brief           Apaga todos os display
 */
-void
+int
 display_clear();
 
 /**
  * \brief          Exibe o score do jogador.
  * \param[in]      score: inteiro a ser exibido. De 0 a 999
  * \param[in]      player: indica em quais displays exibir. Caso o valor for 0, exibe a pontuação
- * nos displays 0 a 2. Caso contrário, exibe nos displays 3 a 5.
- * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna EINVAL
+ *                     nos displays 0 a 2. Caso contrário, exibe nos displays 3 a 5.
+ * \return         Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
 int
-display_write_score(uint16_t score, uint8_t player);
+display_write_score(const uint16_t score, const uint8_t player);
 
 /**
  * \brief          Exibe uma palavra nos displays.
@@ -126,11 +115,16 @@ display_write_score(uint16_t score, uint8_t player);
 */
 
 int
-display_write_word(uint8_t data[]);
+display_write_word(const uint8_t data[]);
 
 
+int
+display_animation(const uint8_t data[]);
+
+int
+display_title_animation();
 /**
- * \brief           Encerra a comunicação com o driver dos botões.
+ * \brief           Encerra a comunicação com o driver dos displays.
  * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
 int display_close();
