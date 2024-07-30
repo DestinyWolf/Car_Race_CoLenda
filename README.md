@@ -71,7 +71,7 @@ computador *host*.
 
 <div align="center">
   <figure>  
-    <img src="docs/images/kit_desenvolvimento_DE1-SoC.jpg" width="600px">
+    <img src="Docs/Imagens/kit_desenvolvimento_DE1-SoC.jpg" width="600px">
     <figcaption>
       <p align="center"> 
 
@@ -117,5 +117,143 @@ possibilita uma variedade de implementações através da programação dos bloc
 
 ## Processador gráfico Colenda
 
+O processador gráfico CoLenda é um dispositivo gráfico, desenvolvido em uma FPGA, que permite o controle de polígonos convexos (triângulos e quadrados) e *sprites* em um monitor VGA com resolução de 640x480 pixels. Além do controle destes elementos, a GPU CoLenda permite alterar a cor de fundo do monitor, alterar blocos de fundo de dimensão 8x8 e criar *sprites* próprios. 
+> [!NOTE]
+> No projeto original, o NIOS II foi utilizado como unidade de processamento principal.
+> No presente projeto, o NIOS II foi substituído pelo HPS da placa DE1-SoC.
+
+<details>
+<summary><b>Como funciona</b></summary>
+
+### Como funciona?
+
+O dispositivo gráfico CoLenda disponibiliza um conjunto de instruções para o gerenciamentos dos polígonos, sprites e background (mais informações sobre as instruções [aqui](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view) e [aqui](https://github.com/camilaqPereira/coLenda_driver?tab=readme-ov-file#instru%C3%A7%C3%B5es)). Estes comandos são passados da HPS para o hardware na FPGA por meio dos barramentos de dados *dataA*, que recebe os dados de acesso à memória e registradores e dos *opcodes*, e *dataB*, que recebe os demais dados customizáveis tais como cores e posição.
+Para que os dados sejam escritos nas filas de instruções A e B, respectivas aos barramentos *dataA* e *dataB*, o sinal de controle *wr_reg*(input) deve ser colocado em alto por 1 pulso de clock. As FIFOs comportam cada uma um total de 16 palavras de 32 bits. Para controlar a escrita nessas estruturas, é utilizado, além do *wr_reg*, o sinal *wr_full*(output) que indica que as FIFOs estão cheias.
+A escrita nas FIFOs deve ocorrer durante o período em que o sinal *screen*(output) está em alto, o que indica que a renderização de um frame foi finalizada. **Instruções escritas durante o processo de renderização de um frame correm o risco de ser perdidas! **
+Além dos sinais descritos acima, a GPU conta com mais um sinal de controle: *reset_pulse_counter*(output). Este sinal é utilizado para resetar o contador externo responsável por contar o tempo de renderização de uma tela.
+
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/diagrama_gpu.png" width="500px">
+    <figcaption>
+      <p align="center">
+
+[**Figura 3** - Representação da arquitetura do processador gráfico](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
+
+</p>
+    </figcaption>
+  </figure>
+</details>
+
 ## Periféricos utilizados
+
+Neste projeto, utilizou-se todos os periféricos disponíveis no hardware do processador gráfico CoLenda: a saída VGA, os 4 botões do tipo *push* e os displays de 7 segmentos. Além disso, utilizou-se também dois mouses conectados à placa via USB.
+
+### 📖 Background
+<details>
+<summary><b>Padrão VGA</b></summary>
+
+#### Padrão VGA
+
+O padrão VGA é um modelo bastante utilizado, estando presente principalmente nos monitores do tipo CRT.
+Este padrão é composto pela transmissão de sinais de geração de vídeo e sinais de cores (RGB - red, green, blue). Segue abaixo a especificação dos dois sinais de geração de vídeo:
+- sinal de sincronismo horizontal (*hsync*): indica o tempo necessário para percorrer uma linha do monitor;
+- sinal de sincronismo vertical (*vsync*): indica o tempo necessário para percorrer toda a tela (finalização de um frame);
+
+Neste padrão, um frame é definido pelos parâmetros indicados na figura 4:
+- área ativa: espaço de exibição dos pixels na tela;
+- front e back porches: tempos de espera a serem implementados para delimitar a região ativa
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/frame.PNG">
+    <figcaption>
+      <p align="center">
+
+[**Figura 4** - Representação de um frame por meio do padrão VGA](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view)
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+Estes parâmetros são calculados utilizando a resolução e taxa de atualização dos monitores. Os cálculos para a definição dos valores utilizados no projeto estão disponíveis na
+[seção III.C deste arquivo](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view). As especificações de parâmetros para diferentes resoluções podem ser encontrados no 
+[manual da placa](https://fpgacademy.org/index.html)
+
+</details>
+<details>
+<summary><b>USB<b></summary>
+
+#### USB
+O Barramento Serial Universal, ou USB, é um padrão de conexão que permite a anexação de até 127 dispositivos sem a necessidade de reiniciar o computador, sendo assim realizadas todas as configurações para funcionamento do dispositivo em tempo de execução. Ademais, o padrão USB também dispensa o uso de drivers, fazendo com que toda a configuração do dispositivo seja automática. A comunicação entre um dispositivo _host_ (computador) e um periférico pode envolver a troca de ate três pacotes de dados, sendo o primeiro, enviado pelo host que informa dados como endereço do dispositivo de destino, tipo de transação, fluxo de dados, entre outros.
+
+</details>
+
+### Periféricos
+
+<details>
+<summary><b>Saída VGA e integração com a GPU</b></summary>
+
+#### Saída VGA e integração com a GPU
+
+Na placa DE1-SoC, os sinais de sincronização são gerados diretamente pela Cyclone V SoC FPGA, com a conversão digital-analógica sendo feita por meio de Analog Devices ADV7123 para a 
+representação das 3 cores RGB. Cada canal de cor RGB é representado por 8 bits e os sinais *hsync* e *vsync* são representados por 1 bit cada.
+ 
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/vga_placa.PNG">
+    <figcaption>
+      <p align="center">
+
+[**Figura 5** - Conexões entre FPGA e VGA](https://fpgacademy.org/index.html)
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+No projeto, a saída VGA foi conectada a um monitor de tubo CRT - *Cathode Ray Tube* -  com resolução de 640×480 pixels (figura 6) e uma taxa de atualização de 60Hz. Os sinais de geração de vídeo e de cores são controlados pelo *Controlador VGA* implementado pelo processador CoLenda.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/monitor.jpg">
+    <figcaption>
+      <p align="center">
+
+**Figura 6** - Monitor CRT usado
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+</details>
+
+<details>
+<summary><b>Mouse USB</b><summary>
+
+Na placa DE1-SoC, os conectores USB estão ligados a um HUB controlador que se comunica diretamente com o HPS. Assim, o sistema operacional instalado e em execução na processador ARM da placa é quem gerencia as portas. Esta organização facilita o desenvolvimento e utilização das mesmas. Neste projeto, utilizou-se dois mouses idênticos (figura 7) cada um conectado à uma porta USB *host* da placa.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/mouse.jpg" height="500px">
+    <figcaption>
+      <p align="center">
+
+**Figura 6** - Mouse USB usado
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+</details>
+
+<details>
+<summary><b>Botões do tipo <i>push</i></b></summary>
+
+#### Botões do tipo *push*
+A placa utilizada disponibiliza para o usuário quatro botões do tipo _push_ (integrados à FPGA e à GPU), os quais possuem um registrador de dados. Este registrador possui 32 bits, sendo apenas os 4 menos significativos utilizados, e é usado para identificar quais botões estão pressionados em um determinado instante de tempo. Quando um botão é pressionado, seu bit correspondente no registrador (KEY0 -> bit 0, e assim por diante) é setado para 0. Quando liberado, o bit é setado para 1 novamente.
+
+</details>
 
