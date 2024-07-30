@@ -4,18 +4,19 @@
 #include <time.h>
 #include "../Lib/colenda.h"
 #include "obstacle.h"
+#include "offset_sprite.h"
 
 // obstacles 
 
 obstacle_t cone = {
-    .offset = 0,
+    .offset = CONE,
     .speed= 8,
     .reward = 14,
     .on_frame = 0
 };
 
 obstacle_t single_wood = {
-    .offset = 1,
+    .offset = SINGLE_WOOD,
     .speed= 12,
     .reward = 25,
     .on_frame = 0
@@ -23,77 +24,77 @@ obstacle_t single_wood = {
 };
 
 obstacle_t double_wood = {
-    .offset = 2,
+    .offset = DOUBLE_WOOD,
     .speed= 5,
     .reward = 10,
     .on_frame =0
 };
 
 obstacle_t bomb = {
-    .offset = 3,
+    .offset = BOMB,
     .speed= 10,
     .reward = 20,
     .on_frame = 0
 };
 
 obstacle_t brick = {
-    .offset = 4,
+    .offset = BRICK,
     .speed= 15,
     .reward = 30,
     .on_frame = 0
 };
 
 obstacle_t brick_block_1 = {
-    .offset = 5,
+    .offset = BRICK_BLOCK_1,
     .speed= 5,
     .reward = 10,
     .on_frame = 0
 };
 
 obstacle_t brick_block_2 = {
-    .offset = 6,
+    .offset = BRICK_BLOCK_2,
     .speed= 10,
     .reward = 15,
     .on_frame = 0
 };
 
 obstacle_t screwdriver = {
-    .offset = 7,
+    .offset = SCREWDRIVER,
     .speed= 2,
     .reward = 20,
     .on_frame = 0
 };
 
 obstacle_t tool = {
-    .offset = 8,
+    .offset = TOOL,
     .speed= 2,
     .reward = 20,
     .on_frame = 0
 };
 
 obstacle_t rock_1 = {
-    .offset = 9,
+    .offset = ROCK_1,
     .speed= 2,
     .reward = 5,
     .on_frame = 0
 };
 
 obstacle_t rock_2 = {
-    .offset = 10,
+    .offset = ROCK_2,
     .speed= 2,
     .reward = 5,
     .on_frame = 0
 };
 
 obstacle_t rock_block = {
-    .offset = 12,
+    .offset = ROCK_BLOCK,
     .speed= 4,
     .reward = 8,
     .on_frame = 0
 };
 
 obstacle_t trash_bag = {
-    .offset = 13,
+    .offset = TRASH_BAG,
     .speed= 6,
     .reward = 11,
     .on_frame = 0
@@ -101,21 +102,21 @@ obstacle_t trash_bag = {
 
 
 obstacle_t trash = {
-    .offset = 14,
+    .offset = TRASH,
     .speed= 2,
     .reward = 5,
     .on_frame = 0
 };
 
 obstacle_t hydrant = {
-    .offset = 15,
+    .offset = HYDRANT,
     .speed= 2,
     .reward = 4,
     .on_frame = 0
 };
 
 obstacle_t spike = {
-    .offset = 16,
+    .offset = SPIKE,
     .speed= 1,
     .reward = 3,
     .on_frame = 0
@@ -198,13 +199,16 @@ void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
     vetor_obstaculos[10] = rock_2;
     vetor_obstaculos[11] = rock_block;
     vetor_obstaculos[12] = trash_bag;
+    vetor_obstaculos[13] = trash;
+    vetor_obstaculos[14] = hydrant;
+    vetor_obstaculos[15] = spike;
 }
 
 obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
     obstacle_t selected_obstacle; 
     int i;
 
-    i = random_number(0, 13);
+    i = random_number(0, 16);
     if(vetor_obstaculos[i].offset == 11) i += 1;
     selected_obstacle.coord_x = 0;
     selected_obstacle.coord_y = 0;
