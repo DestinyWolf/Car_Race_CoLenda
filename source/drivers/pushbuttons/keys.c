@@ -5,16 +5,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stdint.h>
-
-
-#define KEYS_DRIVER_PATH "/dev/key_driver"
-
-/* Indentificadores dos botões*/
-#define BUTTON0 '0'
-#define BUTTON1 '1'
-#define BUTTON2 '2'
-#define BUTTON3 '3'
-
+#include "keys.h"
 /* Variáveis globais*/
 static int keys_dev;
 
@@ -40,7 +31,7 @@ int
 KEYS_read(char *button){
   /* Realiza a leitura dos botões*/
   int ret = read(keys_dev, button, 1);
-  if(ret != 0 || *button == NULL){
+  if(ret != 0 || *button == ' '){
     printf("Failed to read keys!\n");
     return -1;
   }
