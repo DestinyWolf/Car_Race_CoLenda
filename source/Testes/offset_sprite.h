@@ -23,3 +23,13 @@
 #define N3                  22
 #define X                   23
 #define JOYSTICK            24
+#define A                   25
+#define C                   26
+#define D                   27
+#define E                   28
+#define N                   29
+#define P                   30
+#define R                   31
+#define S                   32
+#define U                   33
+#define V                   34

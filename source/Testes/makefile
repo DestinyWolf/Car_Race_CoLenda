@@ -3,11 +3,11 @@ all: multiplayer
 game_multiplayer: multiplayer
 game_singleplayer: single_player
 
-multiplayer: main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o
-	gcc -o multiplayer main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o -pthread -std=c99
+multiplayer: main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o
+	gcc -o multiplayer main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o -pthread -std=c99
 
-single_player: main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o
-	gcc -o single_player main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o -pthread -std=c99
+single_player: main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o
+	gcc -o single_player main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o -pthread -std=c99
 
 
 mouse_module.o: mouse_module.c mouse_module.h
@@ -24,6 +24,15 @@ colision_module.o: colision_module.c colision_module.h
 
 colenda.o: ../Lib/colenda.c ../Lib/colenda.h
 	gcc -c ../Lib/colenda.c -std=c99
+
+keys.o: ../drivers/pushbuttons/keys.c ../drivers/pushbuttons/keys.h
+	gcc -c ../drivers/pushbuttons/keys.c -std=c99
+
+display_7seg.o: ../drivers/7seg_display/display_7seg.c ../drivers/7seg_display/display_7seg.h
+	gcc -c ../drivers/7seg_display/display_7seg.c -std=c99
+
+create_cover.o: create_cover.c create_cover.h
+	gcc -c create_cover.c -std=c99
 
 clean:
 	rm -r *.o 
