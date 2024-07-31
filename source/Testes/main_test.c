@@ -1,6 +1,5 @@
 #include "mouse_module.h"
 #include "colision_module.h"
-#include "create_sprite.h"
 #include "../Lib/colenda.h"
 #include "../drivers/pushbuttons/keys.h"
 #include "../drivers/7seg_display/display_7seg.h"
@@ -11,6 +10,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include "create_sprite.h"
 
 
 #define PLAYER_SPEED_BASE 2
@@ -266,7 +266,7 @@ void* colision_routine(void* args){
                     if (bullets[j]) {
                         if (check_colision_bullet(sprite_bullets[j], obstacle[i])) {
                             score += obstacle[i].reward;
-                            display_write_score(score, 1);
+                            display_write_score(score, 0);
                             sprite_bullets[j].visibility = 0;
                             bullets[j] = 0;
                             invisible_obstacle.data_register = (20 + i);
@@ -288,7 +288,7 @@ void* colision_routine(void* args){
                     if(!player_invunerability) {
                         if(check_colision_player(player_sprite, obstacle[i])){
                             score -= obstacle[i].reward;
-                            display_write_score(score, 1);
+                            display_write_score(score, 0);
                             player_invunerability = 1;
                             obstacle[i].on_frame = 0;
                             invisible_obstacle.data_register = (20 + i);
@@ -326,10 +326,10 @@ void* colision_routine(void* args){
 void menu() {
     state = in_menu;
     char btn_val;
-    printf("chegou aqui\n");
+    // printf("chegou aqui\n");
     while(state != finish) {
-        printf("chegou aqui\n");
-        // scanf("%d", &btn_val);
+        // printf("chegou aqui\n");
+        // scanf("%c", &btn_val);
         KEYS_read(&btn_val);
         printf("chegou aqui\n");
 
@@ -344,6 +344,13 @@ void menu() {
             return_screen();
         } else if (btn_val == BUTTON2) {
             state = in_menu;
+            pause_threads();
+            clear();
+            clean_all_obstacles(obstacle, obstaculos_gerados);
+            display_clear();
+            draw_cover_art();
+            set_menu();
+            
         } else if (btn_val == BUTTON3) {
             state = finish;
             break;
@@ -516,7 +523,8 @@ void lose_screen() {
 
 void init_game() {
     sprite_t invisible_sprite = {.coord_x = 1, .coord_y = 1, .offset = 0, .speed = 0, .visibility = 0};
-    score = 0;
+    score = 950;
+    display_clear();
     clean_all_obstacles(obstacle, obstaculos_gerados);
     for(int i = 0; i< 10; i++) {
         if (bullets[i]) {
@@ -559,7 +567,6 @@ void main() {
     clear();
     draw_cover_art();
     set_menu();
-
     player_sprite.coord_x = 200;
     player_sprite.coord_y = 340;
     player_sprite.data_register = 31;
@@ -597,11 +604,11 @@ void main() {
 
     //finalizando as threads
     pthread_cancel(obstacle_thread);
-    pthread_cancel(background_thread);
+    //pthread_cancel(background_thread);
     pthread_cancel(mouse_thread);
     pthread_cancel(player_timer_thread);
-    pthread_cancel(bullets_thread);
-    printf("finalizou aqui\n");
+    //pthread_cancel(bullets_thread);
+
 
     pause_colision = 0;
     pause_obstacle = 0;
@@ -609,9 +616,7 @@ void main() {
     pthread_cond_broadcast(&colision_cond);
     pthread_cond_broadcast(&obstacle_cond);
     pthread_cond_broadcast(&mouse_cond);
-    printf("entrou no brodcast\n");
     pthread_join(colision_thread, NULL);
-    printf("deu o join\n");
 
     //encerrando os mutex
     pthread_mutex_destroy(&gpu_mutex);
@@ -622,7 +627,6 @@ void main() {
     pthread_mutex_destroy(&bullets_mutex);
     pthread_mutex_destroy(&colision_mutex);
 
-    printf("destruiu os mutex\n");
     //encerrando as condicionais
     pthread_cond_destroy(&mouse_cond);
     pthread_cond_destroy(&obstacle_cond);
@@ -630,13 +634,11 @@ void main() {
     pthread_cond_destroy(&player_invulnerability_cond);
     pthread_cond_destroy(&bullets_cond);
     pthread_cond_destroy(&colision_cond);
-    printf("destruiu as conds\n");
+    clear();
+    display_clear();
 
     KEYS_close();
-    printf("encerrou o keys\n");
     display_close();
-    printf("encerrou display\n");
     GPU_close();
-    printf("encerrou colenda\n");
     return 0;
 }
