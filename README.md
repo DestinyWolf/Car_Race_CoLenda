@@ -6,15 +6,42 @@
  módulos kernel e bibliotecas foram implementados para realizar a comunicação botões push e displays de 7 segmentos.</p>
 
 ## Sobre o projeto
+Os anos 80 foram uma década revolucionária para os videogames, marcada por avanços tecnológicos significativos e o surgimento de jogos icônicos que moldaram a indústria. Jogos como <i>Space Invaders</i> e <i>Super Mario Bros</i>, que continuam a influenciar o design de jogos atuais, utilizavam representações bidimensionais chamadas <i>sprites</i> para elementos visuais do jogo como personagens e objetos. A animações promoveram uma melhor estética e interatividade fundamentais para a evolução da indústia de videogames.
+
+Nesse cenário, Super Auto é um jogo bidimensional que utiliza sprites e outras representações em uma corrida de carros. Para tal, foi utilizado kit de desenvolvimento DE1-SoC juntamente com o processador gráfico CoLenda na HPS do kit. Que a corrida comece!
+
 
 <details>
 <summary> <b>Requisitos</b> </summary>
 
 ### Requisitos
+O presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
+- O código deve ser escrito em linguagem C
+- O kit de desenvolvimento De1-SoC deve ser utilizado para implementação do projeto
+- Ao menos um novo sprite deve ser criado e utilizado
+- As ações do ator devem ser comandadas pelo mouse, que também deve refletir a velocidade no movimento
+- o display de 7-segmentos deve ser utilizado para a exibição das informações do jogo
+- O jogo deve permitir ações de pause, retorno, reinício e término por meio dos botões da DE1-SoC
+    - O usuário poderá parar e reiniciar o jogo em qualquer momento; 
+    - O usuário poderá sair do jogo em qualquer momento.
+- Pelo menos um elemento passivo do jogo deverá se mover.
+
 
 </details>
 
 ## Índice
+- [Instalação](#instalação)
+	-  [Pré-requisitos](#pré-requisitos)
+-  [Softwares utilizados](#softwares-utilizados)
+	- [Linguagem C](#linguagem-c)
+	- [Compilador GNU](#compilador-gnu)
+ 	- [VS Code](#vs-code)
+- [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
+	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
+  	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
+- [Processador gráfico](#processador-gráfico)
+    - [Como funciona](#como-funciona)
+- [Solução geral](#solução-geral)
 
 ## Contribuidores
 
@@ -297,17 +324,18 @@ A placa utilizada disponibiliza para o usuário quatro botões do tipo *push* 
 <summary> <b>Interface do Jogador</b> </summary>
 
 ### Interface do Jogador
-</details>
+
 <!-- Interface Menu
 interface partida 
 interface pause
 interface vitoria
 interface derrota
 -->
-<details>
-<summary> <b>Sprites</b> </summary>
 
-### Sprites
+<details>
+<summary> <b>Elementos do Jogo</b> </summary>
+
+#### Elementos do Jogo
 
 <div align="center">
   <figure>  
@@ -315,17 +343,24 @@ interface derrota
     
 <figcaption>
 
-**Figura** - Sprites criados
+**Figura** - Alguns dos sprites criados
     </figcaption>
   </figure>
 </div>
 
 </details>
+</details>
+
 
 <details>
-<summary> <b>Regras e Jogabilidade</b> </summary>
+<summary> <b>Como Jogar</b> </summary>
 
-### Regras e Jogabilidade
+### Como Jogar
+Dois players competem em uma corrida de obstáculos. O objetivo é destruir o máximo de obstáculos antes do seu oponente.
+Vence o jogo quem atingir 1000 pontos primeiro ou quem ficar mais tempo sem zerar sua pontuação.
+Cada obstáculo destruído acrescenta uma pontuação ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score. 
+Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para desviar dos obstáculos. Para destruir um obstáculo, o jogador deve alinhar seu carro com o obstáculo e atirar com o botão esquerdo do mouse.
+
 </details>
 
 ## Solução Geral
