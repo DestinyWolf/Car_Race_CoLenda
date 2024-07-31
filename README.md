@@ -400,9 +400,9 @@ No momento que ocorre a captura de um evento de clique, verifica-se se é do bot
 
 A detecção de colisão no jogo funciona analisando se alguma parte da area do jogador esta dentro da area do objeto, a imagem abaixo descreve um caso de colisão.
 
-![Exemplo de Colisão](/Docs\Imagens\Exemplo_colisão.png)
+![Exemplo de Colisão](/Docs/Imagens/Exemplo_colisão.png)
 
->**Nota:** A colisão pode ocorrer lateralmente tambem
+>[!NOTE] A colisão pode ocorrer lateralmente tambem
 
 Quando é detectada a colisão do jogador com um obstáculo é iniciado um timer e o jogador fica invuneravel por 1 segundo, esse tempo de invunerabilidade é indicado pelo piscar do carro e, enquanto estiver nesse estado, a colisão do jogador é desabilitada permitindo que o mesmo perceba e desvie dos próximos obstáculos. Outro evento que ocorre em conjunto é o desaparecer do obstáculo a qual o jogador colidiu e a diminuição da pontuação daquele objeto dos pontos do jogador.
 
@@ -459,7 +459,7 @@ A thread de atualização dos disparos fica responsavel por pegar a posição de
 
 O diagrama abaixo descreve o fluxo de execução do jogo
 
-![Fluxo do Jogo](/Docs\Imagens\jogo.png)
+![Fluxo do Jogo](/Docs/Imagens/jogo.png)
 
 Para garantir que o jogo respondesse aos comandos de maneira eficaz e um bom aproveitamento do hardware, o software foi divido em threads onde cada uma possui suas reponsabilidades de maneira que uma thread não interferisse de maneira direta no funcionamento de outra.
 >O unico momento que uma thread vem a interferir no funcionamento das demais é na ocorrencia do acesso a variaveis compartilhadas
@@ -485,7 +485,7 @@ _Menu_ | Menu do jogo, fica rodando durante o jogo realizando a captua das entra
 
 O fluxo do jogo é controlado por uma maquina de estados simples que esta na thread principal, a thread do menu. O diagrama abaixo descreve em alto nivel a maquina de estados e suas condições de transição
 
-![Maquina de Estados](/Docs\Imagens\fluxograma_estados_jogo.png)
+![Maquina de Estados](/Docs/Imagens/fluxograma_estados_jogo.png)
 
 No caso a thread principal do menu fica responsavel por alterar entre esses estados e assim se torna possivel gerenciar quando algumas threads devem ser pausadas ou não.
 
