@@ -63,10 +63,10 @@
 #define LASER_DIAGONAL2     14
 #define HEART               15
 #define LOG                 16
-#define BLUE_CAR            17
-#define GREEN_CAR           18
-#define PURPLE_CAR          19
-#define YELLOW_CAR          20
+#define BLUE_CAR_F1            17
+#define GREEN_CAR_F1           18
+#define PURPLE_CAR_F1          19
+#define YELLOW_CAR_F1          20
 #define ALIEN1              21
 #define ALIEN2              22
 #define DRAGON              23

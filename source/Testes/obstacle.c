@@ -196,12 +196,16 @@ void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
     vetor_obstaculos[13] = trash;
     vetor_obstaculos[14] = hydrant;
     vetor_obstaculos[15] = spike;
+    vetor_obstaculos[13] = trash;
+    vetor_obstaculos[14] = hydrant;
+    vetor_obstaculos[15] = spike;
 }
 
 obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
     obstacle_t selected_obstacle; 
     int i;
 
+    i = random_number(0, 16);
     i = random_number(0, 16);
     if(vetor_obstaculos[i].offset == 11) i += 1;
     selected_obstacle.coord_x = 0;
