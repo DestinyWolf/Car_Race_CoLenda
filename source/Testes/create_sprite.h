@@ -66,10 +66,12 @@ void matrix_number_3_sprite(color_t pixels[]);
 void matrix_number_4_sprite(color_t pixels[]);
 
 //restart
-void matrix_x_sprite(color_t pixels[]);
+void matrix_restart_sprite(color_t pixels[]);
 
 //x
 void matrix_x_sprite(color_t pixels[]);
 
 //joystick
 void matrix_joystick_sprite(color_t pixels[]);
+
+int set_new_sprites();

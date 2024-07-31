@@ -1,5 +1,6 @@
 #include "mouse_module.h"
 #include "colision_module.h"
+#include "create_sprite.h"
 #include "../Lib/colenda.h"
 #include "../drivers/pushbuttons/keys.h"
 #include "../drivers/7seg_display/display_7seg.h"
@@ -553,6 +554,7 @@ void main() {
     GPU_open();
     KEYS_open();
     display_open();
+    set_new_sprites();
     initialize_obstacle_vector(obstacle_model);
     clear();
     draw_cover_art();

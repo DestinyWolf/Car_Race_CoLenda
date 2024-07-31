@@ -331,11 +331,12 @@ interface pause
 interface vitoria
 interface derrota
 -->
+</details>
 
 <details>
 <summary> <b>Elementos do Jogo</b> </summary>
 
-#### Elementos do Jogo
+### Elementos do Jogo
 
 <div align="center">
   <figure>  
@@ -349,7 +350,7 @@ interface derrota
 </div>
 
 </details>
-</details>
+
 
 
 <details>
@@ -368,6 +369,21 @@ Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para de
 ## Drivers e Dispositivos
 
 ## Algoritmos do Jogo
+<details>
+<summary> <b> Movimento e Ações do Jogador </b> </summary>
+</details>
+
+<details>
+<summary> <b> Colisão </b> </summary>
+</details>
+
+<details>
+<summary> <b> Obstáculos </b> </summary>
+</details>
+
+<details>
+<summary> <b> Fluxo do Jogo </b> </summary>
+</details>
 
 ## Testes
 

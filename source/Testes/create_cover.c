@@ -4832,7 +4832,7 @@ int set_menu(){
 	sprite_t num_1, num_2, num_3, num_4, joystick, x, restart;
 
 	//Num 1
-	num_1.coord_x = 85;
+	num_1.coord_x = 87;
 	num_1.coord_y = 160;
 	num_1.data_register = 11;
 	num_1.offset = N1;

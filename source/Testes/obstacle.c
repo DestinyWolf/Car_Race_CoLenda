@@ -206,7 +206,6 @@ obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
     int i;
 
     i = random_number(0, 16);
-    i = random_number(0, 16);
     if(vetor_obstaculos[i].offset == 11) i += 1;
     selected_obstacle.coord_x = 0;
     selected_obstacle.coord_y = 0;

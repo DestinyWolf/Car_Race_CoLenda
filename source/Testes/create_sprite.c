@@ -14465,6 +14465,7 @@ void matrix_restart_sprite(color_t pixels[]){
     pixels[398] = cor0;
     pixels[399] = cor0;
 
+
 }
 
 void matrix_x_sprite(color_t pixels[]){
@@ -15698,8 +15699,8 @@ void matrix_blue_car_sprite(color_t pixels[]){
 }
 
 
-int main(){
-    GPU_open();
+int set_new_sprites(){
+    //GPU_open();
     //matrix pixels
     color_t pixels[400];
     
@@ -15794,7 +15795,7 @@ int main(){
     create_sprite_by_matrix(pixels, N4);
 
     //restart
-    matrix_x_sprite(pixels);
+    matrix_restart_sprite(pixels);
     create_sprite_by_matrix(pixels, RESTART_SIMBOL);
 
     //x
@@ -15806,5 +15807,6 @@ int main(){
     create_sprite_by_matrix(pixels, JOYSTICK);
 
     
-    GPU_close();
+    //GPU_close();
+    return 0;
 }
