@@ -373,10 +373,6 @@ Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para de
 <details>
 <summary> <b>Algoritimos do jogo</b> </summary>
 
-## Algoritmos
-
-Esta seção tem como objetivo descrever em alto nivel alguns dos algoritmos/funcionalidades implementadas no jogo
-
 <details>
 <summary> <b>Movimento e ações do jogador</b> </summary>
 
