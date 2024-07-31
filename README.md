@@ -2,13 +2,18 @@
 
 <h3 align="center">Utilização do processador gráfico CoLenda no desenvolvimento de jogos 2D</h3>
 
-<p align="center">Super Auto é um jogo 2D multiplayer de corrida de obstáculos implementado com a utilização do processador gráfico CoLenda e seu respectivo driver. Além do jogo, 
- módulos kernel e bibliotecas foram implementados para realizar a comunicação botões push e displays de 7 segmentos.</p>
+<p align="center">Super Auto é um jogo 2D multiplayer de corrida de obstáculos implementado com a utilização do processador gráfico 
+CoLenda e seu respectivo driver. Além do jogo, módulos kernel e bibliotecas foram implementados para realizar a comunicação botões push 
+e displays de 7 segmentos.</p>
 
 ## Sobre o projeto
-Os anos 80 foram uma década revolucionária para os videogames, marcada por avanços tecnológicos significativos e o surgimento de jogos icônicos que moldaram a indústria. Jogos como <i>Space Invaders</i> e <i>Super Mario Bros</i>, que continuam a influenciar o design de jogos atuais, utilizavam representações bidimensionais chamadas <i>sprites</i> para elementos visuais do jogo como personagens e objetos. A animações promoveram uma melhor estética e interatividade fundamentais para a evolução da indústia de videogames.
+Os anos 80 foram uma década revolucionária para os videogames, marcada por avanços tecnológicos significativos e o surgimento de jogos 
+icônicos que moldaram a indústria. Jogos como <i>Space Invaders</i> e <i>Super Mario Bros</i>, que continuam a influenciar o design de 
+jogos atuais, utilizavam representações bidimensionais chamadas <i>sprites</i> para elementos visuais do jogo como personagens e 
+objetos. A animações promoveram uma melhor estética e interatividade fundamentais para a evolução da indústia de videogames.
 
-Nesse cenário, Super Auto é um jogo bidimensional que utiliza sprites e outras representações em uma corrida de carros. Para tal, foi utilizado kit de desenvolvimento DE1-SoC juntamente com o processador gráfico CoLenda na HPS do kit. Que a corrida comece!
+Nesse cenário, Super Auto é um jogo bidimensional que utiliza sprites e outras representações em uma corrida de carros. Para tal, foi 
+utilizado kit de desenvolvimento DE1-SoC juntamente com o processador gráfico CoLenda na HPS do kit. Que a corrida comece!
 
 
 <details>
@@ -60,8 +65,10 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 
 ### Linguagem C
 
-É uma linguagem de programação de propósito geral que combina abstrações e controles de baixo nível sobre o hardware resultando em ganho de eficiência. O software criado em 1970 por 
-Dennis Ritchie é estreitamente associada ao sistema operacional UNIX, uma vez que as versões desse sistema foram escritas em linguagem C. Além disso, a sintaxe simples e a alta 
+É uma linguagem de programação de propósito geral que combina abstrações e controles de baixo nível sobre o hardware resultando em ganho 
+de eficiência. O software criado em 1970 por 
+Dennis Ritchie é estreitamente associada ao sistema operacional UNIX, uma vez que as versões desse sistema foram escritas em linguagem 
+C. Além disso, a sintaxe simples e a alta 
 portabilidade desta linguagem entre dispositivos contribui para seu amplo uso em sistemas embarcados de recursos limitados.
 
 </details>
@@ -70,8 +77,10 @@ portabilidade desta linguagem entre dispositivos contribui para seu amplo uso em
 
 ### Compilador GNU
 
-O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um conjunto de compiladores de código aberto desenvolvido pelo Projeto GNU que oferecem suporte a uma gama de 
-linguagens de programação, incluindo C, C++, Fortran, Ada e Go. Esta ferramenta otimiza a compilação, ou seja a produção de código de máquina, nas várias linguagens e arquiteturas de 
+O GNU Compiler Collection GCC (Coleção de Compiladores GNU), ou GCC, é um conjunto de compiladores de código aberto desenvolvido pelo 
+Projeto GNU que oferecem suporte a uma gama de 
+linguagens de programação, incluindo C, C++, Fortran, Ada e Go. Esta ferramenta otimiza a compilação, ou seja a produção de código de 
+máquina, nas várias linguagens e arquiteturas de 
 processadores suportadas.
 
 </details>
@@ -80,8 +89,11 @@ processadores suportadas.
 <summary> <b>VS Code</b> </summary>
 
 ### VS Code
-O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a várias linguagens de programação, incluindo Python, Java, C, C++ e JavaScript. A ferramenta desenvolvida 
-pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque de erros, sugestões, personalização dentre outros para auxiliar a codificação.
+O Visual Studio Code, ou VS Code, é um editor de texto gratuito com suporte a várias linguagens de programação, incluindo Python, Java, 
+C, C++ e JavaScript. A ferramenta desenvolvida pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque de erros, 
+sugestões, personalização dentre outros para auxiliar a codificação.
+
+Saiba mais na [documentação oficial programa](https://code.visualstudio.com/docs#vscode)
 
 </details>
 <details>
@@ -89,11 +101,11 @@ pela Microsoft Corporation dispõe de diversos recursos de depuração, destaque
 <summary> <b>Nano</b> </summary>
 
 ### Nano
-Também, o editor de texto simples Nano, na versão 2.2.6, presente no Linux embarcado do Kit de desenvolvimento DE1-SoC foi utilizado para codificação da solução. O Nano é um software 
-leve e que oferece uma interface de linha de comando intuitiva, tornando-o ideal para rápida edição de arquivos, scripts e outros documentos de texto.
+Também, o editor de texto simples Nano, na versão 2.2.6, presente no Linux embarcado do Kit de desenvolvimento DE1-SoC foi utilizado 
+para codificação da solução. O Nano é um software leve e que oferece uma interface de linha de comando intuitiva, tornando-o ideal para 
+rápida edição de arquivos, scripts e outros documentos de texto.
 
 </details>
-
 
 ## Kit de desenvolvimento DE1-SoC
 
@@ -102,9 +114,10 @@ leve e que oferece uma interface de linha de comando intuitiva, tornando-o ideal
 
 ### Visão geral da DE1-SoC
 
-Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no mesmo Cyclone® V da Intel®, sistema em chip 
-(SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso 
-ao sistema operacional Linux embarcado na placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e 
+Equipado com processador, USB, memória DDR3, Ethernet e uma gama de periféricos, o kit de desenvolvimento DE1-SoC (Figura 1) integra no 
+mesmo Cyclone® V da Intel®, sistema em chip (SoC), um *hard processor system* (HPS) a uma FPGA (*Field Programmable Gate Arrays*). Este 
+design permite uma grande flexibilidade da placa nas mais variadas aplicações. Para o acesso ao sistema operacional Linux embarcado na 
+placa, o protocolo de rede SSH *(Secure Shell)* foi utilizado, estabelecendo uma conexão criptografada para comunicação entre a placa e 
 computador *host*.
 
 <div align="center">
@@ -139,50 +152,58 @@ computador *host*.
   </figure>
 </div>
 
-O diagrama de blocos do sistema computacional, apresentado na figura 2,  explicita os componentes do Cyclone® V da Intel®, bem como suas conexões. O HPS inclui um processador ARM® 
-Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos. Já a FPGA 
-possibilita uma variedade de implementações através da programação dos blocos lógicos.
-
+O diagrama de blocos do sistema computacional, apresentado na figura 2,  explicita os componentes do Cyclone® V da Intel®, bem como suas 
+conexões. O HPS inclui um processador ARM® Cortex-A9 MPCore™ de 2 núcleos com uma distribuição Linux embarcada destinada a 
+processamentos de propósito geral,  além da memória DDR3 e dos dispositivos periféricos. Já a FPGA possibilita uma variedade de 
+implementações através da programação dos blocos lógicos.
 
 > A comunicação bidirecional entre a o HPS e a FPGA se dá por meio das *FPGA bridges*. 
 > No sentido HPS-FPGA, todos os dispositivos de entrada e saída (E/S) conectados à FPGA são acessíveis ao processador através do mapeamento de memória.
-> As informações sobre o endereçamento dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
+> As informações sobre o **endereçamento original** dos periféricos estão disponíveis na [documentação da placa](https://fpgacademy.org/index.html).
 
 </details>
 
 > [!WARNING]
-> O processador gráfico Colenda é um hardware a parte implementado em uma FPGA e carregado no kit de desenvolvimento. Por isso, os endereços base físicos dos periféricos não são os
-> mesmos dos originais. Além disso, por decisão de projeto, apenas a saída VGA, os displays de 7 segmentos e os botões do tipo push foram acoplados ao hardware. 
+> O processador gráfico Colenda é um hardware a parte implementado em uma FPGA e carregado no kit de desenvolvimento. Por isso, os
+> endereços base físicos dos periféricos **não são os mesmos dos originais**. Além disso, por decisão de projeto, apenas a saída VGA, os
+> displays de 7 segmentos e os botões do tipo push foram acoplados ao hardware. 
 
-## Processador gráfico Colenda
+## Processador gráfico CoLenda
 
-O processador gráfico CoLenda é um dispositivo gráfico, desenvolvido em uma FPGA, que permite o controle de polígonos convexos (triângulos e quadrados) e *sprites* em um monitor VGA com 
-resolução de 640x480 pixels. Além do controle destes elementos, a GPU CoLenda permite alterar a cor de fundo do monitor, alterar blocos de fundo de dimensão 8x8 e criar *sprites* 
-próprios. 
+O processador gráfico CoLenda é um dispositivo gráfico, desenvolvido em uma FPGA, que permite o controle de polígonos convexos 
+(triângulos e quadrados) e *sprites* em um monitor VGA com resolução de 640x480 pixels. Além do controle destes elementos, a GPU CoLenda 
+permite a alteração da cor de fundo do monitor, alteração da cor de blocos de fundo de dimensão 8x8 e a criação *sprites* próprios. 
 
 > [!NOTE]
 > No projeto original, o NIOS II foi utilizado como unidade de processamento principal.
-> No presente projeto, o NIOS II foi substituído pelo HPS da placa DE1-SoC.
+> No presente projeto, esta unidade foi substituída pelo HPS da placa DE1-SoC.
 
 <details>
 <summary><b>Como funciona?</b></summary>
 
 ### Como funciona?
 
-O dispositivo gráfico CoLenda disponibiliza um conjunto de instruções para o gerenciamentos dos polígonos, sprites e background (mais informações sobre as instruções [aqui]
-(https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view) e [aqui](https://github.com/camilaqPereira/coLenda_driver?tab=readme-ov-file#instru%C3%A7%C3%B5es)). Estes 
-comandos são passados da HPS para o hardware na FPGA por meio dos barramentos de dados *dataA*, que recebe os dados de acesso à memória e registradores e dos *opcodes*, e *dataB*, que 
-recebe os demais dados customizáveis tais como cores e posição.
+O dispositivo gráfico CoLenda (figura 3) disponibiliza um conjunto de instruções para o gerenciamentos dos polígonos, sprites e 
+background (mais informações sobre as instruções [aqui](https://drive.google.com/file/d/1MlIlpB9TSnoPGEMkocr36EH9-CFz8psO/view) e 
+[aqui](https://github.com/camilaqPereira/coLenda_driver?tab=readme-ov-file#instru%C3%A7%C3%B5es)). Estes comandos são passados da HPS 
+para o hardware na FPGA por meio dos barramentos de dados *dataA*, que recebe os dados de acesso à memória e registradores e dos 
+*opcodes*, e *dataB*, que recebe os demais dados customizáveis tais como cores e posições.
 
-Para que os dados sejam escritos nas filas de instruções A e B, respectivas aos barramentos *dataA* e *dataB*, o sinal de controle *wr_reg*(input) deve ser colocado em alto por 1 pulso 
-de clock. As FIFOs comportam cada uma um total de 16 palavras de 32 bits. Para controlar a escrita nessas estruturas, é utilizado, além do *wr_reg*, o sinal *wr_full*(output) que indica 
-que as FIFOs estão cheias.
+Os dados nos barramentos são então escritos nas filas de instruções A e B, respectivas aos barramentos *dataA* e *dataB*. As FIFOs 
+comportam cada uma um total de 16 palavras de 32 bits. Para que os dados sejam escritos nas filascorretamente são utilizados os sinais 
+de controle:
+- *wr_reg*(input): sinal de escrita nas FIFOs;
+- _screen_(output): sinal que indica que a renderização de um frame foi finalizada;
+- _wr_full_(output): sinal que indica que as filas estão cheias.
 
-A escrita nas FIFOs deve ocorrer durante o período em que o sinal *screen*(output) está em alto, o que indica que a renderização de um frame foi finalizada. **Instruções escritas 
-durante o processo de renderização de um frame correm o risco de ser perdidas! **
-Além dos sinais descritos acima, a GPU conta com mais um sinal de controle: *reset_pulse_counter*(output). Este sinal é utilizado para resetar o contador externo responsável por contar 
+A escrita nas FIFOs deve ocorrer durante o período em que o sinal *screen*(output) está em alto (frame não está sendo renderizado). 
+**Instruções escritas durante o processo de renderização de um frame correm o risco de ser perdidas! **. Durante este período, o sinal 
+*wr_reg* deve ser colocado em alto por 1 pulso de clock. Este processo de escrita pode ser repetido até que o sinal *wr_full*(output)  
+mude para alto (filas cheias) ou o sinal _screen_ mude para 0 (inicio da renderização de um frame).
+
+Além dos sinais descritos acima, a GPU conta com mais um sinal de controle: *reset_pulse_counter*(output). Este sinal é utilizado para 
+resetar o contador externo responsável por contar 
 o tempo de renderização de uma tela.
-
 
 <div align="center">
   <figure>  
