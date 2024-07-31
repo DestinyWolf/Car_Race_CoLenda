@@ -3,15 +3,18 @@ all: multiplayer
 game_multiplayer: multiplayer
 game_singleplayer: single_player
 
-multiplayer: main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o
-	gcc -o multiplayer main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o -pthread -std=c99
+multiplayer: main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o create_sprite.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o
+	gcc -o multiplayer main_test_multijogador.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o create_sprite.o -pthread -std=c99
 
-single_player: main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o
-	gcc -o single_player main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o -pthread -std=c99
+single_player: main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o create_sprite.o
+	gcc -o single_player main_test.c mouse_module.o obstacle.o background_animation_module.o colision_module.o colenda.o keys.o display_7seg.o create_cover.o create_sprite.o -pthread -std=c99
 
 
 mouse_module.o: mouse_module.c mouse_module.h
 	gcc -c mouse_module.c  -std=c99
+
+create_sprite.o: create_sprite.c create_sprite.h
+	gcc -c create_sprite.c -std=c99
 
 obstacle.o: obstacle.c obstacle.h
 	gcc -c obstacle.c -std=c99
@@ -33,6 +36,9 @@ display_7seg.o: ../drivers/7seg_display/display_7seg.c ../drivers/7seg_display/d
 
 create_cover.o: create_cover.c create_cover.h
 	gcc -c create_cover.c -std=c99
+
+create_sprite.o: create_sprite.c create_sprite.h
+	gcc -c create_sprite.c -std=c99
 
 clean:
 	rm -r *.o 
