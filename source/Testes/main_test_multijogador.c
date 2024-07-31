@@ -5,6 +5,7 @@
 #include "../drivers/7seg_display/display_7seg.h"
 #include "background_animation_module.h"
 #include "create_cover.h"
+#include "create_sprite.h"
 #include "offset_sprite.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,20 +126,30 @@ void reestart_threads() {
 }
 
 void* player_1_invulnerability_timer(void* args) {
-    int i = 0;
+    int i = 0, j=0;
     while(state != finish){
         pthread_mutex_lock(&player_1_invunerability_mutex);
-        while(!player_1_invunerability || state == in_pause || state == in_menu || state == win){
+        while(!player_1_invunerability || !player_2_invunerability || state == in_pause || state == in_menu || state == win){
             pthread_cond_wait(&player_1_invulnerability_cond, &player_1_invunerability_mutex);
         }
         pthread_mutex_unlock(&player_1_invunerability_mutex);
-        
-        if(player_1_sprite.visibility) {
-            player_1_sprite.visibility = 0;
-        } else {
-            player_1_sprite.visibility = 1;
+        if (player_1_invunerability) {
+            if(player_1_sprite.visibility) {
+                player_1_sprite.visibility = 0;
+            } else {
+                player_1_sprite.visibility = 1;
+            }
+            set_sprite(player_1_sprite);
         }
-        set_sprite(player_1_sprite);
+        if (player_2_invunerability) {
+            if (player_2_sprite.visibility) {
+                player_2_sprite.visibility = 0;
+            }
+            else {
+                player_2_sprite.visibility = 1;
+            }
+            set_sprite(player_2_sprite);
+        }
         if (i == 10) {
             pthread_mutex_lock(&player_1_invunerability_mutex);
             player_1_invunerability = 0;
@@ -146,8 +157,18 @@ void* player_1_invulnerability_timer(void* args) {
             i=0;
             player_1_sprite.visibility = 1;
             set_sprite(player_1_sprite);
-        }else {
+        }else if(player_1_invunerability){
             i++;
+        }
+        if (j == 10) {
+            pthread_mutex_lock(&player_2_invunerability_mutex);
+            player_2_invunerability = 0;
+            pthread_mutex_unlock(&player_2_invunerability_mutex);
+            j = 0;
+            player_2_sprite.visibility = 1;
+            set_sprite(player_2_sprite);
+        } else if (player_2_invunerability){
+            j++;
         }
         if(state == finish) {
             return NULL;
@@ -415,28 +436,33 @@ void* colision_routine(void* args){
                     pthread_mutex_lock(&obstacle_mutex);
                     pause_obstacle = 1;
                     pthread_mutex_unlock(&obstacle_mutex);
-                    pthread_mutex_lock(&player_1_invunerability_mutex);
-                    if(check_colision_player(player_1_sprite, screen_obs[i])){
-                        score_1 -= screen_obs[i].reward;
-                        player_1_invunerability = 1;
-                        obstacle_on_screen_status[i] = 0;
-                        screen_obs[i].on_frame = 0;
-                        invisible_sprite.data_register = 20 + i;
-                        set_sprite(invisible_sprite);
-                        pthread_cond_signal(&player_1_invulnerability_cond);
+                    if(!player_1_invunerability) {
+                        pthread_mutex_lock(&player_1_invunerability_mutex);
+                        if(check_colision_player(player_1_sprite, screen_obs[i])){
+                            score_1 -= screen_obs[i].reward;
+                            player_1_invunerability = 1;
+                            obstacle_on_screen_status[i] = 0;
+                            screen_obs[i].on_frame = 0;
+                            invisible_sprite.data_register = 20 + i;
+                            set_sprite(invisible_sprite);
+                            pthread_cond_signal(&player_1_invulnerability_cond);
+                        }
+                        pthread_mutex_unlock(&player_1_invunerability_mutex);
                     }
-                    pthread_mutex_unlock(&player_1_invunerability_mutex);
-                    pthread_mutex_lock(&player_2_invunerability_mutex);
-                    if(check_colision_player(player_2_sprite, screen_obs[i])) {
-                        score_2 -= screen_obs[i].reward;
-                        player_2_invunerability = 1;
-                        obstacle_on_screen_status[i] = 0;
-                        screen_obs[i].on_frame = 0;
-                        invisible_sprite.data_register = 20 + i;
-                        set_sprite(invisible_sprite);
-                        pthread_cond_signal(&player_2_invulnerability_cond);
+                    if(!player_2_invunerability) {
+                        pthread_mutex_lock(&player_2_invunerability_mutex);
+                        if(check_colision_player(player_2_sprite, screen_obs[i])) {
+                            score_2 -= screen_obs[i].reward;
+                            player_2_invunerability = 1;
+                            obstacle_on_screen_status[i] = 0;
+                            screen_obs[i].on_frame = 0;
+                            invisible_sprite.data_register = 20 + i;
+                            set_sprite(invisible_sprite);
+                            pthread_cond_signal(&player_2_invulnerability_cond);
+                        }
+                        pthread_mutex_unlock(&player_2_invunerability_mutex);
                     }
-                    pthread_mutex_unlock(&player_2_invunerability_mutex);
+                    
                     pthread_mutex_lock(&obstacle_mutex);
                     pause_obstacle = 0;
                     pthread_cond_signal(&obstacle_cond);
@@ -737,6 +763,7 @@ int main() {
     display_open();
     KEYS_open();
     initialize_obstacle_vector(obs);
+    set_new_sprites();
     clear();
     draw_cover_art();
     set_menu();
