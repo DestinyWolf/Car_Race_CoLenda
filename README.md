@@ -7,6 +7,13 @@
 
 ## Sobre o projeto
 
+<details>
+<summary> <b>Requisitos</b> </summary>
+
+### Requisitos
+
+</details>
+
 ## Índice
 
 ## Contribuidores
@@ -283,4 +290,51 @@ porta USB *host* da placa.
 A placa utilizada disponibiliza para o usuário quatro botões do tipo *push* (integrados à FPGA e à GPU), os quais possuem um registrador de dados. Este registrador possui 32 bits, sendo apenas os 4 menos significativos utilizados, e é usado para identificar quais botões estão pressionados em um determinado instante de tempo. Quando um botão é pressionado, seu bit correspondente no registrador (KEY0 -> bit 0, e assim por diante) é setado para 0. Quando liberado, o bit é setado para 1 novamente.
 
 </details>
+
+## O Jogo
+
+<details>
+<summary> <b>Interface do Jogador</b> </summary>
+
+### Interface do Jogador
+</details>
+<!-- Interface Menu
+interface partida 
+interface pause
+interface vitoria
+interface derrota
+-->
+<details>
+<summary> <b>Sprites</b> </summary>
+
+### Sprites
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/sprites.png">
+    
+<figcaption>
+
+**Figura** - Sprites criados
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+<details>
+<summary> <b>Regras e Jogabilidade</b> </summary>
+
+### Regras e Jogabilidade
+</details>
+
+## Solução Geral
+
+## Drivers e Dispositivos
+
+## Algoritmos do Jogo
+
+## Testes
+
+## Contribuições
 
