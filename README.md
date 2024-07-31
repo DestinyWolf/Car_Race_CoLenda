@@ -369,21 +369,167 @@ Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para de
 ## Drivers e Dispositivos
 
 ## Algoritmos do Jogo
+
 <details>
-<summary> <b> Movimento e Ações do Jogador </b> </summary>
+<summary> <b>Algoritimos do jogo</b> </summary>
+
+## Algoritmos
+
+Esta seção tem como objetivo descrever em alto nivel alguns dos algoritmos/funcionalidades implementadas no jogo
+
+<details>
+<summary> <b>Movimento e ações do jogador</b> </summary>
+
+### Movimento e ações do jogador
+
+A movimentação do sprite do jogador ocorre apenas no eixo _X_, ela é feita na thread do polling do mouse, onde é feita a leitura dos eventos do mouse e após isso, é atualizada a nova posição do jogador. Caso ocorra alguma movimentação no eixo _X_, esse valor é lido e transformado em um valor valido para o jogo, de -2 a 2, e multiplicado pela velocidade base do carro que é de 2 pixeis por frame, esse valor é incrementado, ou decrementado, na posição do carro e o mesmo é exibido na tela nessa nova localização.
+No momento de atualizar a posição do jogador é verificado 2 possiveis ocorrencias:
+
+>- **O carro do jogador já esta localizado em uma das bordas:**
+Neste caso nada ocorre e o carro é desenhado na mesma posição
+>
+>- **O deslocamento total é maior do que o espaço existente entre a borda e o carro**:  Nesse caso, é calculado o espaço de deslocamento que o carro tem antes de chegar a borda e esse valor se torna o novo deslocamento queserá realizado pelo carro.
+
+Caso não haja nenhuma das ocorrencias anteriores a posição do carro é atualizada normalmente, e o carro é desenhado na nova posição.
+
+Outra ação que o jogador pode fazer é clicar com o botão esquerdo do mouse pra realizar disparos, a geração desses disparos ocorre na thread do polling do mouse, porém a atualização de sua posição e checagem de colisão ocorre em outras threads.
+
+No momento que ocorre a captura de um evento de clique, verifica-se se é do botão esquerdo e é verificado também se o jogador pode realizar algum disparo, cada jogador tem 5 disparos, a cada disparo esse valor é decrementado, quando um tiro chega a borda superior da tela ou colide com um obstáculo esse contador é incrementado e assim o jogador pode vir a realizar um novo disparo.
+
+</details>
+<details>
+<summary> <b>Detecção de colisão</b> </summary>
+
+### Detecção de colisão
+
+A detecção de colisão no jogo funciona analisando se alguma parte da area do jogador esta dentro da area do objeto, a imagem abaixo descreve um caso de colisão.
+
+![Exemplo de Colisão](..\Docs\Imagens\Exemplo_colisão.png)
+
+>**Nota:** A colisão pode ocorrer lateralmente tambem
+
+Quando é detectada a colisão do jogador com um obstáculo é iniciado um timer e o jogador fica invuneravel por 1 segundo, esse tempo de invunerabilidade é indicado pelo piscar do carro e, enquanto estiver nesse estado, a colisão do jogador é desabilitada permitindo que o mesmo perceba e desvie dos próximos obstáculos. Outro evento que ocorre em conjunto é o desaparecer do obstáculo a qual o jogador colidiu e a diminuição da pontuação daquele objeto dos pontos do jogador.
+
+> O mesmo calculo e verificação de colisão é realizado para os disparos, com a diferença que o disparo possui uma area menor que o obstáculo e o jogador.
+
+Uma diferença entre a colisão de um disparo com um obstáculo é que quando colide com um obstáculo o sprite do obstáculo é trocado por uma chama que desaparece após um curto período, apenas pra indicar que naquele local houve uma colisão. No momento que é detectada a colisão do disparo com um obstáculo é acrescida a pontuação do jogador o valor do objeto destruído.
+
+Outros dois pontos de analise de colisão é o disparo chegar ao topo da tela e o obstáculo chegar ao final, onde os mesmos devem desaparecer, nesse caso é analisado se o valor da coordenada _Y_ deles são iguais a 479, pros obstáculos, e 0, para os disparos.
+
+Ao final é verificado se algum jogador perdeu, _sua pontuação ser menor que zero_, ou se algum ganhou, _pontuação ser maior ou igual a 1000_, nesses casos são chamadas as telas de **vitória** ou **derrota** respectivamente.
+
+</details>
+<details>
+<summary> <b>Movimentação de objetos</b> </summary>
+
+### Movimentação de objetos
+
+A atualização da posição de alguns sprites e o cenário de fundo é realizado em funções distintas e abaixo segue uma breve explicação de como objetos distintos tem suas posições atualizadas.
+
+</details>
+<details>
+<summary> <b>Movimentação do fundo</b> </summary>
+
+#### Movimentação do fundo
+
+Para passar a sensação de movimento é realizada a alteração da pista do fundo, dando a entender que o carro se move para frente, entretanto o mesmo permanece parado no eixo. Devido a limitações de hardware a unica parte da pista que realmente é alterada a cada 100 ms são as listras brancas, o que diminui significativamente o gasto de recursos de hardware, outra opção seria redesenhar toda a pista a cada frame mas foi notado que seria muito custoso e afetaria de maneira significativa o desempenho do jogo pois introduziria latencia e ghosting no movimento do usuario
+>**Ghosting:** Termo utilizado para quando se tem um processador mais rapido que a unidade grafica e assim a imagem que é exibida na tela não esta sincronizada com o que esta sendo processado dando a impressão de _latência_ ou imprecisão nos comandos relizados.
+>
+>**Latencia:** Termo utilizado para se referir ao tempo que uma instrução leva para ser processada e exibida na tela
+
+</details>
+<details>
+<summary> <b>Movimentação dos disparos</b> </summary>
+
+#### Movimentação dos disparos
+
+Os disparos realizados pelo jogador tem sua posição atualizada em uma thread diferente daquela onde são gerados, isso ocorre para garantir que os disparos vão ter sua atualização independente da leitura de algum evento do mouse.
+
+A thread de atualização dos disparos fica responsavel por pegar a posição deles e subtrair o valor padrão da aceleração no eixo _Y_, pois como eles estão subindo o valor da sua coordenada _Y_ deve reduzir com o passar do tempo. Quando os disparos chegam a borda superior da tela sem colidir com nenhum obstáculo, ou seja, seu valor pra _Y_ é 0 ou menor que 15, o disparo desaparece e o jogador ganha mais uma munição para disparar.
+
+</details>
+<details>
+<summary> <b>Moviemntação dos obstáculos</b> </summary>
+
+#### Movimentação dos obstáculos
+
+</details>
 </details>
 
 <details>
-<summary> <b> Colisão </b> </summary>
+<summary> <b>Fluxo do jogo</b> </summary>
+
+## Fluxo do jogo
+
+O diagrama abaixo descreve o fluxo de execução do jogo
+
+![Fluxo do Jogo](..\Docs\Imagens\jogo.png)
+
+Para garantir que o jogo respondesse aos comandos de maneira eficaz e um bom aproveitamento do hardware, o software foi divido em threads onde cada uma possui suas reponsabilidades de maneira que uma thread não interferisse de maneira direta no funcionamento de outra.
+>O unico momento que uma thread vem a interferir no funcionamento das demais é na ocorrencia do acesso a variaveis compartilhadas
+
+A tabela abaixo descreve as threads criadas e suas responsabilidades
+
+Thread              |                  Responsabilidade
+:----------------------|:-----------------------------
+_Polling do mouse do jogador 1 e 2_| Realiza a leitura dos eventos do mouse e realiza o tratamento dessas entradas
+_Atualização do background_ | Faz a atualização da pista para criar impressão de movimento
+_Atualização dos disparos_ | Faz a atualização da posição dos disparos de ambos os jogadores
+_Timers de invunerabilidade 1 e 2_ | Timer ativado quando um jogador colide com um obstáculo
+_Verificação de colisão_ | Responsavel por verificar a colisão e fazer a checagem de condição de vitória ou derrota
+Geração de obstáculos | Gera os obstáculos na tela e faz a atualização de suas posições
+_Menu_ | Menu do jogo, fica rodando durante o jogo realizando a captua das entradas dos botões da FPGA
+
+
+
+<details>
+<summary> <b>Controle do fluxo da execulçao das threads</b> </summary>
+
+### Controle do fluxo da execução das threads
+
+O fluxo do jogo é controlado por uma maquina de estados simples que esta na thread principal, a thread do menu. O diagrama abaixo descreve em alto nivel a maquina de estados e suas condições de transição
+
+![Maquina de Estados](..\Docs\Imagens\fluxograma_estados_jogo.png)
+
+No caso a thread principal do menu fica responsavel por alterar entre esses estados e assim se torna possivel gerenciar quando algumas threads devem ser pausadas ou não.
+
+>Exemplo: enquanto o usuario está no menu não há motivos para nenhuma outra thread está rodando.
+
+Assim, foram estabelecidas condições de parada das threads, uma das condições de pause das threads é o jogo estar no menu, outra condição de pausa das threads é o jogo estar em estado de pause durante alguma partida. Caso algum jogador ganhe, as threads tambem são pausadas.
+
+
+<details>
+<summary> <b>Casos especificos de pause das threads</b> </summary>
+
+#### Casos especificos de pause das threads
+
+como há um grande compartilhamento de variaveis e vetores, em certos momentos é necessario que algumas threads sejam interrompidas para que o valor lido seja o correto.
+>Exemplo: Quando o jogador colide com um obstáculo, tanto a thread de geração dos obstáculos quanto a thread do polling do mouse daquele jogador são pausadas.
+
+A seguinte tabela descreve os cenarios e casos particulares de quando cada thread é interrompida visando a garantia da consistência dos dados.
+
+Caso    | Threads que sao paradas
+:------|:-----------------------------
+_Jogador colide com obstáculo_ | Obstáculos, Colisão e Polling do mouse
+_Disparo colide com obstáculo_ | Obstáculos, Atualização dos disparos, Polling do mouse.
+_Partida single player_ | Polling do mouse do segundo jogador
+
 </details>
 
 <details>
-<summary> <b> Obstáculos </b> </summary>
+<summary> <b>Criação e finalização das threads</b> </summary>
+
+#### Criação e finalização das threads
+
+Todas as threads são criadas na inicialização do jogo e a depender do modo de jogo escolhido apenas a thread do mouse do segundo jogador tem sua execução opcional. Ao invés de encerrar as threads foi optado por apenas pausar suas execuções enquanto não forem utilizadas.
+
+O unico momento em que as threads são de fato finalizadas é o momento em que o jogador opta por encerrar o jogo, só então são finalizadas e o programa é encerrado.
+
+</details>
+</details>
 </details>
 
-<details>
-<summary> <b> Fluxo do Jogo </b> </summary>
-</details>
+
 
 ## Testes
 
