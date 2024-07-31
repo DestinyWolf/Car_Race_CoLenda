@@ -402,7 +402,8 @@ A detecção de colisão no jogo funciona analisando se alguma parte da area do 
 
 ![Exemplo de Colisão](/Docs/Imagens/Exemplo_colisão.png)
 
->[!NOTE] A colisão pode ocorrer lateralmente tambem
+> [!NOTE]
+> A colisão pode ocorrer lateralmente tambem
 
 Quando é detectada a colisão do jogador com um obstáculo é iniciado um timer e o jogador fica invuneravel por 1 segundo, esse tempo de invunerabilidade é indicado pelo piscar do carro e, enquanto estiver nesse estado, a colisão do jogador é desabilitada permitindo que o mesmo perceba e desvie dos próximos obstáculos. Outro evento que ocorre em conjunto é o desaparecer do obstáculo a qual o jogador colidiu e a diminuição da pontuação daquele objeto dos pontos do jogador.
 
