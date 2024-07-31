@@ -1,4 +1,3 @@
-#include "obstacle.h"
 #include "offset_sprite.h"
 #include "create_cover.h"
 #include "../Lib/colenda.h"
@@ -245,7 +244,7 @@ void* verify_colision_routine(void* args) {
             if (obs_status[i]) {
                 for (int j = 0; j < 5; j++) {
                     if(player.bullets[j]) {
-                        if (check_collision(bullets[j], obs_screen[i])) {
+                        if (check_colision_bullet(bullets[j], obs_screen[i])) {
                             pthread_mutex_lock(&update_data_mutex);
                             player.score += obs_screen[i].reward;
                             display_write_score(player.score, 0);
@@ -263,7 +262,7 @@ void* verify_colision_routine(void* args) {
                     }
                 }
                 if (!player.invunerability && obs_status[i]) {
-                    if (check_collision(player.sprite, obs_screen[i])) {
+                    if (check_colision_player(player.sprite, obs_screen[i])) {
                         pthread_mutex_lock(&update_data_mutex);
                         player.score -= obs_screen[i].reward;
                         display_write_score(player.score, 0);
@@ -310,10 +309,10 @@ void init_game() {
         obs_screen[i].on_frame = 0;
         obs_screen[i+5].on_frame = 0;
     }
-    pthread_create(colision_thread, NULL, verify_colision_routine, NULL);
-    pthread_create(polling_thread, NULL, polling_routine, NULL);
-    pthread_create(ground_and_bullet_thread, NULL, change_ground_and_update_bullet_pos, NULL);
-    pthread_create(screen_update_thread, NULL, update_screen_routine, NULL);
+    pthread_create(&colision_thread, NULL, verify_colision_routine, NULL);
+    pthread_create(&polling_thread, NULL, polling_routine, NULL);
+    pthread_create(&ground_and_bullet_thread, NULL, change_ground_and_update_bullet_pos, NULL);
+    pthread_create(&screen_update_thread, NULL, update_screen_routine, NULL);
     clear();
     bg_animation_module_init();
 }
@@ -327,7 +326,6 @@ void paused_game() {
     .visibility = 0};
     int msg_letters[5] = {P, A, U, S, E};
 
-    pthread_mutex_lock(&gpu_mutex);
     for (int i = 0; i < 10; i++)
     {
         if(obs_status[i]){
@@ -367,7 +365,7 @@ void return_to_paused() {
     update_bullet_flag = 1;
     create_obstacle_flag = 1;
 
-    current_state = GAME;
+    current_state = RUNNING;
     if(player.invunerability) {
         pthread_cond_signal(&timer_cond);
     }
@@ -416,11 +414,11 @@ void win() {
         set_sprite(text[i]);
     }
     sleep(1);
-    pthread_join(&colision_thread, NULL);
-    pthread_join(&polling_thread, NULL);
-    pthread_join(&ground_and_bullet_thread, NULL);
-    pthread_join(&screen_update_thread, NULL);
-    pthread_join(&timer_thread, NULL);
+    pthread_join(colision_thread, NULL);
+    pthread_join(polling_thread, NULL);
+    pthread_join(ground_and_bullet_thread, NULL);
+    pthread_join(screen_update_thread, NULL);
+    pthread_join(timer_thread, NULL);
     clear();
     current_state = MENU;
     draw_cover_art();
@@ -465,11 +463,11 @@ void lose() {
         set_sprite(text[i]);
     }
     sleep(1);
-    pthread_join(&colision_thread, NULL);
-    pthread_join(&polling_thread, NULL);
-    pthread_join(&ground_and_bullet_thread, NULL);
-    pthread_join(&screen_update_thread, NULL);
-    pthread_join(&timer_thread, NULL);
+    pthread_join(colision_thread, NULL);
+    pthread_join(polling_thread, NULL);
+    pthread_join(ground_and_bullet_thread, NULL);
+    pthread_join(screen_update_thread, NULL);
+    pthread_join(timer_thread, NULL);
     clear();
     current_state = MENU;
     draw_cover_art();
@@ -482,20 +480,21 @@ void menu() {
 
     while (current_state != FINISHED) {
         KEYS_read(&btn_pressed);
+        // scanf("%c", &btn_pressed);
         if(btn_pressed == BUTTON0 && current_state == MENU) {
-            current_state = GAME;
+            current_state = RUNNING;
             init_game();
-        } else if(btn_pressed == BUTTON1 && current_state == GAME) {
+        } else if(btn_pressed == BUTTON1 && current_state == RUNNING) {
             current_state == PAUSED;
         } else if (btn_pressed == BUTTON1 && current_state == PAUSED) {
             return_to_paused();
         } else if (btn_pressed == BUTTON2) {
             current_state = MENU;
-            pthread_join(&colision_thread, NULL);
-            pthread_join(&polling_thread, NULL);
-            pthread_join(&ground_and_bullet_thread, NULL);
-            pthread_join(&screen_update_thread, NULL);
-            pthread_join(&timer_thread, NULL);
+            pthread_join(colision_thread, NULL);
+            pthread_join(polling_thread, NULL);
+            pthread_join(ground_and_bullet_thread, NULL);
+            pthread_join(screen_update_thread, NULL);
+            pthread_join(timer_thread, NULL);
             clear();
             draw_cover_art();
             set_menu();
@@ -528,8 +527,7 @@ int main() {
     KEYS_open();
     display_open();
     module_init_mouse_1();
-    initialize_obstacle_vector();
-    system("./criar_sprite");
+    // system("./criar_sprite");
     clear();
     draw_cover_art();
     set_menu();
@@ -549,11 +547,11 @@ int main() {
 
     menu();
 
-    pthread_join(&colision_thread, NULL);
-    pthread_join(&polling_thread, NULL);
-    pthread_join(&ground_and_bullet_thread, NULL);
-    pthread_join(&screen_update_thread, NULL);
-    pthread_join(&timer_thread, NULL);
+    pthread_join(colision_thread, NULL);
+    pthread_join(polling_thread, NULL);
+    pthread_join(ground_and_bullet_thread, NULL);
+    pthread_join(screen_update_thread, NULL);
+    pthread_join(timer_thread, NULL);
 
     pthread_mutex_destroy(&ground_and_bullet_mutex);
     pthread_mutex_destroy(&colision_mutex);
