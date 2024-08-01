@@ -13,7 +13,11 @@ e displays de 7 segmentos.</p>
 
 </div>
 
+<div align="center">
+	
 [Sobre o projeto](#sobre-o-projeto) • [Instalação](#instalação) • [Solução geral](#solução-geral) • [O jogo](#o-jogo) • [Testes](#testes)
+
+</div>
 
 ## Sobre o projeto
 Os anos 80 foram uma década revolucionária para os videogames, marcada por avanços tecnológicos significativos e o surgimento de jogos 
