@@ -1,4 +1,4 @@
-<h1 align="center"><i>Super Auto: uma corrida divertida</i></h1>
+<div align="center"><img src="Docs/Imagens/titulo.png"></div>
 
 <h3 align="center">Utilização do processador gráfico CoLenda no desenvolvimento de jogos 2D</h3>
 
@@ -1108,6 +1108,17 @@ int main(){
 
 ### Jogo
 Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
+
+Atirar: espera-se que o tiro apareça na frente do carro e  desloque para o topo da tela
+Colisão com obstáculo: espera-se que a pontuação seja decrementada;
+Pontuação atinge 0: espera-se que uma mensagem seja exibida e que a partida seja finalizada
+Pontuação atinge 1000: espera-se que uma mensagem seja exibida e que a partida seja finalizada
+Tiro no topo da tela: espera-se que os elementos desapareçam
+Colisão do jogador com a borda da sua pista: espera-se que o jogador fique limitado a sua pista
+Pause e play: espera-se a execução da partida seja travada e uma mensagem seja exibida
+Finalizar execução do jogo: espera-se que a execução do programa encerre
+Finalizar partida (retorno): espera-se que a execução da partida encerre e o jogo retorne ao menu
+Iniciar partida: espera-se que a partida seja iniciada
 
 - Destruição de um obstáculo - display(figura 27): espera-se que a pontuação do player aumente
 <div align="center">
