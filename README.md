@@ -1151,6 +1151,15 @@ int main(){
 <details>
 <summary> <b>Jogo</b> </summary>
 
+<details>
+<summary><b>Gerenciamento da GPU</b></summary>
+
+A fim de testar as alterações realizadas na GPU, repetiu-se o caso de teste disponível [aqui](https://github.com/camilaqPereira/coLenda_driver/tree/main?tab=readme-ov-file#exemplo-de-utiliza%C3%A7%C3%A3o). Como resultado, obteve-se a mesma imagem.
+
+
+O código de teste encontra-se [aqui](https://github.com/camilaqPereira/coLenda_driver/blob/main/source/Lib/gameboy_example.c)
+
+</details>
 ### Jogo
 Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
 
