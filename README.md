@@ -1118,16 +1118,6 @@ int main(){
 Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
 
 
-
-Pontuação atinge 0: espera-se que uma mensagem seja exibida e que a partida seja finalizada
-Pontuação atinge 1000: espera-se que uma mensagem seja exibida e que a partida seja finalizada
-Tiro no topo da tela: espera-se que os elementos desapareçam
-Colisão do jogador com a borda da sua pista: espera-se que o jogador fique limitado a sua pista
-
-Finalizar execução do jogo: espera-se que a execução do programa encerre
-Finalizar partida (retorno): espera-se que a execução da partida encerre e o jogo retorne ao menu
-Iniciar partida: espera-se que a partida seja iniciada
-
 - Destruição de um obstáculo - display (figura 27): espera-se que a pontuação do player aumente
 <div align="center">
   <figure>  
