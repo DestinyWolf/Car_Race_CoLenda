@@ -88,6 +88,75 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 
 ## Instalação
 
+<details>
+<summary><h3>Pré-requisitos</h3></summary>
+
+- Possuir conexão com internet;
+- Possuir instalado o compilador gcc;
+- Possuir instalado o Git;
+- Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
+- Possuir o processador gráfico CoLenda na FPGA;
+- Possuir um monitor conectado à placa por meio da saída VGA
+- Possuir um mouse USB conectado à placa
+
+</details>
+
+<details>
+<summary><h3>Instalação dos drivers</h3></summary>
+	
+> WARNING
+> **Este processo deve ser repetido para cada um dos drivers (colenda, pushbuttons e displays de 7 segmentos**
+#### 1. Clonar o repositório
+Abra o terminal do seu dispositivo e execute o seguinte comando:
+```
+git clone https://github.com/DestinyWolf/Car_Race_CoLenda.git
+```
+**Transfira os arquivos do projeto para a placa DE1-SoC.**
+
+#### 2. Acessar a pasta */source/drivers/-* e compilar o driver
+Para acessar a pasta */source/drivers/-* e compilar o módulo kernel na placa, basta executar os seguintes comandos:
+```
+cd /source/driver/[HARDWARE_NAME]
+make all
+```
+**HARDWARE_NAME será pushbuttons ou 7seg_display ou colenda**
+#### 3. Carregar o módulo kernel
+Na placa, execute os comandos:
+```
+sudo su
+insmod [KERNEL_MODULE].ko
+```
+**KERNEL_MODULE será key_driver.ko or display_7seg_driver.ko ou colenda_update.ko**
+#### 4. Buscar o valor major alocado dinamicamente
+Execute o comando abaixo na placa e identifique o major associado ao driver a ser carregado.
+```
+cat /proc/devices
+```
+#### 5. Criar o device file
+Execute os seguintes comandos na placa:
+```
+sudo su
+mknod /dev/[FILE_NAME] c [MAJOR] 0
+```
+**FILE_NAME será key_driver ou display_7seg ou colenda** 
+</details>
+
+<details>
+<summary><h3>Compilação do jogo</h3></summary>
+
+#### 1. Acessar a pasta *source/Game* e compilar o jogo
+Para acessar a pasta *source/Game* e compilar o jogo, basta executar os seguintes comandos:
+```
+cd /source/Game
+make single_player
+```
+#### 2.Executar o jogo
+Execute o comando:
+```
+./single_player
+```
+</details>
+
 ## Softwares utilizados
 
 
