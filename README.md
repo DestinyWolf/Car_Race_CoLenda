@@ -491,9 +491,13 @@ A DE1-SoC possui seis displays de 7 segmentos integrados à FPGA (e acoplados ao
 ## O Jogo
 
 <details>
-<summary> <b>Interface do Jogador</b> </summary>
+<summary> <b>Interface do Jogo</b> </summary>
 
-### Interface do Jogador
+### Interface do Jogo
+
+A seguir, será apresentado a interface exibida para o jogador no monitor VGA e suas possíveis transições, bem como os cenários em que o uso dos botões interfere no estado do jogo.
+
+O jogo parte da tela inicial que contém o título Super Auto e o menu de opções. Dentre as opções, o usuário pode escolher uma partida para um jogador (1), para dois jogadores (2), reiniciar o jogo (3) ou encerrá-lo (4). 
 
 <div align="center">
   <figure>  
@@ -501,19 +505,61 @@ A DE1-SoC possui seis displays de 7 segmentos integrados à FPGA (e acoplados ao
     
 <figcaption>
 
-**Figura** - Capa
+**Figura 10** - Tela Inicial
     </figcaption>
   </figure>
 </div>
 
-</details>
+Ao seleciona uma das opções de partida (1 ou 2), uma corrida será iniciada. Desse modo, o carro vermelho da imagem abaixo representa um jogador diante dos obstáculos durante a partida.
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/partida.jpg">
+    
+<figcaption>
 
-<!-- Interface Menu
-interface partida 
-interface pause
-interface vitoria
-interface derrota
--->
+**Figura 11** - Tela de uma partida em execução
+    </figcaption>
+  </figure>
+</div>
+
+Além disso, durante uma partida é possível pausa-la acionando o botão (2) que em sequencia exibirá a tela abaixo.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/pause.gif">
+    
+<figcaption>
+
+**Figura 12** - Partida pausada
+    </figcaption>
+  </figure>
+</div>
+
+Quando um jogador atinge acima de 1000 pontos ou seu oponente perde, sua vitória é identificada por meio de uma animação exibida na figura 13.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/venceu_zoom.gif">
+    
+<figcaption>
+
+**Figura 13** - Animação de vitória do jogador ao atingir a pontuação máxima
+    </figcaption>
+  </figure>
+</div>
+
+Porém, ao colidir com um obstáculo durante uma partida, a pontuação do jogador é decrementada de acordo com o objeto. Dessa maneira, quando uma colisão ocorrer de maneira que o total de pontos do jogador seja igual ou menor do que 0, o usuário foi derrotado.
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/perdeu.gif">
+    
+<figcaption>
+
+**Figura 14** - Derrota do jogador após a colisão com pontuação insuficiente para o desconto do obstáculo. 
+    </figcaption>
+  </figure>
+</div>
+
 </details>
 
 <details>
@@ -521,19 +567,20 @@ interface derrota
 
 ### Elementos do Jogo
 
+A implementação deste jogo contou com o desenvolvimento de elementos fundamentais para uma boa experiência do usuário, sendo os obstáculos, carros e símbolos exibidos na figura 15 exemplos de elementos criados através de sprites. Dessa maneira, o objetos são representados com detalhes de pixels que contribuem para a para a maior jogabilidade dentro das condições e especificações doprojeto.
+
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/sprites.png">
     
 <figcaption>
 
-**Figura** - Alguns dos sprites criados
+**Figura 15** - Alguns dos sprites de elementos do jogo criados, incluindo os obstáculos e os carros dos jogadores
     </figcaption>
   </figure>
 </div>
 
 </details>
-
 
 
 <details>
@@ -554,7 +601,7 @@ Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando do
     <figcaption>
       <p align="center">
 
-**Figura 10** - Esquema em blocos da solução geral
+**Figura 16** - Esquema em blocos da solução geral
 </p>
     </figcaption>
   </figure>
@@ -562,7 +609,7 @@ Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando do
 
 A aplicação desenvolvida integra os módulos de gerenciamento de hardware ( _pooling_ dos _pushbuttons_ e do mouse USB, controle do 
 processador gráfico e dos displays de 7 segmentos) com a lógica do jogo de corrida implementada a fim de criar um produto que atenda aos 
-requisitos propostos. O fluxo de informações da aplicação desenvolvida está esquematizado na figura 10.
+requisitos propostos. O fluxo de informações da aplicação desenvolvida está esquematizado na figura 16.
 
 Os módulos de *polling* dos botões e do mouse USB realizam a captura dos eventos de seus respectivos hardwares e a conversão desses para 
 informações úteis ao bloco da lógica do jogo. Por sua vez, os blocos de *polling* dos displays de 7 segmentos e de gerenciamento do 
@@ -596,7 +643,7 @@ Saiba mais sobre *kthreads* em: [Trabalhando com kernel threads por Sergio Prado
 </details>
 
 ### 🆕 Alterações no driver CoLenda
-Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções originadas das chamadas de sistema *write*. Esta fila possui uma capacidade de 4096 caracteres, totalizando 512 instruções. Além disto, foi implementada uma *kthread* para gerenciar o processo de escrita nas filas de instruções da GPU e um callback write bloqueante para evitar a perda de instruções. As rotinas da escrita bloqueante e da *kthread*, bem como a comunicação entre elas,  são apresentados na figura 11. Para o bloqueio dos processos, foi utilizado duas *waitqueues*: uma para a *kthtread* consumidora e outra para os processos escritores.
+Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções originadas das chamadas de sistema *write*. Esta fila possui uma capacidade de 4096 caracteres, totalizando 512 instruções. Além disto, foi implementada uma *kthread* para gerenciar o processo de escrita nas filas de instruções da GPU e um callback write bloqueante para evitar a perda de instruções. As rotinas da escrita bloqueante e da *kthread*, bem como a comunicação entre elas,  são apresentados na figura 17. Para o bloqueio dos processos, foi utilizado duas *waitqueues*: uma para a *kthtread* consumidora e outra para os processos escritores.
 
 <div align="center">
   <figure>  
@@ -604,14 +651,14 @@ Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções origi
     <figcaption>
       <p align="center">
 
-**Figura 11** - Dinâmica da *kthread* e da leitura bloqueante
+**Figura 17** - Dinâmica da *kthread* e da leitura bloqueante
 </p>
     </figcaption>
   </figure>
 </div>
 
 ## Gerenciamento dos *pushbuttons*
-Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os botões, isto é, pela leitura do registrador de dados e identificação de pressionamento de botões. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 12.
+Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os botões, isto é, pela leitura do registrador de dados e identificação de pressionamento de botões. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 18.
 
 <div align="center">
   <figure>  
@@ -619,7 +666,7 @@ Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados
     <figcaption>
       <p align="center">
 
-**Figura 12** - Fluxo de informações no gerenciamento dos botões  *
+**Figura 18** - Fluxo de informações no gerenciamento dos botões  *
 </p>
     </figcaption>
   </figure>
@@ -631,7 +678,7 @@ Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados
 ### Driver dos botões
 Devido a falta de suporte para interrupções de hardware nos botões acoplados ao processador gráfico, fez-se necessária a utilização de 
 uma máquina de estados finita (MEF) para o correto *polling* botões. Uma *kthread* permanece bloqueada (por meio de uma waitqueue) até 
-que um callback *open* seja executado. A partir daí, este miniprocesso percorre a rotina da MEF, ilustrada na figura 13,  para a leitura 
+que um callback *open* seja executado. A partir daí, este miniprocesso percorre a rotina da MEF, ilustrada na figura 19,  para a leitura 
 dos botões. O processo leitor é então bloqueado na chamada *read* (por meio de outra waitqueue) até que ocorra a detecção do 
 pressionamento de um botão.
 
@@ -641,7 +688,7 @@ pressionamento de um botão.
     <figcaption>
       <p align="center">
 
-**Figura 13** - Esquema da MEF da leitura dos botões
+**Figura 19** - Esquema da MEF da leitura dos botões
 </p>
     </figcaption>
   </figure>
@@ -692,7 +739,7 @@ int main(int argc, char const *argv[]){
 </details>
 
 ## Gerenciamento dos displays de 7 segmentos
-Para o gerenciamento da exibição de informações nos displays de 7 segmentos, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os displays, isto é, pela escrita nos registradores de dados de cada display. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 13.
+Para o gerenciamento da exibição de informações nos displays de 7 segmentos, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os displays, isto é, pela escrita nos registradores de dados de cada display. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 20.
 
 <div align="center">
   <figure>  
@@ -700,7 +747,7 @@ Para o gerenciamento da exibição de informações nos displays de 7 segmentos,
     <figcaption>
       <p align="center">
 
-**Figura 13** - Fluxo de informações no gerenciamento dos displays de 7 segmentos
+**Figura 20** - Fluxo de informações no gerenciamento dos displays de 7 segmentos
 </p>
     </figcaption>
   </figure>
@@ -757,38 +804,17 @@ A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos 
 
 <div align="center">
   <figure>  
-    <img src="Docs/Imagens/sprites.png">
+    <img src="Docs/Imagens/matiz_pixel_car.png">
     
 <figcaption>
 
-**Figura** - Alguns dos sprites criados
+**Figura 21** - Matriz de pixel para a geração do sprite
     </figcaption>
   </figure>
 </div>
 
 </details>
 
-</details>
-
-<details>
-<summary> <b>Geração dos obstáculos</b> </summary>
-
-### Geração dos obstáculos
-
-<div align="center">
-  <figure>  
-    <img src="Docs/Imagens/diagrama_random_obs.png">
-    
-<figcaption>
-
-**Figura** - Diagrama de blocos da geração aleatória de obstáculos
-    </figcaption>
-  </figure>
-</div>
-
-</details>
-
-</details>
 
 <details>
 <summary> <b>Movimento e ações do jogador</b> </summary>
@@ -808,6 +834,26 @@ Caso não haja nenhuma das ocorrencias anteriores a posição do carro é atuali
 Outra ação que o jogador pode fazer é clicar com o botão esquerdo do mouse pra realizar disparos, a geração desses disparos ocorre na thread do polling do mouse, porém a atualização de sua posição e checagem de colisão ocorre em outras threads.
 
 No momento que ocorre a captura de um evento de clique, verifica-se se é do botão esquerdo e é verificado também se o jogador pode realizar algum disparo, cada jogador tem 5 disparos, a cada disparo esse valor é decrementado, quando um tiro chega a borda superior da tela ou colide com um obstáculo esse contador é incrementado e assim o jogador pode vir a realizar um novo disparo.
+
+</details>
+
+<details>
+<summary> <b>Geração dos obstáculos</b> </summary>
+
+### Geração dos obstáculos
+
+A geração de obstáculos na tela segue uma sequência de etapas para que aleatoriamente um novo objeto seja posicionado no topo da tela. Inicialmente uma coordenada do eixo x é gerada aleatoriamente dentro dos limites de coordenada da pista de corrida e considerando a posição do jogador no eixo_x para que o obstáculo seja criado nas redondezas. Já o eixo y é constante, uma vez que o objeto será produzido no topo da tela. Em seguida, um dos 16 obstáculos é selecionado aleatoriamente e um sprite do elemento é criado nas coordenadas x e y definidas, conforme demostrado no diagrama da figura 22. Durante uma partida, cada jogador pode ter até 10 obstáculos ao mesmo tempo em sua pista, tendo cada um deles velocidade e pontuação específicas.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/diagrama_random_obs.png">
+    
+<figcaption>
+
+**Figura 22** - Diagrama de blocos para a geração aleatória de obstáculos
+    </figcaption>
+  </figure>
+</div>
 
 </details>
 
@@ -864,10 +910,13 @@ Os disparos realizados pelo jogador tem sua posição atualizada em uma thread d
 A thread de atualização dos disparos fica responsavel por pegar a posição deles e subtrair o valor padrão da aceleração no eixo _Y_, pois como eles estão subindo o valor da sua coordenada _Y_ deve reduzir com o passar do tempo. Quando os disparos chegam a borda superior da tela sem colidir com nenhum obstáculo, ou seja, seu valor pra _Y_ é 0 ou menor que 15, o disparo desaparece e o jogador ganha mais uma munição para disparar.
 
 </details>
+
 <details>
 <summary> <b>Movimentação dos obstáculos</b> </summary>
 
 #### Movimentação dos obstáculos
+
+O movimento dos obstáculos na pista é retilíneo e uniforme, ou seja, é realizado em linha reta e com velocidade constante.  Cada obstáculo possui uma velocidade definida, o que faz com que ele percorra uma determinada distância em um período de tempo. Dessa maneira, como representado no diagrama da figura 23, o eixo y dos objetos na tela é incrementado pelo deslocamento calculado a partir da velocidade de cada obstáculo. Assim, os obstáculos realizam um movimento descendente do topo da tela até a base, tendo sua posição atualizada de acordo com sua velocidade.
 
 <div align="center">
   <figure>  
@@ -875,36 +924,14 @@ A thread de atualização dos disparos fica responsavel por pegar a posição de
     
 <figcaption>
 
-**Figura** - Diagrama de blocos da Moviemtnação dos obstáculos na tela
+**Figura 23** - Diagrama de blocos da Moviemtnação dos obstáculos na tela
     </figcaption>
   </figure>
 </div>
 
 </details>
-
-</details>
 </details>
 
-<details>
-<summary> <b>Movimentação dos obstáculos</b> </summary>
-
-#### Movimentação dos obstáculos
-
-<div align="center">
-  <figure>  
-    <img src="Docs/Imagens/diagrama_move_obs.png">
-    
-<figcaption>
-
-**Figura** - dI
-    </figcaption>
-  </figure>
-</div>
-
-</details>
-
-</details>
-</details>
 <details>
 
 <summary> <b>Fluxo do jogo</b> </summary>
@@ -980,6 +1007,51 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 </details>
 
 ## Testes
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/key_test.gif">
+    
+<figcaption>
+
+**Figura** - Acionamento curto de um dos botões seguido do acionamento longo e acionamento de 2 botões.
+    </figcaption>
+  </figure>
+</div>
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/mais_score.gif">
+    
+<figcaption>
+
+**Figura** - Atualização da pontuação ao destruir um obstáculo
+    </figcaption>
+  </figure>
+</div>
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/menos_score.gif">
+    
+<figcaption>
+
+**Figura** - Atualização da pontuação ao colidir com um obstáculo
+    </figcaption>
+  </figure>
+</div>
+
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/destroi_obstacles.gif">
+    
+<figcaption>
+
+**Figura** - Destruição dos obstáculos através do tiro
+    </figcaption>
+  </figure>
+</div>
 
 ## Contribuições
 
