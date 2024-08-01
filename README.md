@@ -1089,8 +1089,6 @@ int main(){
 
 ```
 
-
-</details>
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/display_test.gif">
@@ -1109,37 +1107,41 @@ int main(){
 <summary> <b>Jogo</b> </summary>
 
 ### Jogo
+Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
 
+- Destruição de um obstáculo - display(figura 27): espera-se que a pontuação do player aumente
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/mais_score.gif">
     
 <figcaption>
 
-**Figura** - Atualização da pontuação ao destruir um obstáculo
+**Figura 27** - Atualização da pontuação ao destruir um obstáculo
     </figcaption>
   </figure>
 </div>
 
+- Colisão com um obstáculo - display (figura 28): espera-se que a pontuação do player diminua
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/menos_score.gif">
     
 <figcaption>
 
-**Figura** - Atualização da pontuação ao colidir com um obstáculo
+**Figura 28** - Atualização da pontuação ao colidir com um obstáculo
     </figcaption>
   </figure>
 </div>
 
-
+- Destruir obstáculo por meio do tiro (figura 29): espera-se que o obstáculo e o tiro desapareçam
+- Obstáculo no fim da tela (figura 29): espera-se que os elementos desapareçam
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/destroi_obstacles.gif">
     
 <figcaption>
 
-**Figura** - Destruição dos obstáculos através do tiro
+**Figura 29** - Destruição dos obstáculos através do tiro
     </figcaption>
   </figure>
 </div>
