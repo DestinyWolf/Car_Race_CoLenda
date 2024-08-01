@@ -655,10 +655,29 @@ Saiba mais sobre *kthreads* em: [Trabalhando com kernel threads por Sergio Prado
 
 <details>
 <summary><b>Kfifo</b></summary>
+
+Uma kfifo é um buffer circular implementado pela interface `linux/kfifo.h`.
+
+>"A data structure that can often be useful for lockless producer/consumer tasks is the circular buffer. This algorithm 
+> involves a producer placing data into one end of an array, while the consumer removes data from the other. When the end 
+> of the array is reached, the producer wraps back around to the beginning. So a circular buffer requires an array and > > two index values to track where the next new value goes and which value should be removed from the buffer next."
+> [Linux Device Drivers - Concurrency and Race conditions](https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch05.html)
+
+A grande vantagem do buffer circular é que, com apenas 1 produtor e 1 consumidor, não necessita de mutexes para lidar com condições de corrida!
+
+Saiba mais em: [Linux Device Drivers - Concurrency and Race conditions](https://www.oreilly.com/library/view/linux-device-drivers/0596005903/ch05.html), [Linux Kernel Docs](https://www.kernel.org/doc/html/v4.15/core-api/kernel-api.html?highlight=kfifo)
+
 </details>
 
 <details>
-<summary><b>Kfifo</b></summary>
+<summary><b>Waitqueue</b></summary>
+
+Waitqueues são filas de processos que estão aguardado por um evento ou condição assíncrona. Uma processo, quando inserido em uma waitqueue é bloqueado até que receba um sinal de outro processor para desbloquear e a condição imposta seja verdadeira. Existem implementações de waitqueues com *timeout*.
+
+As waitqueues são implementadas na interface `linux/wait.h`
+
+Saiba mais em: [Linux Device Drivers Book - Blocking I/O](https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch05s02.html), [Linux Kernel Docs](https://www.kernel.org/doc/html/v4.12/driver-api/basics.html), [Waitqueues pr Embetronix](https://embetronicx.com/tutorials/linux/device-drivers/waitqueue-in-linux-device-driver-tutorial/)
+
 </details>
 
 ### 🆕 Alterações no driver CoLenda
