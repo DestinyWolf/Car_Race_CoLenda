@@ -804,6 +804,10 @@ A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos 
 
 ### Criação de Sprites
 
+A criação do bitmap de novos sprites é feita por meio de um algoritmo em Python que utiliza a biblioteca _pillow_. É realizada a leitura da imagem e a conversão da mesma em uma matriz de valores, contendo a coordenada do pixel e as cores RGB, além do fator opacidade. O fator opacidade é utilizado pra definir quando é um pixel é invisível para que sua cor seja substituída pelo padrão invisível da GPU. Nos valores de cores é realizada uma conversão do valor da cor lido pra sua correspondente de 3 bits, que é o padrão de cor utilizado na GPU. 
+
+Ao final, é gerado um arquivo de texto com o código para a geração daquele sprites na GPU. Basta copiar seu conteúdo e utilizar em arquivos C.
+
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/matiz_pixel_car.png">
@@ -814,6 +818,10 @@ A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos 
     </figcaption>
   </figure>
 </div>
+
+**A biblioteca CoLenda também foi atualizada para suportar esta nova funcionalidade.** Para isto, criou-se uma nova pseudo instrução que facilita a criação de sprites. Esta recebe um vetor de cores com 400 espaços, correspondente aos 400 pixels de um sprite. A função realiza a leitura do vetor e faz chamadas para a função *set_pixel*, passando valor por valor do pixel desejado. 
+
+Esta pseudo instrução abstrai assim a necessidade do programador entender como está estruturado essa criação dentro da GPU.
 
 </details>
 
