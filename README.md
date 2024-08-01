@@ -323,7 +323,7 @@ porta USB *host* da placa.
     <figcaption>
       <p align="center">
 
-**Figura 6** - Mouse USB usado
+**Figura 7** - Mouse USB usado
 
 </p>
     </figcaption>
@@ -335,8 +335,44 @@ porta USB *host* da placa.
 <summary><b>Botões do tipo <i>push</i></b></summary>
 
 ### Botões do tipo *push*
-A placa utilizada disponibiliza para o usuário quatro botões do tipo *push* (integrados à FPGA e à GPU), os quais possuem um registrador de dados. Este registrador possui 32 bits, sendo apenas os 4 menos significativos utilizados, e é usado para identificar quais botões estão pressionados em um determinado instante de tempo. Quando um botão é pressionado, seu bit correspondente no registrador (KEY0 -> bit 0, e assim por diante) é setado para 0. Quando liberado, o bit é setado para 1 novamente.
+A placa utilizada disponibiliza para o usuário quatro botões do tipo *push* (integrados à FPGA e à GPU), os quais possuem um registrador 
+de dados. Este registrador possui 32 bits, sendo apenas os 4 menos significativos utilizados, e é usado para identificar quais botões 
+estão pressionados em um determinado instante de tempo. Quando um botão é pressionado, seu bit correspondente no registrador (KEY0 -> 
+bit 0, e assim por diante) é setado para 0. Quando liberado, o bit é setado para 1 novamente.
 
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/keys_gpu.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 8** - Endereçamento físico do botões (processador gráfico)
+
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+<details>
+<summary><b>Displays de 7 segmentos</b></summary>
+
+#### Displays de 7 segmentos
+A DE1-SoC possui seis displays de 7 segmentos integrados à FPGA (e acoplados ao hardware processador gráfico). Os displays são do tipo anodo comum, o que significa que cada segmentos é acesso com um sinal baixo e apagado com um sinal baixo. No hardware da GPU, cada display possui um endereçamento físico independente.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/display.PNG">
+    <figcaption>
+      <p align="center">
+
+**Figura 9** -  Displays de 7 segmentos na DE1-SoC
+
+</p>
+    </figcaption>
+  </figure>
+</div>
 </details>
 
 ## O Jogo
