@@ -15,24 +15,33 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Brenda Barbosa, Camila Boa Morte, Maike de Oliveira");
 MODULE_DESCRIPTION("Um módulo kernel para realizar a comunicação com os displays de 7 segmentos na FPGA");
 
+#define HEX5_BASE               0x10
+#define HEX4_BASE               0x20
+#define HEX3_BASE               0x30
+#define HEX2_BASE               0x40
+#define HEX1_BASE               0x50
+#define HEX0_BASE               0x60
+
+
 /*Driver data*/
 static struct{
   dev_t devnum;
   struct cdev cdev;
   void *LW_virtual;
-  volatile int *hex0_ptr;
-  volatile int *hex1_ptr;
-  volatile int *hex2_ptr;
-  volatile int *hex3_ptr;
-  volatile int *hex4_ptr;
-  volatile int *hex5_ptr;
+  volatile int* hex0_ptr;
+  volatile int* hex1_ptr;
+  volatile int* hex2_ptr;
+  volatile int* hex3_ptr;
+  volatile int* hex4_ptr;
+  volatile int* hex5_ptr;
 } display_7seg_data;
 
 
 /*
 * Implementação da função open
 */
-static int display_7seg_open(struct inode *device_file, struct file *instance){
+static int
+display_7seg_open(struct inode *device_file, struct file *instance){
   pr_info("%s: open was called!\n", DRIVER_NAME);
   return 0;
 }
@@ -40,24 +49,28 @@ static int display_7seg_open(struct inode *device_file, struct file *instance){
 /*
 * Implementação da função close
 */
-static int display_7seg_close(struct inode *device_file, struct file *instance){
+static int
+display_7seg_close(struct inode *device_file, struct file *instance){
   pr_info("%s: close was called!\n", DRIVER_NAME);
   return 0;
 }
 
-static long int display_7seg_ioctl(struct file *file, unsigned int cmd, unsigned long arg){
+/*
+ * Implementando a funão ioctl
+*/
+static long int
+display_7seg_ioctl(struct file *file, unsigned int cmd, unsigned long arg){
   if(cmd == WR_VALUE){
     /*Copiando dados do espaço de usuário */
-    struct ioctl_args *args_kernel = kmalloc(sizeof(struct ioctl_args),GFP_KERNEL);
+    ioctl_args_t* args_kernel = kmalloc(sizeof(ioctl_args_t), GFP_KERNEL);
 
-    if(copy_from_user(args_kernel, (void *) arg, sizeof(struct ioctl_args))){
+    if(copy_from_user(args_kernel, (void*) arg, sizeof( ioctl_args_t))){
       pr_err("%s: error copyind data to the kernel\n", DRIVER_NAME);
       return -EFAULT;
     }
 
     /*Passando dado para o display correto*/
-    switch (args_kernel->hex_id)
-    {
+    switch (args_kernel->hex_id){
     case 0:
       *display_7seg_data.hex0_ptr = args_kernel->data;
       break;
@@ -79,19 +92,23 @@ static long int display_7seg_ioctl(struct file *file, unsigned int cmd, unsigned
     }  
   }
   
+  //kfree(args_kernel);
   return 0;
 }
+
 /* Registrando callbacks*/
 static const struct file_operations fops = {
   .owner = THIS_MODULE,
   .open = display_7seg_open,
   .release = display_7seg_close,
-  .unlocked_ioctl = display_7seg_ioctl
+  .unlocked_ioctl = display_7seg_ioctl,
 };
+
 /*
 * Implementação da função init
 */
-static int __init display_7seg_init(void){
+static int __init
+display_7seg_init(void){
 
   int result;
   /*Alocando device number*/
@@ -99,9 +116,8 @@ static int __init display_7seg_init(void){
 
 
   /* Verificando se a alocação do chrdev foi bem sucedida */
-  if(result)
-  {
-    pr_err("%s: failed to allocate device number!\n",DRIVER_NAME);
+  if(result){
+    pr_err("%s: failed to allocate device number!\n", DRIVER_NAME);
     goto ChrRegionError;
   }
 
@@ -111,8 +127,7 @@ static int __init display_7seg_init(void){
   result = cdev_add(&display_7seg_data.cdev, display_7seg_data.devnum, 1);
 
   /* Verificando se o registro do dispositivo de caractere foi bem sucedido */
-  if (result)
-  {
+  if (result){
     pr_err("%s: char device registration failed!\n",DRIVER_NAME);
     goto CdevAddError;
   }
@@ -138,9 +153,10 @@ ChrRegionError:
 }
 
 /*
-* Implementação da função exit
+ * Implementação da função exit
 */
-static void __exit display_7seg_exit(void){
+static void __exit
+display_7seg_exit(void){
   /* Liberando o mapeamento do barramento de dados */
   iounmap(display_7seg_data.LW_virtual);
 
@@ -154,7 +170,7 @@ static void __exit display_7seg_exit(void){
 }
 
 /*
-* Chamada dos módulos de init e exit
+ * Chamada dos módulos de init e exit
 */
 module_init(display_7seg_init);
 module_exit(display_7seg_exit);

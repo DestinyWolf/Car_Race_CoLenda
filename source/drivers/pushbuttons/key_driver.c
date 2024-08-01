@@ -9,6 +9,7 @@
 #include<linux/delay.h>
 #include<linux/wait.h>
 #include<asm/atomic.h>
+#include<linux/errno.h>
 #include "/usr/src/3.18.0/arch/arm/include/asm/io.h"
 #include "../colenda/address_map_arm.h"
 
@@ -24,14 +25,14 @@ MODULE_DESCRIPTION("Um driver para realizar a comunicação com botões do tipo 
 /*Identificação da kthread*/
 #define KTHREAD_NAME "polling_thread"
 
+#define KEY_BASE 0x0
+
 /*Definição da kthread consumidora*/
 static struct task_struct *polling_kthread;
 
 /*Definição das waitqueues */
 DECLARE_WAIT_QUEUE_HEAD(read_wq);
 DECLARE_WAIT_QUEUE_HEAD(poll_wq);
-
-#define KEYS_BASE 0x0
 
 typedef enum {
   STATE_NOT_PRESSED,
@@ -62,13 +63,8 @@ static struct
   void *LW_virtual;
   volatile int *KEY_ptr;
   state_machine_t state_machine;
-<<<<<<< Updated upstream
-  atomic_t ready;
-  atomic_t count;
-=======
   atomic_t ready; //flag que indica que o dado está pronto pra ser lido
   atomic_t count; //numero de opens
->>>>>>> Stashed changes
 } key_driver_data;
 
 
@@ -98,9 +94,6 @@ int polling_function(void *data){
       case STATE_CLICK:
         if(button_pressed != NO_KEY){
           key_driver_data.state_machine.state = STATE_PRESSED;
-        }else if(button_pressed == NO_KEY){
-          key_driver_data.state_machine.exit_value = -1;
-          key_driver_data.state_machine.state = STATE_NOT_PRESSED;
         }
         break;
       case STATE_PRESSED:
@@ -120,11 +113,7 @@ int polling_function(void *data){
 static int key_driver_open(struct inode *device_file, struct file *instance){
   pr_info("%s: open was called!\n", DRIVER_NAME);
   atomic_inc(&key_driver_data.count);
-<<<<<<< Updated upstream
-  wake_up_interruptible(&poll_wq);
-=======
 	wake_up_interruptible(&poll_wq);
->>>>>>> Stashed changes
   return 0;
 }
 
@@ -152,18 +141,20 @@ loff_t *ppos){
     
   
   switch (button){
-  case K0:
-    key = '0';
-    break;
-  case K1:
-    key = '1';
-    break;
-  case K2:
-    key = '2';
-    break;
-  case K3:
-    key = '3';
-    break;
+    case K0:
+      key = '0';
+      break;
+    case K1:
+      key = '1';
+      break;
+    case K2:
+      key = '2';
+      break;
+    case K3:
+      key = '3';
+      break;
+    default:
+      break;
   }
   
   ret = put_user(key, buf);
@@ -221,14 +212,11 @@ static int __init key_driver_init(void){
 
   /*Mapeando lightweight HPS-to-FPGA brigde*/
   key_driver_data.LW_virtual = ioremap(LW_BRIDGE_BASE, LW_BRIDGE_SPAN);
-  key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEYS_BASE;
+  key_driver_data.KEY_ptr = key_driver_data.LW_virtual + KEY_BASE;
 
   atomic_set(&key_driver_data.ready, 0);
   atomic_set(&key_driver_data.count, 0);
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   pr_info("%s: initialized!\n", DRIVER_NAME);
   return 0;
 

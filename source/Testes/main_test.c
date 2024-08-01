@@ -1,14 +1,21 @@
 #include "mouse_module.h"
 #include "colision_module.h"
 #include "../Lib/colenda.h"
+#include "../drivers/pushbuttons/keys.h"
+#include "../drivers/7seg_display/display_7seg.h"
 #include "background_animation_module.h"
+#include "create_cover.h"
+#include "offset_sprite.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include "create_sprite.h"
 
 
-#define PLAYER_SPEED_BASE 1     /*definição da velocidade base do jogador*/
-#define BULLET_SPEED_BASE 15    /*definição da velocidade base do tiro*/
+#define PLAYER_SPEED_BASE 2
+#define OFFSET_PLAYER_1 18
+#define BULLET_SPEED_BASE 15  /*definição da velocidade base do tiro*/
 
 /*enumeração com os estados de jogo começando pelo 1*/
 typedef enum {
@@ -20,7 +27,7 @@ typedef enum {
     lose,
 } states;
 
-obstacle_t obstacles_model[13];
+obstacle_t obstacle_model[16];
 obstacle_t obstacle[10];    /*array de obstaculos*/
 sprite_t scene[10];         /*array de objetos de cena*/
 sprite_t sprite_bullets[10];    /*array com sprites de disparo*/
@@ -43,7 +50,7 @@ pthread_cond_t bullets_cond;
 pthread_cond_t player_invulnerability_cond;
 pthread_cond_t colision_cond;
 
-pthread_t obstacle_thread, background_thread, mouse_thread, player_timer_thread, bullets_thread, colision_thread; 
+pthread_t obstacle_thread, mouse_thread, player_timer_thread, colision_thread; 
 
 states state; /*variavel do tipo states responsavel por guardar o estado atual do jogo*/
 
@@ -62,15 +69,10 @@ void pause_threads() {
     pthread_mutex_lock(&mouse_mutex);
     pause_mouse = 1;
     pthread_mutex_unlock(&mouse_mutex);
-    pthread_mutex_lock(&bullets_mutex);
-    pause_bullets = 1;
-    pthread_mutex_unlock(&bullets_mutex);
     pthread_mutex_lock(&obstacle_mutex);
     pause_obstacle = 1;
     pthread_mutex_unlock(&obstacle_mutex);
-    pthread_mutex_lock(&background_mutex);
-    pause_background = 1;
-    pthread_mutex_unlock(&background_mutex);
+    return;
 }
 
 void reestart_threads() {
@@ -82,122 +84,48 @@ void reestart_threads() {
     pause_mouse = 0;
     pthread_cond_signal(&mouse_cond);
     pthread_mutex_unlock(&mouse_mutex);
-    pthread_mutex_lock(&bullets_mutex);
-    pause_bullets = 0;
-    pthread_cond_signal(&bullets_cond);
-    pthread_mutex_unlock(&bullets_mutex);
     pthread_mutex_lock(&obstacle_mutex);
     pause_obstacle = 0;
     pthread_cond_signal(&obstacle_cond);
     pthread_mutex_unlock(&obstacle_mutex);
-    pthread_mutex_lock(&background_mutex);
-    pause_background = 0;
-    pthread_cond_signal(&background_cond);
-    pthread_mutex_unlock(&background_mutex);
-    
+    return;
 }
 
 void* player_invulnerability_timer(void* args) {
     int i = 0;
-    while(1){
+    while(state != finish){
         pthread_mutex_lock(&player_invunerability_mutex);
-        while(!player_invunerability){
+        while(!player_invunerability || state == in_menu || state == in_pause){
             pthread_cond_wait(&player_invulnerability_cond, &player_invunerability_mutex);
         }
         pthread_mutex_unlock(&player_invunerability_mutex);
-
-        
-        pthread_mutex_lock(&mouse_mutex);
-        pause_mouse = 1;
-        pthread_mutex_unlock(&mouse_mutex);
         if (player_sprite.visibility) {
             player_sprite.visibility = 0;
         } else {
             player_sprite.visibility = 1;
         }
-
-        pthread_mutex_lock(&gpu_mutex);
         set_sprite(player_sprite);
-        pthread_mutex_unlock(&gpu_mutex);
-
-        pthread_mutex_lock(&mouse_mutex);
-        pause_mouse = 0;
-        pthread_cond_signal(&mouse_cond);
-        pthread_mutex_unlock(&mouse_mutex);
         if(i == 10) {
             pthread_mutex_lock(&player_invunerability_mutex);
             player_invunerability = 0;
             pthread_mutex_unlock(&player_invunerability_mutex);
             player_sprite.visibility = 1;
-            pthread_mutex_lock(&gpu_mutex);
+            
             set_sprite(player_sprite);
-            pthread_mutex_unlock(&gpu_mutex);
+            
             i = 0;
         }else {
             i++;
         }
+        if(state == finish) {
+            return NULL;
+        }
         usleep(200000);
-    }
-    
-}
-
-void* bullet_routine(void* args) {
-    while (1) {
-        pthread_mutex_lock(&bullets_mutex);
-        while (pause_bullets)
-        {
-            pthread_cond_wait(&bullets_cond, &bullets_mutex);
+        if(state == finish) {
+            return NULL;
         }
-        pthread_mutex_unlock(&bullets_mutex);
-
-        for (int i = 0; i < 10; i++)
-        {
-            if(bullets[i] == 1) {
-                pthread_mutex_lock(&mouse_mutex);
-                pause_mouse = 1;
-                pthread_mutex_unlock(&mouse_mutex);
-                
-                if (sprite_bullets[i].coord_y <= 15) {
-                    bullets[i] = 0;
-                    sprite_bullets[i].visibility = 0;
-
-                } else {
-                    sprite_bullets[i].coord_y -= BULLET_SPEED_BASE;
-                }
-                pthread_mutex_lock(&gpu_mutex);
-                set_sprite(sprite_bullets[i]);
-                pthread_mutex_unlock(&gpu_mutex);
-                pthread_mutex_lock(&mouse_mutex);
-                pause_mouse = 0;
-                pthread_cond_signal(&mouse_cond);
-                pthread_mutex_unlock(&mouse_mutex);
-            } else {
-                sprite_bullets[i].visibility = 0;
-                pthread_mutex_lock(&gpu_mutex);
-                set_sprite(sprite_bullets[i]);
-                pthread_mutex_unlock(&gpu_mutex);
-            }
-        }
-        usleep(100000);
     }
-}
-
-//esta rotina já esta completa, apenas basta ver o tempo de delay de alteração do fundo 
-void* change_background_routine(void* args) {
-    while (1) {
-        pthread_mutex_lock(&background_mutex);
-        while (pause_background)
-        {
-            pthread_cond_wait(&background_cond, &background_mutex);
-        }
-        pthread_mutex_unlock(&background_mutex);
-
-        pthread_mutex_lock(&gpu_mutex);
-        bg_animation(); //função do modulo que faz a atualização do fundo e da animação com o passar dos quadros
-        pthread_mutex_unlock(&gpu_mutex);
-        usleep(100000);
-        printf("colision: %d\tplayer_invunerability: %d\n", pause_colision, player_invunerability);
-    }
+    return NULL;
 }
 
 void* mouse_polling_routine(void* args) {
@@ -205,9 +133,9 @@ void* mouse_polling_routine(void* args) {
     int value_x_mouse = 0, i, has_shot = 0;
     int car_speed, car_sprite;
 
-    while (1) {
+    while (state != finish) {
         pthread_mutex_lock(&mouse_mutex);
-        while (pause_mouse)
+        while (pause_mouse || state == in_menu || state == in_pause || state == lose || state == win)
         {
             pthread_cond_wait(&mouse_cond, &mouse_mutex);
         }
@@ -219,12 +147,12 @@ void* mouse_polling_routine(void* args) {
         car_sprite = player_sprite.offset + value_x_mouse;
 
         //detecção de borda
-        if ( car_speed < 0 && player_sprite.coord_x - 10 >= 103 && (player_sprite.coord_x - 10) + car_speed <= 103) {
+        if ( car_speed < 0 && player_sprite.coord_x - 10 >= 96 && (player_sprite.coord_x - 10) + car_speed <= 96) {
             //pega o espaço restante que o carro ainda pode se mover antes de chegar na borda
-            player_sprite.coord_x -= ((player_sprite.coord_x - 10 + car_speed) - 103); 
-        } else if (car_speed > 0 && player_sprite.coord_x + 10 <= 296 && (player_sprite.coord_x + 10) + car_speed >= 296) {
+            player_sprite.coord_x -= ((player_sprite.coord_x - 10 + car_speed) - 96); 
+        } else if (car_speed > 0 && player_sprite.coord_x + 10 <= 289 && (player_sprite.coord_x + 10) + car_speed >= 289) {
             //pega o espaço restante que o carro ainda pode se mover antes de chegar na borda
-            player_sprite.coord_x += (296 - (player_sprite.coord_x + 10 + car_speed));
+            player_sprite.coord_x += (289 - (player_sprite.coord_x + 10 + car_speed));
         } else { 
             player_sprite.coord_x += car_speed;
         }
@@ -233,9 +161,6 @@ void* mouse_polling_routine(void* args) {
 
         if (key_press == 1 && !has_shot) {
             i = 0;
-            pthread_mutex_lock(&bullets_mutex);
-            pause_bullets = 1;
-            pthread_mutex_unlock(&bullets_mutex);
             while(i < 10){
         
                 if (bullets[i] == 0) {
@@ -252,42 +177,66 @@ void* mouse_polling_routine(void* args) {
                 
                 i++;
             }
-            pthread_mutex_lock(&bullets_mutex);
-            pause_bullets = 0;
-            pthread_cond_signal(&bullets_cond);
-            pthread_mutex_unlock(&bullets_mutex);
         } else if (key_press){
             has_shot = 1;
         } else {
             has_shot = 0;
         }
 
-        pthread_mutex_lock(&gpu_mutex);
+        
         set_sprite(player_sprite);
         if(i<10) {
             set_sprite(sprite_bullets[i]);
         }
-        pthread_mutex_unlock(&gpu_mutex);
+        
+        if(state == finish) {
+            return NULL;
+        }
         
     }
+    return NULL;
 }
 
 void* random_obstacle_generate_routine(void* args) {
-    while (1)
+    while (state != finish)
     {
         pthread_mutex_lock(&obstacle_mutex);
-        while (pause_obstacle)
+        while (pause_obstacle || state == in_menu || state == in_pause || state == lose || state == win)
         {
             pthread_cond_wait(&obstacle_cond, &obstacle_mutex);
         }
         pthread_mutex_unlock(&obstacle_mutex);
 
-        pthread_mutex_lock(&gpu_mutex);
-        random_obstacle(player_sprite.coord_x, player_sprite.coord_y, 103, 296, obstacle, obstacles_model, obstaculos_gerados);
-        pthread_mutex_unlock(&gpu_mutex);
+        
+        random_obstacle(player_sprite.coord_x, player_sprite.coord_y, 96, 289, obstacle, obstaculos_gerados, obstacle_model);
+        
+        for (int i = 0; i < 10; i++)
+        {
+            if(bullets[i] == 1) {
+                if (sprite_bullets[i].coord_y <= 15) {
+                    bullets[i] = 0;
+                    sprite_bullets[i].visibility = 0;
+                } else {
+                    sprite_bullets[i].coord_y -= BULLET_SPEED_BASE;
+                }
+                set_sprite(sprite_bullets[i]);
+            } else {
+                sprite_bullets[i].visibility = 0;
+                set_sprite(sprite_bullets[i]);
+                
+            }
+        }
+        bg_animation(); //função do modulo que faz a atualização do fundo e da animação com o passar dos quadros
+
+        if(state == finish) {
+            return NULL;
+        }
         usleep(100000);
+        if(state == finish) {
+            return NULL;
+        }
     }
-    
+    return NULL;
 }
 
 
@@ -295,14 +244,16 @@ void* random_obstacle_generate_routine(void* args) {
 void* colision_routine(void* args){
     sprite_t invisible_obstacle = {.coord_x = 1, .coord_y = 1, .offset = 1, .speed = 0, .visibility = 0};
     
-    while (1)
+    while (state != finish)
     {
         pthread_mutex_lock(&colision_mutex);
-        while(pause_colision){
-            printf("entrou no while\n");
+        while(pause_colision || state == in_menu || state == in_pause || state == lose || state == win){
             pthread_cond_wait(&colision_cond, &colision_mutex);
         }
         pthread_mutex_unlock(&colision_mutex);
+        if(state == finish) {
+            return NULL;
+        }
 
         for (int i = 0; i < 10; i++)
         {
@@ -313,179 +264,289 @@ void* colision_routine(void* args){
                 for (int j = 0; j < 10; j++)
                 {
                     if (bullets[j]) {
-                        pthread_mutex_lock(&bullets_mutex);
-                        pause_bullets = 1;
-                        pthread_mutex_unlock(&bullets_mutex);
                         if (check_colision_bullet(sprite_bullets[j], obstacle[i])) {
                             score += obstacle[i].reward;
+                            display_write_score(score, 0);
                             sprite_bullets[j].visibility = 0;
                             bullets[j] = 0;
-                            invisible_obstacle.data_register = (21 + i);
+                            invisible_obstacle.data_register = (20 + i);
                             obstacle[i].on_frame = 0;
                             obstaculos_gerados[i] = 0;
-                            pthread_mutex_lock(&gpu_mutex);
                             set_sprite(invisible_obstacle);
-                            pthread_mutex_unlock(&gpu_mutex);
                         }
-                        pthread_mutex_lock(&bullets_mutex);
-                        pause_bullets = 0;
-                        pthread_cond_signal(&bullets_cond);
-                        pthread_mutex_unlock(&bullets_mutex);
                     }
                 }
                 pthread_mutex_lock(&obstacle_mutex);
                 pause_obstacle = 0;
                 pthread_cond_signal(&obstacle_cond);
                 pthread_mutex_unlock(&obstacle_mutex);
-            }
-        }
-
-        pthread_mutex_lock(&player_invunerability_mutex);
-        if (!player_invunerability){
-            for (int i = 0; i < 10; i++) {
-                if(obstaculos_gerados[i]) {
+                if(obstacle[i].coord_y + 11 >= player_sprite.coord_y - 10) {
                     pthread_mutex_lock(&obstacle_mutex);
                     pause_obstacle = 1;
                     pthread_mutex_unlock(&obstacle_mutex);
-
-                    pthread_mutex_lock(&mouse_mutex);
-                    pause_mouse = 1;
-                    pthread_mutex_unlock(&mouse_mutex);
-
-                    if(check_colision_player(player_sprite, obstacle[i]) && !player_invunerability){
-                        score -= obstacle[i].reward;
-                        player_invunerability = 1;
-                        obstacle[i].on_frame = 0;
-                        invisible_obstacle.data_register = (21 + i);
-                        obstaculos_gerados[i] = 0;
-                        pthread_mutex_lock(&gpu_mutex);
-                        set_sprite(invisible_obstacle);
-                        pthread_mutex_unlock(&gpu_mutex);
-                        
-                        printf("valor do i: %d\n");
+                    pthread_mutex_lock(&player_invunerability_mutex);
+                    if(!player_invunerability) {
+                        if(check_colision_player(player_sprite, obstacle[i])){
+                            score -= obstacle[i].reward;
+                            display_write_score(score, 0);
+                            player_invunerability = 1;
+                            obstacle[i].on_frame = 0;
+                            invisible_obstacle.data_register = (20 + i);
+                            obstaculos_gerados[i] = 0;
+                            set_sprite(invisible_obstacle);
+                            
+                            pthread_cond_signal(&player_invulnerability_cond);
+                        }
                     }
-                    pthread_mutex_lock(&mouse_mutex);
-                    pause_mouse = 0;
-                    pthread_cond_signal(&mouse_cond);
-                    pthread_mutex_unlock(&mouse_mutex);
+                    pthread_mutex_unlock(&player_invunerability_mutex);
                     pthread_mutex_lock(&obstacle_mutex);
                     pause_obstacle = 0;
                     pthread_cond_signal(&obstacle_cond);
                     pthread_mutex_unlock(&obstacle_mutex);
                 }
             }
-            if(player_invunerability) {
-                pthread_cond_signal(&player_invulnerability_cond);
-            }
-            
-        }
-        pthread_mutex_unlock(&player_invunerability_mutex);
-        
-        printf("chegou no final do loop\n");
-
+        }  
+    
+        printf("score: %d\n", score);
         if (score < 0) {
             state = lose;
             lose_screen();
         } else if (score >= 1000) {
+            display_write_score(999, 1);
             state = win;
             win_screen();
         }
+
     }
-    
-    return;
-    
+    return NULL;
 }
 
 
 
 void menu() {
     state = in_menu;
-    int btn_val;
-    while(1) {
-        if(pause_background || pause_bullets || pause_colision || pause_mouse || pause_obstacle) {
-            pause_threads();
-        }
-        scanf("%d", &btn_val);
+    char btn_val;
+    // printf("chegou aqui\n");
+    while(state != finish) {
+        // printf("chegou aqui\n");
+        // scanf("%c", &btn_val);
+        KEYS_read(&btn_val);
+        printf("chegou aqui\n");
 
-        if(btn_val == 1 && state == in_menu) {
+        if(btn_val == BUTTON0 && state == in_menu) {
             state = running;
             init_game();
-        } else if (btn_val == 2 && state == running) {
+        } else if (btn_val == BUTTON1 && state == running) {
             state = in_pause;
             pause_screen();
-        } else if (btn_val == 2 && state == in_pause) {
+        } else if (btn_val == BUTTON1 && state == in_pause) {
             state = running;
             return_screen();
-        } else if (btn_val == 3) {
+        } else if (btn_val == BUTTON2) {
             state = in_menu;
-            menu();
-        } else if (btn_val == 4) {
+            pause_threads();
+            clear();
+            clean_all_obstacles(obstacle, obstaculos_gerados);
+            display_clear();
+            draw_cover_art();
+            set_menu();
+            
+        } else if (btn_val == BUTTON3) {
             state = finish;
-            end_game();
+            break;
         } 
-
     }
+    return;
 }
 
 
 void pause_screen() {
+    sprite_t invisible_sprite = {
+    .coord_x = 1, 
+    .coord_y = 1, 
+    .offset = 0, 
+    .speed = 0, 
+    .visibility = 0};
+    int msg_letters[5] = {P, A, U, S, E};
     pause_threads();
-    //TODO: tela de pausa
+
+    
+    all_obstacles_invisibles(obstacle, obstaculos_gerados);
+    for (int i = 0; i < 10; i++)
+    {
+        if (bullets[i]) {
+            invisible_sprite.data_register = 1 + i;
+            set_sprite(invisible_sprite);
+        }
+        
+    }
+    player_sprite.visibility = 0;
+    set_sprite(player_sprite);
+    
+
+    for (int i = 0; i < 5; i++)
+    {
+        scene[i].coord_x = 280 + (20 * i);
+        scene[i].coord_y = 240;
+        scene[i].data_register = 11 + i;
+        scene[i].visibility = 1;
+        scene[i].offset = msg_letters[i];
+        scene[i].speed = 0;
+        set_sprite(scene[i]);
+    }
+    return;
 }
 
 void return_screen() {
+    sprite_t invisible_sprite = {
+    .coord_x = 1, 
+    .coord_y = 1, 
+    .offset = 0, 
+    .speed = 0, 
+    .visibility = 0};
+    
+    player_sprite.visibility = 1;
+    
+
+    for (int i = 0; i < 5; i++) {
+        scene[i].visibility = 0;
+        set_sprite(scene[i]);
+    }
+    set_sprite(player_sprite);
+    
     reestart_threads();
-    //TODO: tela falando que foi despausado
     state = running;
+    return;
 }
 
 void win_screen() {
+    sprite_t invisible_sprite = {
+    .coord_x = 1, 
+    .coord_y = 1, 
+    .offset = 0, 
+    .speed = 0, 
+    .visibility = 0};
+    int coord_x = 0;
+    int msg_letters[6] = {V, E, N, C, E, U};
     pause_threads();
-    //TODO: tela de vitoria
+    
+    all_obstacles_invisibles(obstacle, obstaculos_gerados);
+    for (int i = 0; i < 10; i++)
+    {
+        if (bullets[i]) {
+            invisible_sprite.data_register = 1 + i;
+            set_sprite(invisible_sprite);
+        }
+    }
+    
+    
+    
+    for(int i = player_sprite.coord_y; i >=0; --i) {
+        player_sprite.coord_y = i;
+        
+        set_sprite(player_sprite);
+        
+        coord_x = 130;
+        usleep(10000);
+    }
+    
+
+    for(int i = 0; i < 6; i++) {
+        scene[i].coord_x = coord_x + (20 * i);
+        scene[i].coord_y = 240;
+        scene[i].data_register = 11 + i;
+        scene[i].visibility = 1;
+        scene[i].offset = msg_letters[i];
+        scene[i].speed = 0;
+        set_sprite(scene[i]);
+    }
+
+    sleep(1);
+
     state = in_menu;
+    clear();
+    draw_cover_art();
+    set_menu();
+    return;
 }
 
 void lose_screen() {
+    sprite_t invisible_sprite = {
+    .coord_x = 1, 
+    .coord_y = 1, 
+    .offset = 0, 
+    .speed = 0, 
+    .visibility = 0};
+
+    int coord_x;
+    int msg_letters[6] = {P, E, R, D, E, U};
     pause_threads();
-    //TODO: tela de perder o jogo
+    while(player_invunerability){
+    }
+    
+    coord_x = 130;
+    
+    all_obstacles_invisibles(obstacle, obstaculos_gerados);
+    for (int i = 0; i < 10; i++)
+    {
+        if (bullets[i]) {
+            invisible_sprite.data_register = 1 + i;
+            
+            set_sprite(invisible_sprite);
+            
+        }
+    }
+
+    player_sprite.visibility = 0;
+
+    set_sprite(player_sprite);
+    
+    player_invunerability = 0;
+
+    for (int i = 0; i < 6; i++) {
+        scene[i].coord_x = coord_x + (20 * i);
+        scene[i].coord_y = 240;
+        scene[i].data_register = 11 + i;
+        scene[i].visibility = 1;
+        scene[i].offset = msg_letters[i];
+        scene[i].speed = 0;
+        set_sprite(scene[i]);
+    }
+
+    sleep(1);
+    clear();
     state = in_menu;
+    draw_cover_art();
+    set_menu();
+    return;
 }
 
 void init_game() {
     sprite_t invisible_sprite = {.coord_x = 1, .coord_y = 1, .offset = 0, .speed = 0, .visibility = 0};
-    score = 0;
+    score = 950;
+    display_clear();
+    clean_all_obstacles(obstacle, obstaculos_gerados);
     for(int i = 0; i< 10; i++) {
         if (bullets[i]) {
-            sprite_bullets[i].visibility = 0;
             bullets[i] = 0;
-        }
-        if(obstaculos_gerados[i]) {
-            invisible_sprite.data_register = 21 + i;
-            set_sprite(invisible_sprite);
-            obstacle[i].on_frame = 0;
-            obstaculos_gerados[i] = 0;
         }
     }
     clear();
-    module_init_mouse_1();
+    
     bg_animation_module_init();
-    initialize_obstacle_vector(obstacles_model);
+    
     reestart_threads();
+    player_sprite.visibility = 1;
+    player_sprite.coord_x = 200;
+    player_sprite.coord_y = 340;
     set_sprite(player_sprite);
+    return;
 }
 
-void end_game() {
-    pause_threads();
+void main() {
 
-    //TODO: tela de finalizar o jogo
-    exit(0);
-}
-
-
-
-int main() {
-
-
+    module_init_mouse_1();
+    
     //inicializacao dos inteiros
     score = 0;
     pause_background = 1;
@@ -495,11 +556,17 @@ int main() {
     pause_bullets = 0;
     pause_colision = 1;
     key_press = 0;
+    state = in_menu;
 
     
     GPU_open();
+    KEYS_open();
+    display_open();
+    set_new_sprites();
+    initialize_obstacle_vector(obstacle_model);
     clear();
-
+    draw_cover_art();
+    set_menu();
     player_sprite.coord_x = 200;
     player_sprite.coord_y = 340;
     player_sprite.data_register = 31;
@@ -526,31 +593,30 @@ int main() {
 
     //inicialização das threads
     pthread_create(&obstacle_thread, NULL, random_obstacle_generate_routine, NULL);
-    pthread_create(&background_thread, NULL, change_background_routine, NULL);
     pthread_create(&mouse_thread, NULL, mouse_polling_routine, NULL);
     pthread_create(&player_timer_thread, NULL, player_invulnerability_timer, NULL);
-    pthread_create(&bullets_thread, NULL, bullet_routine, NULL);
     pthread_create(&colision_thread, NULL, colision_routine, NULL);
 
     //loop principal do jogo
+    
     menu();
     
 
     //finalizando as threads
     pthread_cancel(obstacle_thread);
-    pthread_cancel(background_thread);
+    //pthread_cancel(background_thread);
     pthread_cancel(mouse_thread);
     pthread_cancel(player_timer_thread);
-    pthread_cancel(bullets_thread);
-    pthread_cancel(colision_thread);
+    //pthread_cancel(bullets_thread);
 
-    pthread_join(obstacle_thread, NULL);
-    pthread_join(background_thread, NULL);
-    pthread_join(mouse_thread, NULL);
-    pthread_join(player_timer_thread, NULL);
-    pthread_join(bullets_thread, NULL);
+
+    pause_colision = 0;
+    pause_obstacle = 0;
+    pause_mouse = 0;
+    pthread_cond_broadcast(&colision_cond);
+    pthread_cond_broadcast(&obstacle_cond);
+    pthread_cond_broadcast(&mouse_cond);
     pthread_join(colision_thread, NULL);
-
 
     //encerrando os mutex
     pthread_mutex_destroy(&gpu_mutex);
@@ -568,8 +634,11 @@ int main() {
     pthread_cond_destroy(&player_invulnerability_cond);
     pthread_cond_destroy(&bullets_cond);
     pthread_cond_destroy(&colision_cond);
+    clear();
+    display_clear();
 
-
+    KEYS_close();
+    display_close();
     GPU_close();
     return 0;
 }

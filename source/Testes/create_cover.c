@@ -1,6 +1,10 @@
 #include "../Lib/colenda.h"
+#include "offset_sprite.h"
+#include "create_sprite.h"
+#include "create_cover.h"
 
-int draw_cover_art() {
+
+int draw_cover_art(){
 	color_t cor0 = {4, 6, 6};
 	draw_background_block(0, 0, cor0);
 	draw_background_block(0, 1, cor0);
@@ -1630,7 +1634,7 @@ int draw_cover_art() {
 	draw_background_block(26, 52, cor6);
 	draw_background_block(26, 53, cor6);
 	draw_background_block(26, 54, cor3);
-	draw_background_block(26, 55, cor3);
+	draw_background_block(26, 55, cor4);
 	draw_background_block(26, 56, cor4);
 	draw_background_block(26, 57, cor5);
 	draw_background_block(26, 58, cor5);
@@ -1689,10 +1693,10 @@ int draw_cover_art() {
 	draw_background_block(27, 51, cor6);
 	draw_background_block(27, 52, cor6);
 	draw_background_block(27, 53, cor6);
-	draw_background_block(27, 54, cor6);
+	draw_background_block(27, 54, cor3);
 	draw_background_block(27, 55, cor3);
 	draw_background_block(27, 56, cor3);
-	draw_background_block(27, 57, cor3);
+	draw_background_block(27, 57, cor5);
 	draw_background_block(27, 58, cor5);
 	draw_background_block(27, 59, cor3);
 	draw_background_block(28, 0, cor0);
@@ -1749,7 +1753,7 @@ int draw_cover_art() {
 	draw_background_block(28, 51, cor6);
 	draw_background_block(28, 52, cor6);
 	draw_background_block(28, 53, cor6);
-	draw_background_block(28, 54, cor6);
+	draw_background_block(28, 54, cor3);
 	draw_background_block(28, 55, cor3);
 	draw_background_block(28, 56, cor3);
 	draw_background_block(28, 57, cor3);
@@ -1928,7 +1932,7 @@ int draw_cover_art() {
 	draw_background_block(31, 49, cor6);
 	draw_background_block(31, 50, cor6);
 	draw_background_block(31, 51, cor6);
-	draw_background_block(31, 52, cor6);
+	draw_background_block(31, 52, cor3);
 	draw_background_block(31, 53, cor3);
 	draw_background_block(31, 54, cor3);
 	draw_background_block(31, 55, cor3);
@@ -1987,8 +1991,8 @@ int draw_cover_art() {
 	draw_background_block(32, 48, cor6);
 	draw_background_block(32, 49, cor6);
 	draw_background_block(32, 50, cor6);
-	draw_background_block(32, 51, cor6);
-	draw_background_block(32, 52, cor8);
+	draw_background_block(32, 51, cor3);
+	draw_background_block(32, 52, cor3);
 	draw_background_block(32, 53, cor8);
 	draw_background_block(32, 54, cor8);
 	draw_background_block(32, 55, cor8);
@@ -2047,8 +2051,8 @@ int draw_cover_art() {
 	draw_background_block(33, 48, cor6);
 	draw_background_block(33, 49, cor6);
 	draw_background_block(33, 50, cor6);
-	draw_background_block(33, 51, cor8);
-	draw_background_block(33, 52, cor14);
+	draw_background_block(33, 51, cor3);
+	draw_background_block(33, 52, cor8);
 	draw_background_block(33, 53, cor14);
 	draw_background_block(33, 54, cor14);
 	draw_background_block(33, 55, cor14);
@@ -2107,8 +2111,8 @@ int draw_cover_art() {
 	draw_background_block(34, 48, cor6);
 	draw_background_block(34, 49, cor6);
 	draw_background_block(34, 50, cor6);
-	draw_background_block(34, 51, cor8);
-	draw_background_block(34, 52, cor14);
+	draw_background_block(34, 51, cor3);
+	draw_background_block(34, 52, cor8);
 	draw_background_block(34, 53, cor14);
 	draw_background_block(34, 54, cor14);
 	draw_background_block(34, 55, cor14);
@@ -2167,8 +2171,8 @@ int draw_cover_art() {
 	draw_background_block(35, 48, cor6);
 	draw_background_block(35, 49, cor6);
 	draw_background_block(35, 50, cor6);
-	draw_background_block(35, 51, cor6);
-	draw_background_block(35, 52, cor8);
+	draw_background_block(35, 51, cor3);
+	draw_background_block(35, 52, cor3);
 	draw_background_block(35, 53, cor3);
 	draw_background_block(35, 54, cor3);
 	draw_background_block(35, 55, cor3);
@@ -4821,6 +4825,84 @@ int draw_cover_art() {
 	draw_background_block(79, 57, cor3);
 	draw_background_block(79, 58, cor5);
 	draw_background_block(79, 59, cor5);
-	return 0;
+
 }
 
+int set_menu(){
+	sprite_t num_1, num_2, num_3, num_4, joystick, x, restart;
+
+	//Num 1
+	num_1.coord_x = 87;
+	num_1.coord_y = 160;
+	num_1.data_register = 11;
+	num_1.offset = N1;
+	num_1.speed = 0;
+	num_1.visibility = 1;
+	set_sprite(num_1);
+
+	// joystick
+	joystick.coord_x = 115;
+	joystick.coord_y = 160;
+	joystick.data_register = 12;
+	joystick.offset = JOYSTICK;
+	joystick.visibility = 1;
+	set_sprite(joystick);
+
+	//Num 2
+	num_2.coord_x = 90;
+	num_2.coord_y = 180;
+	num_2.data_register = 13;
+	num_2.offset = N2;
+	num_2.visibility = 1;
+	set_sprite(num_2);
+
+	//2 Joysticks 
+	joystick.coord_x = 115;
+	joystick.coord_y = 180;
+	joystick.data_register = 14;
+	joystick.offset = JOYSTICK;
+	joystick.visibility = 1;
+	set_sprite(joystick);
+
+	joystick.coord_x = 135;
+	joystick.coord_y = 180;
+	joystick.data_register = 15;
+	joystick.offset = JOYSTICK;
+	joystick.visibility = 1;
+	set_sprite(joystick);
+
+	//Num 3
+	num_3.coord_x = 90;
+	num_3.coord_y = 200;
+	num_3.data_register = 16;
+	num_3.offset = N3;
+	num_3.visibility = 1;
+	set_sprite(num_3);
+
+	//restart
+	restart.coord_x = 115;
+	restart.coord_y = 200;
+	restart.data_register = 17;
+	restart.offset = RESTART_SIMBOL;
+	restart.visibility = 1;
+	set_sprite(restart);
+
+	//Num 4
+	num_4.coord_x = 90;
+	num_4.coord_y = 220;
+	num_4.data_register = 18;
+	num_4.offset = N4;
+	num_4.visibility = 1;
+	set_sprite(num_4);
+
+	//ESC
+	x.coord_x = 115;
+	x.coord_y = 220;
+	x.data_register = 19;
+	x.offset = X_SIMBOL;
+	x.visibility = 1;
+	set_sprite(x);
+
+	return 0;
+	
+}

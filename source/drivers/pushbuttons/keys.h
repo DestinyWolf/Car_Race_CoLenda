@@ -1,6 +1,6 @@
 /**
- * \file            display_7seg_driver.h
- * \brief           Arquivo de cabeçalho da biblioteca dos displays de 7 segmentos
+ * \file            keys.h
+ * \brief           Arquivo de cabeçalho da biblioteca keys
  */
 
 /*
@@ -31,22 +31,41 @@
  * Authors:          Brenda Barbosa, Camila Queiroz, Maike e Oliveira
  */
 
-#ifndef DISPLAY_7SEG_DRIVER
+#ifndef KEYS
 
-#include<linux/ioctl.h>
+#define KEYS
 
-#define DISPLAY_7SEG_DRIVER
+/* Caminho do driver dos botões */
+#define KEYS_DRIVER_PATH "/dev/key_driver"
 
-/*Definição da struct da dados a ser recebida do espaço de usuário*/
-typedef struct {
-  uint8_t hex_id;                              /*!< Identificação do display */
-  uint8_t data;                                /*!< Código dos segmentos do dadoo a ser exibido */
-} ioctl_args_t;
+/* Indentificadores dos botões*/
+#define BUTTON0 '0'
+#define BUTTON1 '1'
+#define BUTTON2 '2'
+#define BUTTON3 '3'
 
-/* Definição dos comandos ioctl*/
-#define WR_VALUE _IOW('a', 'a', ioctl_args_t *)
+/**
+ * \brief           Inicia a comunicação com o driver dos botões.
+ * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
+*/
+int
+KEYS_open();
 
-/*Nome do driver */
-#define DRIVER_NAME "display_7seg_driver"
+/**
+ * \brief           Realia a leitura dos botões 
+ * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
+*/
+
+int
+KEYS_read(char* button);
+
+/**
+ * \brief           Encerra a comunicação com o driver dos botões.
+ * \return          Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
+*/
+int
+KEYS_close();
+
+
 
 #endif
