@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <stdio.h>
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 
 /**
  * \brief função responsavel por iniciar o modulo da animação do background
