@@ -423,6 +423,30 @@ Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para de
 
 ## Solução Geral
 
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/sol-geral.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 10** - Esquema em blocos da solução geral
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+A aplicação desenvolvida integra os módulos de gerenciamento de hardware ( _pooling_ dos _pushbuttons_ e do mouse USB, controle do 
+processador gráfico e dos displays de 7 segmentos) com a lógica do jogo de corrida implementada a fim de criar um produto que atenda aos 
+requisitos propostos. O fluxo de informações da aplicação desenvolvida está esquematizado na figura 10.
+
+Os módulos de *polling* dos botões e do mouse USB realizam a captura dos eventos de seus respectivos hardwares e a conversão desses para 
+informações úteis ao bloco da lógica do jogo. Por sua vez, os blocos de *polling* dos displays de 7 segmentos e de gerenciamento do 
+processador gráfico recebem informações do bloco do jogo e as convertem para serem exibidas exibidas por seus respectivos hardwares.
+
+O bloco da lógica do jogo consome as informações fornecidas pelos blocos de gerenciamento dos botões e do mouse e as utiliza para o 
+controle e a execução do fluxo do jogo. Os elementos a serem exibidos no monitor são passados ao módulo de gerenciamento da GPU e as 
+informações sobre pontuação são passadas ao módulo de *polling* dos displays.
+
 ## Drivers e Dispositivos
 
 ## Algoritmos do Jogo
