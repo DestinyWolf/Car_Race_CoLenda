@@ -447,7 +447,97 @@ O bloco da lógica do jogo consome as informações fornecidas pelos blocos de g
 controle e a execução do fluxo do jogo. Os elementos a serem exibidos no monitor são passados ao módulo de gerenciamento da GPU e as 
 informações sobre pontuação são passadas ao módulo de *polling* dos displays.
 
-## Drivers e Dispositivos
+## Gerenciamento do processador gráfico CoLenda
+
+Para o envio de informações ao processador gráfico CoLenda, utilizou-se o driver e a biblioteca disponíveis [neste repositório](https://github.com/camilaqPereira/coLenda_driver). A fim de maximizar a eficiência da GPU e reduzir o tempo de ociosidade aguardando pelo esvaziamento das FIFOs e/ou pela finalização da renderização de um frame, algumas modificações foram implementadas ao driver.
+
+### 📖 Background
+<details>
+<summary><b>Threads e kthreads</b></summary>
+Também chamados de miniprocessos, as threads compartilham um conjunto de recursos, tal como o espaço de endereçamento, de maneira que possam trabalhar juntos intimamente para desempenhar alguma tarefa, precisamente a interação desejada entre os módulos. As *kthreads* são threads dentro do espaço kernel. Essas podem ser usadas para executar tarefas em segundo plano em device drivers, esperando por eventos assíncronos ou ainda executar uma atividade em períodos de tempo programados.
+
+O sistema operacional Linux disponibiliza uma interface para o gerenciamento das *kthreads*: `linux/kthread.h`. Esta interface apresenta funções para a criação, execução e diversas outras atividades. 
+
+Saiba mais sobre *kthreads* em: [Trabalhando com kernel threads por Sergio Prado](https://sergioprado.org/linux-device-drivers-trabalhando-com-kernel-threads/), [Linux Kernel Docs](https://www.kernel.org/doc/html/v5.9/driver-api/basics.html), [Kernel Threads por Embetronix](https://embetronicx.com/tutorials/linux/device-drivers/linux-device-drivers-tutorial-kernel-thread/)
+
+</details>
+
+<details>
+<summary><b>Kfifo</b></summary>
+</details>
+
+<details>
+<summary><b>Kfifo</b></summary>
+</details>
+
+### Alterações no driver CoLenda
+Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções originadas das chamadas de sistema *write*. Esta fila possui uma capacidade de 4096 caracteres, totalizando 512 instruções. Além disto, foi implementada uma *kthread* para gerenciar o processo de escrita nas filas de instruções da GPU e um callback write bloqueante para evitar a perda de instruções. As rotinas da escrita bloqueante e da *kthread*, bem como a comunicação entre elas,  são apresentados na figura 11. Para o bloqueio dos processos, foi utilizado duas *waitqueues*: uma para a *kthtread* consumidora e outra para os processos escritores.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/driver-routine.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 11** - Dinâmica da *kthread* e da leitura bloqueante  *
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+## Gerenciamento dos *pushbuttons*
+Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os botões, isto é, pela leitura do registrador de dados e identificação de pressionamento de botões. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 12.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/keys-flow.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 12** - Fluxo de informações no gerenciamento dos botões  *
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+<details>
+<summary><b>Driver dos botões</b></summary>
+	
+### Driver dos botões
+Devido a falta de suporte para interrupções de hardware nos botões acoplados ao processador gráfico, fez-se necessária a utilização de 
+uma máquina de estados finita (MEF) para o correto *polling* botões. Uma *kthread* permanece bloqueada (por meio de uma waitqueue) até 
+que um callback *open* seja executado. A partir daí, este miniprocesso percorre a rotina da MEF, ilustrada na figura 13,  para a leitura 
+dos botões. O processo leitor é então bloqueado na chamada *read* (por meio de outra waitqueue) até que ocorra a detecção do 
+pressionamento de um botão.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/rotina-mef.png" width="550px">
+    <figcaption>
+      <p align="center">
+
+**Figura 13** - Esquema da MEF da leitura dos botões
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+> Por decisão de projeto, pressionamentos simultâneos de dois ou mais botões não são detectados. Nestes casos, o botão a ser 
+> detectado primeiro é o único a ser lido.
+
+</details>
+
+<details>
+<summary><b>Biblioteca dos botões</b></summary>
+	
+### Biblioteca dos botões
+A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos botões. 
+#### 🚀Features
+- **encapsulamento** da comunicação com o driver dos botões: funções open e close;
+- **facilidade de identificação** dos botões pressionados: constantes de identificação;
+- **encapsulamento da leitura**: função read.
+	
+</details>
 
 ## Algoritmos do Jogo
 
