@@ -66,7 +66,7 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 	- [Background](#-background)
 		- [Padrão VGA](#padrão-vga)
 	 	- [USB](#usb)
-  	-  [Periféricos(#periféricos)
+  	-  [Periféricos](#periféricos)
   		- [Saída VGA](#saída-vga-e-integração-com-a-gpu)
   	 	- [Mouse USB](#mouse-usb)
   	  	- [Botões push](#botões-de-tipo-push)
@@ -1054,4 +1054,4 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 </div>
 
 ## Contribuições
-
+Todas as contribuições são bem-vindas, sejam elas para o código ou para a documentação. Para isso, utilize a formatação e as versões adotadas no projeto, realize os testes necessários para manter a integração, bem como adote pull requests para cada modificação.
