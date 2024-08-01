@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 
 #define CONE                0
 #define SINGLE_WOOD         1

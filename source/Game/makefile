@@ -1,4 +1,4 @@
-all: multiplayer
+all: game_multiplayer game_singleplayer
 
 game_multiplayer: multiplayer
 game_singleplayer: single_player
@@ -25,13 +25,13 @@ background_animation_module.o: background_animation_module.c background_animatio
 colision_module.o: colision_module.c colision_module.h
 	gcc -c colision_module.c -std=c99
 
-colenda.o: ../Lib/colenda.c ../Lib/colenda.h
+colenda.o: ../Lib/Colenda_Lib/colenda.c ../Lib/Colenda_Lib/colenda.h
 	gcc -c ../Lib/colenda.c -std=c99
 
-keys.o: ../drivers/pushbuttons/keys.c ../drivers/pushbuttons/keys.h
+keys.o: ../Lib/Key_Lib/keys.c ../Lib/Key_Lib/keys.h
 	gcc -c ../drivers/pushbuttons/keys.c -std=c99
 
-display_7seg.o: ../drivers/7seg_display/display_7seg.c ../drivers/7seg_display/display_7seg.h
+display_7seg.o: ../Lib/Display_7seg_Lib/display_7seg.c ../Lib/Display_7seg_Lib/display_7seg.h
 	gcc -c ../drivers/7seg_display/display_7seg.c -std=c99
 
 create_cover.o: create_cover.c create_cover.h

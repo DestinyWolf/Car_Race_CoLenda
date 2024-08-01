@@ -1,16 +1,16 @@
 #include "mouse_module.h"
 #include "colision_module.h"
-#include "../Lib/colenda.h"
-#include "../drivers/pushbuttons/keys.h"
-#include "../drivers/7seg_display/display_7seg.h"
+#include "../Lib/Colenda_Lib/colenda.h"
+#include "../Lib/Key_Lib/keys.h"
+#include "../Lib/Display_7seg_Lib/display_7seg.h"
 #include "background_animation_module.h"
 #include "create_cover.h"
-#include "create_sprite.h"
 #include "offset_sprite.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include "create_sprite.h"
 
 #define PLAYER_SPEED_BASE 2
 #define OFFSET_PLAYER_1 18

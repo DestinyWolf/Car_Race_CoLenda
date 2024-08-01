@@ -1,7 +1,7 @@
 #ifndef COLISION_MODULE_COLENDA
 #define COLISION_MODULE_COLENDA
 
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 #include "obstacle.h"
 
 /**

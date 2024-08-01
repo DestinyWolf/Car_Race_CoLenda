@@ -1,4 +1,4 @@
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 
 void matrix_cone_sprite(color_t pixels[]);
 

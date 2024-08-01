@@ -1,8 +1,7 @@
-
 #include "background_animation_module.h"
 #include <unistd.h>
 #include <stdio.h>
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 
 //cores do fundo 
 //estrutura da cor verde

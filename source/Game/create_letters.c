@@ -1,4 +1,4 @@
-#include "../Lib/colenda.h"
+#include "../Lib/Colenda_Lib/colenda.h"
 #include "offset_sprite.h"
 
 void set_letter_a() {
