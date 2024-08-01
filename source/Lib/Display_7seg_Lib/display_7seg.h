@@ -114,13 +114,23 @@ display_write_score(const uint16_t score, const uint8_t player);
  * \return         Retorna 0 caso a operação seja bem sucedida. Caso contrário, retorna -1
 */
 
+/**
+ * \brief          Exibe uma palavra de até 6 letras no display.
+ * \param[in]      data: vetor com as constantes das letras a serem exibidas
+*/
 int
 display_write_word(const uint8_t data[]);
 
-
+/**
+ * \brief          Exibe uma palavra de até 6 letras no display em deslocamento da direita para a esquerda.
+ * \param[in]      data: vetor com as constantes das letras a serem exibidas
+*/
 int
 display_animation(const uint8_t data[]);
 
+/**
+ * \brief          Exibe o título SUper Auto no display em deslocamento da direita para a esquerda.
+*/
 int
 display_title_animation();
 /**
