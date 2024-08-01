@@ -21,34 +21,65 @@ utilizado kit de desenvolvimento DE1-SoC juntamente com o processador gráfico C
 
 ### Requisitos
 O presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
-- O código deve ser escrito em linguagem C
-- O kit de desenvolvimento De1-SoC deve ser utilizado para implementação do projeto
-- Ao menos um novo sprite deve ser criado e utilizado
-- As ações do ator devem ser comandadas pelo mouse, que também deve refletir a velocidade no movimento
-- o display de 7-segmentos deve ser utilizado para a exibição das informações do jogo
-- O jogo deve permitir ações de pause, retorno, reinício e término por meio dos botões da DE1-SoC
-    - O usuário poderá parar e reiniciar o jogo em qualquer momento; 
-    - O usuário poderá sair do jogo em qualquer momento.
-- Pelo menos um elemento passivo do jogo deverá se mover.
+- todos os códigos devem ser escritos na linguagem C e devem ser detalhadamente comentados;
+- o kit de desenvolvimento De1-SoC deve ser utilizado para implementação do projeto;
+- ao menos um novo sprite deve ser criado e utilizado;
+- as ações do ator devem ser comandadas pelo mouse, que também deve refletir a velocidade no movimento;
+- o display de 7-segmentos deve ser utilizado para a exibição das informações do jogo;
+- o jogo deve permitir ações de pause, retorno, reinício e término por meio dos botões da DE1-SoC:
+    - o usuário poderá parar e reiniciar o jogo em qualquer momento; 
+    - o usuário poderá sair do jogo em qualquer momento;
+- pelo menos um elemento passivo do jogo deverá se mover;
+- a descrição técnica do projeto seja realizada no README do projeto;
+- seja realizada a descrição dos testes de funcionamento, bem como dos resultados alcançados.
 
 
 </details>
-
-## Índice
+<details>
+<summary><h2>Índice</h2></summary>
 - [Instalação](#instalação)
 	-  [Pré-requisitos](#pré-requisitos)
 -  [Softwares utilizados](#softwares-utilizados)
 	- [Linguagem C](#linguagem-c)
 	- [Compilador GNU](#compilador-gnu)
  	- [VS Code](#vs-code)
+  	- [Nano](#nano) 
 - [DE1-SoC](#kit-de-desenvolvimento-de1-soc)
 	- [Visão geral da DE1-SoC](#visão-geral-da-de1-soc)
   	- [Sistema computacional da placa](#sistema-computacional-de1-soc)
 - [Processador gráfico](#processador-gráfico)
-    - [Como funciona](#como-funciona)
+    - [Como funciona?](#como-funciona)
+- [Periféricos utilizados](#periféricos-utilizados)
+	- [Background](#-background)
+		- [Padrão VGA](#padrão-vga)
+	 	- [USB](#usb)
+  	-  [Periféricos(#periféricos)
+  		- [Saída VGA](#saída-vga-e-integração-com-a-gpu)
+  	 	- [Mouse USB](#mouse-usb)
+  	  	- [Botões push](#botões-de-tipo-push)
+  	   	- [Display de 7 segmentos](#display-de-7-segmentos)
+- [O Jogo](#o-jogo)
+	- [Interface com o jogador](#interface-com-o-jogador)
+	- [Elementos do jogo](#elementos-do-jogo)
+ 	- [Como jogar](#como-jogar)   
 - [Solução geral](#solução-geral)
+-[Gerenciamento da GPU](#gerenciamento-do-processador-gráfico-colenda)
+	- [Background](#-background-1)
+ 		- [Threads e kthreads](#threads-e-kthreads)
+   		- [Kfifo](#kfifo)
+     		- [Waitqueue](#waitqueue)
+       - [Alterações no driver Colenda](#-alterações-no-driver-colenda)
+- [Gerenciamento dos pushuttons](#gerenciamento-dos-pushbuttons)
+	- [Driver dos botões](#driver-dos-botões)
+ 	- [Biblioteca dos botões](#biblioteca-dos-botões)
+  	- [Exemplo de utilização](#exemplo-de-utilização)
+- [Gerenciamento dos displays de 7 segmentos](#gerenciamento-dos-displays-de-7-segmentos)
+	- [Driver dos displays](#driver-dos-displays)
+ 	- [Biblioteca dos displays](#biblioteca dos displays)  
 
-## Contribuidores
+</details>
+	
+ ## Contribuidores
 
 <a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50"></a>
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
@@ -56,6 +87,75 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 
 
 ## Instalação
+
+<details>
+<summary><h3>Pré-requisitos</h3></summary>
+
+- Possuir conexão com internet;
+- Possuir instalado o compilador gcc;
+- Possuir instalado o Git;
+- Utilizar uma placa de desenvolvimento FPGA DE1-SoC;
+- Possuir o processador gráfico CoLenda na FPGA;
+- Possuir um monitor conectado à placa por meio da saída VGA
+- Possuir um mouse USB conectado à placa
+
+</details>
+
+<details>
+<summary><h3>Instalação dos drivers</h3></summary>
+	
+> WARNING
+> **Este processo deve ser repetido para cada um dos drivers (colenda, pushbuttons e displays de 7 segmentos**
+#### 1. Clonar o repositório
+Abra o terminal do seu dispositivo e execute o seguinte comando:
+```
+git clone https://github.com/DestinyWolf/Car_Race_CoLenda.git
+```
+**Transfira os arquivos do projeto para a placa DE1-SoC.**
+
+#### 2. Acessar a pasta */source/drivers/-* e compilar o driver
+Para acessar a pasta */source/drivers/-* e compilar o módulo kernel na placa, basta executar os seguintes comandos:
+```
+cd /source/driver/[HARDWARE_NAME]
+make all
+```
+**HARDWARE_NAME será pushbuttons ou 7seg_display ou colenda**
+#### 3. Carregar o módulo kernel
+Na placa, execute os comandos:
+```
+sudo su
+insmod [KERNEL_MODULE].ko
+```
+**KERNEL_MODULE será key_driver.ko or display_7seg_driver.ko ou colenda_update.ko**
+#### 4. Buscar o valor major alocado dinamicamente
+Execute o comando abaixo na placa e identifique o major associado ao driver a ser carregado.
+```
+cat /proc/devices
+```
+#### 5. Criar o device file
+Execute os seguintes comandos na placa:
+```
+sudo su
+mknod /dev/[FILE_NAME] c [MAJOR] 0
+```
+**FILE_NAME será key_driver ou display_7seg ou colenda** 
+</details>
+
+<details>
+<summary><h3>Compilação do jogo</h3></summary>
+
+#### 1. Acessar a pasta *source/Game* e compilar o jogo
+Para acessar a pasta *source/Game* e compilar o jogo, basta executar os seguintes comandos:
+```
+cd /source/Game
+make single_player
+```
+#### 2.Executar o jogo
+Execute o comando:
+```
+./single_player
+```
+</details>
 
 ## Softwares utilizados
 
@@ -426,7 +526,7 @@ interface derrota
 <details>
 <summary> <b>Como Jogar</b> </summary>
 
-### Como Jogar
+### Como Jogar?
 .
 Um ou dois jogadores competem em uma corrida de carros com o objetivo de destruir o máximo de obstáculos antes do seu oponente.
 Vence o jogo quem atingir 1000 pontos primeiro ou aquele que evitar por mais tempo a colisão enquanto a sua pontuação for 0. Nesse jogo, cada obstáculo destruído acrescenta uma pontuação específica ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score.
@@ -436,7 +536,205 @@ Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando do
 
 ## Solução Geral
 
-## Drivers e Dispositivos
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/sol-geral.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 10** - Esquema em blocos da solução geral
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+A aplicação desenvolvida integra os módulos de gerenciamento de hardware ( _pooling_ dos _pushbuttons_ e do mouse USB, controle do 
+processador gráfico e dos displays de 7 segmentos) com a lógica do jogo de corrida implementada a fim de criar um produto que atenda aos 
+requisitos propostos. O fluxo de informações da aplicação desenvolvida está esquematizado na figura 10.
+
+Os módulos de *polling* dos botões e do mouse USB realizam a captura dos eventos de seus respectivos hardwares e a conversão desses para 
+informações úteis ao bloco da lógica do jogo. Por sua vez, os blocos de *polling* dos displays de 7 segmentos e de gerenciamento do 
+processador gráfico recebem informações do bloco do jogo e as convertem para serem exibidas exibidas por seus respectivos hardwares.
+
+O bloco da lógica do jogo consome as informações fornecidas pelos blocos de gerenciamento dos botões e do mouse e as utiliza para o 
+controle e a execução do fluxo do jogo. Os elementos a serem exibidos no monitor são passados ao módulo de gerenciamento da GPU e as 
+informações sobre pontuação são passadas ao módulo de *polling* dos displays.
+
+## Gerenciamento do processador gráfico CoLenda
+
+Para o envio de informações ao processador gráfico CoLenda, utilizou-se o driver e a biblioteca disponíveis [neste repositório](https://github.com/camilaqPereira/coLenda_driver). A fim de maximizar a eficiência da GPU e reduzir o tempo de ociosidade aguardando pelo esvaziamento das FIFOs e/ou pela finalização da renderização de um frame, algumas modificações foram implementadas ao driver.
+
+### 📖 Background
+<details>
+<summary><b>Threads e kthreads</b></summary>
+Também chamados de miniprocessos, as threads compartilham um conjunto de recursos, tal como o espaço de endereçamento, de maneira que possam trabalhar juntos intimamente para desempenhar alguma tarefa, precisamente a interação desejada entre os módulos. As *kthreads* são threads dentro do espaço kernel. Essas podem ser usadas para executar tarefas em segundo plano em device drivers, esperando por eventos assíncronos ou ainda executar uma atividade em períodos de tempo programados.
+
+O sistema operacional Linux disponibiliza uma interface para o gerenciamento das *kthreads*: `linux/kthread.h`. Esta interface apresenta funções para a criação, execução e diversas outras atividades. 
+
+Saiba mais sobre *kthreads* em: [Trabalhando com kernel threads por Sergio Prado](https://sergioprado.org/linux-device-drivers-trabalhando-com-kernel-threads/), [Linux Kernel Docs](https://www.kernel.org/doc/html/v5.9/driver-api/basics.html), [Kernel Threads por Embetronix](https://embetronicx.com/tutorials/linux/device-drivers/linux-device-drivers-tutorial-kernel-thread/)
+
+</details>
+
+<details>
+<summary><b>Kfifo</b></summary>
+</details>
+
+<details>
+<summary><b>Kfifo</b></summary>
+</details>
+
+### 🆕 Alterações no driver CoLenda
+Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções originadas das chamadas de sistema *write*. Esta fila possui uma capacidade de 4096 caracteres, totalizando 512 instruções. Além disto, foi implementada uma *kthread* para gerenciar o processo de escrita nas filas de instruções da GPU e um callback write bloqueante para evitar a perda de instruções. As rotinas da escrita bloqueante e da *kthread*, bem como a comunicação entre elas,  são apresentados na figura 11. Para o bloqueio dos processos, foi utilizado duas *waitqueues*: uma para a *kthtread* consumidora e outra para os processos escritores.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/driver_routine.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 11** - Dinâmica da *kthread* e da leitura bloqueante
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+## Gerenciamento dos *pushbuttons*
+Para o gerenciamento dos eventos dos botões do tipo *push*, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os botões, isto é, pela leitura do registrador de dados e identificação de pressionamento de botões. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 12.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/keys-flow.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 12** - Fluxo de informações no gerenciamento dos botões  *
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+<details>
+<summary><b>Driver dos botões</b></summary>
+	
+### Driver dos botões
+Devido a falta de suporte para interrupções de hardware nos botões acoplados ao processador gráfico, fez-se necessária a utilização de 
+uma máquina de estados finita (MEF) para o correto *polling* botões. Uma *kthread* permanece bloqueada (por meio de uma waitqueue) até 
+que um callback *open* seja executado. A partir daí, este miniprocesso percorre a rotina da MEF, ilustrada na figura 13,  para a leitura 
+dos botões. O processo leitor é então bloqueado na chamada *read* (por meio de outra waitqueue) até que ocorra a detecção do 
+pressionamento de um botão.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/rotina-mef.png" width="550px">
+    <figcaption>
+      <p align="center">
+
+**Figura 13** - Esquema da MEF da leitura dos botões
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+> Por decisão de projeto, pressionamentos simultâneos de dois ou mais botões não são detectados. Nestes casos, o botão a ser 
+> detectado primeiro é o único a ser lido.
+
+</details>
+
+<details>
+<summary><b>Biblioteca dos botões</b></summary>
+	
+### Biblioteca dos botões
+A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos botões. 
+#### 🚀Features
+- **encapsulamento** da comunicação com o driver dos botões: funções open e close;
+- **facilidade de identificação** dos botões pressionados: constantes de identificação;
+- **encapsulamento da leitura**: função read.
+	
+</details>
+<details>
+<summary><b>Exemplo de utilização</b></summary>
+	
+O código abaixo exemplifica utilização da biblioteca para a leitura dos eventos dos botões
+
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include "keys.h"
+
+int main(int argc, char const *argv[]){
+  char button = ' ';
+  KEYS_open();
+
+  while(button != '3'){
+    KEYS_read(&button);
+    printf("Button pressed: %c\n", button);
+  }
+  KEYS_close();
+  return 0;
+}
+```
+> **O código acima parte do pressuposto que o driver dos botões está carregado e nó já foi criado!!**
+
+</details>
+
+## Gerenciamento dos displays de 7 segmentos
+Para o gerenciamento da exibição de informações nos displays de 7 segmentos, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os displays, isto é, pela escrita nos registradores de dados de cada display. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 13.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/displays-flow.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 13** - Fluxo de informações no gerenciamento dos displays de 7 segmentos
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+<details>
+<summary><b>Driver dos displays</b></summary>
+	
+### Driver dos displays
+
+O driver dos displays de 7 segmentos implementa, além das funções open e close, a chamada de sistema *ioctl* com o comando *write*.
+
+>"ioctl() is the most common way for applications to interface with device drivers. It is flexible and easily extended by adding new 
+>commands and can be passed through character devices, block devices as well as sockets and other special file descriptors."
+>[The Linux Kernel](https://docs.kernel.org/driver-api/ioctl.html)
+
+> Sobre comandos: "IO/_IOR/_IOW/_IOWR The macro name specifies how the argument will be used. It may be a pointer to data to 
+> be passed into the kernel (_IOW), out of the kernel (_IOR), or both (_IOWR). _IO can indicate either commands with no argument 
+> or those passing an integer value instead of a pointer."
+> [The Linux Kernel](https://docs.kernel.org/driver-api/ioctl.html)
+
+
+Aproveitando a flexibilidade da chamada *ioctl*,  o usuário pode passar como parâmetro a struct `ioctl_args` (definida abaixo). A partir desta struct, o módulo kernel consegue identificar qual display receberá o código de segmentos passado.
+```c
+struct {
+	uint8_t hex_id; //identificação do display: 0 a 6
+	uint8_t data; //código dos segmentos: gfedcba
+} ioctl_args_t;
+```
+
+</details>
+
+<details>
+<summary><b>Biblioteca dos displays</b></summary>
+	
+### Biblioteca dos displays
+A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos displays. 
+#### 🚀Features
+- **encapsulamento** da comunicação com o driver dos displays: funções open e close;
+- facilidade de **identificação dos displays**: constantes de identificação;
+- facilidade de **identificação dos códigos de segmentos** de cada número e letra: constantes de identificação;
+- **encapsulamento da leitura**: função read.
+- **encapsulamento de atividade triviais**: apagar displays, escrever números de até 6 dígitos de 1 vez, escrever palavras, animações;
+
+</details>
+
 
 ## Algoritmos do Jogo
 
