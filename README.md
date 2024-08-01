@@ -21,15 +21,17 @@ utilizado kit de desenvolvimento DE1-SoC juntamente com o processador gráfico C
 
 ### Requisitos
 O presente projeto deve atender às condições e aos requisitos predeterminados, de modo que:
-- O código deve ser escrito em linguagem C
-- O kit de desenvolvimento De1-SoC deve ser utilizado para implementação do projeto
-- Ao menos um novo sprite deve ser criado e utilizado
-- As ações do ator devem ser comandadas pelo mouse, que também deve refletir a velocidade no movimento
-- o display de 7-segmentos deve ser utilizado para a exibição das informações do jogo
-- O jogo deve permitir ações de pause, retorno, reinício e término por meio dos botões da DE1-SoC
-    - O usuário poderá parar e reiniciar o jogo em qualquer momento; 
-    - O usuário poderá sair do jogo em qualquer momento.
-- Pelo menos um elemento passivo do jogo deverá se mover.
+- todos os códigos devem ser escritos na linguagem C e devem ser detalhadamente comentados;
+- o kit de desenvolvimento De1-SoC deve ser utilizado para implementação do projeto;
+- ao menos um novo sprite deve ser criado e utilizado;
+- as ações do ator devem ser comandadas pelo mouse, que também deve refletir a velocidade no movimento;
+- o display de 7-segmentos deve ser utilizado para a exibição das informações do jogo;
+- o jogo deve permitir ações de pause, retorno, reinício e término por meio dos botões da DE1-SoC:
+    - o usuário poderá parar e reiniciar o jogo em qualquer momento; 
+    - o usuário poderá sair do jogo em qualquer momento;
+- pelo menos um elemento passivo do jogo deverá se mover;
+- a descrição técnica do projeto seja realizada no README do projeto;
+- seja realizada a descrição dos testes de funcionamento, bem como dos resultados alcançados.
 
 
 </details>
