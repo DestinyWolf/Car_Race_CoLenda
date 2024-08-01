@@ -538,6 +538,90 @@ A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos 
 - **encapsulamento da leitura**: função read.
 	
 </details>
+<details>
+<summary><b>Exemplo de utilização</b></summary>
+	
+O código abaixo exemplifica utilização da biblioteca para a leitura dos eventos dos botões
+
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include "keys.h"
+
+int main(int argc, char const *argv[]){
+  char button = ' ';
+  KEYS_open();
+
+  while(button != '3'){
+    KEYS_read(&button);
+    printf("Button pressed: %c\n", button);
+  }
+  KEYS_close();
+  return 0;
+}
+```
+> **O código acima parte do pressuposto que o driver dos botões está carregado e nó já foi criado!!**
+
+</details>
+
+## Gerenciamento dos displays de 7 segmentos
+Para o gerenciamento da exibição de informações nos displays de 7 segmentos, foram implementados um módulo kernel e uma biblioteca. O módulo kernel é responsável pela comunicação com os displays, isto é, pela escrita nos registradores de dados de cada display. Por sua vez, a biblioteca é responsável pela abstração da comunicação entre o driver e a aplicação do usuário. O fluxo de informações entre o módulo kernel, a biblioteca e a aplicação do usuário é ilustrado na figura 13.
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/displays-flow.png">
+    <figcaption>
+      <p align="center">
+
+**Figura 13** - Fluxo de informações no gerenciamento dos displays de 7 segmentos
+</p>
+    </figcaption>
+  </figure>
+</div>
+
+<details>
+<summary><b>Driver dos displays</b></summary>
+	
+### Driver dos displays
+
+O driver dos displays de 7 segmentos implementa, além das funções open e close, a chamada de sistema *ioctl* com o comando *write*.
+
+>"ioctl() is the most common way for applications to interface with device drivers. It is flexible and easily extended by adding new 
+>commands and can be passed through character devices, block devices as well as sockets and other special file descriptors."
+>[The Linux Kernel](https://docs.kernel.org/driver-api/ioctl.html)
+
+> Sobre comandos: "IO/_IOR/_IOW/_IOWR The macro name specifies how the argument will be used. It may be a pointer to data to 
+> be passed into the kernel (_IOW), out of the kernel (_IOR), or both (_IOWR). _IO can indicate either commands with no argument 
+> or those passing an integer value instead of a pointer."
+> [The Linux Kernel](https://docs.kernel.org/driver-api/ioctl.html)
+
+
+Aproveitando a flexibilidade da chamada *ioctl*,  o usuário pode passar como parâmetro a struct `ioctl_args` (definida abaixo). A partir desta struct, o módulo kernel consegue identificar qual display receberá o código de segmentos passado.
+```c
+struct {
+	uint8_t hex_id; //identificação do display: 0 a 6
+	uint8_t data; //código dos segmentos: gfedcba
+} ioctl_args_t;
+```
+
+</details>
+
+<details>
+<summary><b>Biblioteca dos displays</b></summary>
+	
+### Biblioteca dos displays
+A biblioteca implementada fornece uma maior facilidade para o gerenciamento dos displays. 
+#### 🚀Features
+- **encapsulamento** da comunicação com o driver dos displays: funções open e close;
+- facilidade de **identificação dos displays**: constantes de identificação;
+- facilidade de **identificação dos códigos de segmentos** de cada número e letra: constantes de identificação;
+- **encapsulamento da leitura**: função read.
+- **encapsulamento de atividade triviais**: apagar displays, escrever números de até 6 dígitos de 1 vez, escrever palavras, animações;
+
+</details>
+
 
 ## Algoritmos do Jogo
 
