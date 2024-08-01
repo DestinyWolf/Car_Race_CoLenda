@@ -59,7 +59,7 @@ dkms.conf
 .Python
 [Bb]in
 [Ii]nclude
-[Ll]ib
+[]ib
 [Ll]ib64
 [Ll]ocal
 [Ss]cripts
