@@ -88,7 +88,8 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
   	- [Exemplo de utilização](#exemplo-de-utilização)
 - [Gerenciamento dos displays de 7 segmentos](#gerenciamento-dos-displays-de-7-segmentos)
 	- [Driver dos displays](#driver-dos-displays)
- 	- [Biblioteca dos displays](#biblioteca dos displays)  
+ 	- [Biblioteca dos displays](#biblioteca dos displays)
+	- [Algoritmos do Jogo](#algoritmos-do-jogo)  
 
 </details>
 	
@@ -1008,6 +1009,12 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 
 ## Testes
 
+<details>
+<summary> <b>Drivers e Biblotecas</b> </summary>
+
+### Drivers e Biblotecas
+
+Acionamento 
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/key_test.gif">
@@ -1018,6 +1025,24 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
     </figcaption>
   </figure>
 </div>
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/display_test.gif">
+    
+<figcaption>
+
+**Figura** - Display
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+<details>
+<summary> <b>Jogo</b> </summary>
+
+### Jogo
 
 <div align="center">
   <figure>  
@@ -1052,6 +1077,8 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
     </figcaption>
   </figure>
 </div>
+
+</details>
 
 ## Contribuições
 Todas as contribuições são bem-vindas, sejam elas para o código ou para a documentação. Para isso, utilize a formatação e as versões adotadas no projeto, realize os testes necessários para manter a integração, bem como adote pull requests para cada modificação.
