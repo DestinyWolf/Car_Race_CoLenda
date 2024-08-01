@@ -1109,18 +1109,18 @@ int main(){
 ### Jogo
 Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
 
-Atirar: espera-se que o tiro apareça na frente do carro e  desloque para o topo da tela
-Colisão com obstáculo: espera-se que a pontuação seja decrementada;
+
+
 Pontuação atinge 0: espera-se que uma mensagem seja exibida e que a partida seja finalizada
 Pontuação atinge 1000: espera-se que uma mensagem seja exibida e que a partida seja finalizada
 Tiro no topo da tela: espera-se que os elementos desapareçam
 Colisão do jogador com a borda da sua pista: espera-se que o jogador fique limitado a sua pista
-Pause e play: espera-se a execução da partida seja travada e uma mensagem seja exibida
+
 Finalizar execução do jogo: espera-se que a execução do programa encerre
 Finalizar partida (retorno): espera-se que a execução da partida encerre e o jogo retorne ao menu
 Iniciar partida: espera-se que a partida seja iniciada
 
-- Destruição de um obstáculo - display(figura 27): espera-se que a pontuação do player aumente
+- Destruição de um obstáculo - display (figura 27): espera-se que a pontuação do player aumente
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/mais_score.gif">
@@ -1145,10 +1145,11 @@ Iniciar partida: espera-se que a partida seja iniciada
 </div>
 
 - Destruir obstáculo por meio do tiro (figura 29): espera-se que o obstáculo e o tiro desapareçam
-- Obstáculo no fim da tela (figura 29): espera-se que os elementos desapareçam
+- Atirar (figura 29): espera-se que o tiro apareça na frente do carro e se desloque para o topo da tela
+
 <div align="center">
   <figure>  
-    <img src="Docs/Imagens/destroi_obstacles.gif">
+    <img src="Docs/Imagens/race_3.gif">
     
 <figcaption>
 
@@ -1157,6 +1158,70 @@ Iniciar partida: espera-se que a partida seja iniciada
   </figure>
 </div>
 
+- Obstáculo no fim da tela (figura 30): espera-se que os elementos desapareçam 
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/destroi_obstacles.gif">
+    
+<figcaption>
+
+**Figura 30** - Obstáculos no fim da tela
+    </figcaption>
+  </figure>
+</div>
+
+- Colisão com obstáculo (figura 31): espera-se que a o player pisque e fique invulnerável por 1 segundo;
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/colision_invulnerability.gif">
+    
+<figcaption>
+
+**Figura 31** - Estado de invulnerabilidade
+    </figcaption>
+  </figure>
+</div>
+
+- Pause e play: espera-se a execução da partida seja travada e uma mensagem seja exibida
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/pause.gif">
+    
+<figcaption>
+
+**Figura 32** - Pause e play
+    </figcaption>
+  </figure>
+</div>
+
+- Vencer (figura 33): espera-se que os obstáculos desapareçam, o player desloque-se ao topo da tela e uma mensagem apareça;
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/venceu_zoom.gif">
+    
+<figcaption>
+
+**Figura 33** - Player venceu
+    </figcaption>
+  </figure>
+</div>
+
+- Perder (figura 34): espera-se que os obstáculos desapareçam, uma mensagem seja exibida e o jogo retorne ao menu principal;
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/perdeu.gif">
+    
+<figcaption>
+
+**Figura 34** - Player perdeu
+    </figcaption>
+  </figure>
+</div>
 </details>
 
 ## Contribuições
