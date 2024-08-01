@@ -964,7 +964,7 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 
 </details>
 </details>
-
+</details>
 
 ## Testes
 
