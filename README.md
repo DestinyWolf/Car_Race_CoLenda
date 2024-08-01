@@ -89,8 +89,25 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
   	- [Exemplo de utilização](#exemplo-de-utilização)
 - [Gerenciamento dos displays de 7 segmentos](#gerenciamento-dos-displays-de-7-segmentos)
 	- [Driver dos displays](#driver-dos-displays)
- 	- [Biblioteca dos displays](#biblioteca dos displays)
-	- [Algoritmos do Jogo](#algoritmos-do-jogo)  
+ 	- [Biblioteca dos displays](#biblioteca-dos-displays)
+- [Algoritmos do Jogo](#algoritmos-do-jogo)
+	- [Criação de Sprites](#criação-de-sprites)
+	- [Movimento e ações do jogador](#movimento-e-ações-do-jogador)
+	- [Geração dos obstáculos](#geração-dos-obstáculos)
+	- [Detecção de colisão](#detecção-de-colisão)
+	- [Movimentação de elementos](#movimentação-de-elementos)
+		- [Movimentação do plano de fundo](#movimentação-do-plano-de-fundo)
+		- [Movimentação dos disparos](#movimentação-dos-disparos)
+		- [Movimentação dos obstáculos](#movimentação-dos-obstáculos)
+	- [Fluxo do jogo](#fluxo-do-jogo)
+		- [Controle do fluxo da execução das threads](#controle-do-fluxo-da-execução-das-threads)
+			- [Casos especificos de pause das threads](#casos-especificos-de-pause-das-threads)
+			- [Criação e finalização das threads](#criação-e-finalização-das-threads)
+- [Testes](#testes)
+	- [Polling dos botões](#polling-dos-botões)
+	- [Gerenciamento dos displays de 7 segmentos](#gerenciamento-dos-displays-de-7-segmentos)
+	- [Jogo](#jogo)
+- [Contribuições](#contribuições)
 
 </details>
 	
@@ -892,17 +909,16 @@ Ao final é verificado se algum jogador perdeu, _sua pontuação ser menor que z
 </details>
 
 <details>
-<summary> <b>Movimentação de objetos</b> </summary>
+<summary> <b>Movimentação de elementos</b> </summary>
 
-### Movimentação de objetos
+### Movimentação de elementos
 
 A atualização da posição de alguns sprites e o cenário de fundo é realizado em funções distintas e abaixo segue uma breve explicação de como objetos distintos tem suas posições atualizadas.
 
-</details>
 <details>
-<summary> <b>Movimentação do fundo</b> </summary>
+<summary> <b>Movimentação do plano de fundo</b> </summary>
 
-#### Movimentação do fundo
+#### Movimentação do plano de fundo
 
 Para passar a sensação de movimento é realizada a alteração da pista do fundo, dando a entender que o carro se move para frente, entretanto o mesmo permanece parado no eixo. Devido a limitações de hardware a unica parte da pista que realmente é alterada a cada 100 ms são as listras brancas, o que diminui significativamente o gasto de recursos de hardware, outra opção seria redesenhar toda a pista a cada frame mas foi notado que seria muito custoso e afetaria de maneira significativa o desempenho do jogo pois introduziria latencia e ghosting no movimento do usuario
 
@@ -940,6 +956,7 @@ O movimento dos obstáculos na pista é retilíneo e uniforme, ou seja, é reali
   </figure>
 </div>
 
+</details>
 </details>
 </details>
 
