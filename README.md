@@ -5,6 +5,15 @@
 <p align="center">Super Auto é um jogo 2D multiplayer de corrida de obstáculos implementado com a utilização do processador gráfico 
 CoLenda e seu respectivo driver. Além do jogo, módulos kernel e bibliotecas foram implementados para realizar a comunicação botões push 
 e displays de 7 segmentos.</p>
+<div align="center">
+	
+![GitHub contributors](https://img.shields.io/github/contributors/DestinyWolf/Car_Race_CoLenda)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/DestinyWolf/Car_Race_CoLenda)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/DestinyWolf/Car_Race_CoLenda)
+
+</div>
+
+[Sobre o projeto](#sobre-o-projeto) • [Instalação](#instalação) • [Solução geral](#solução-geral) • [O jogo](#o-jogo) • [Testes](#testes)
 
 ## Sobre o projeto
 Os anos 80 foram uma década revolucionária para os videogames, marcada por avanços tecnológicos significativos e o surgimento de jogos 
