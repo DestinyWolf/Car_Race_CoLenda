@@ -50,6 +50,7 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 </details>
 <details>
 <summary><h2>Índice</h2></summary>
+
 - [Instalação](#instalação)
 	-  [Pré-requisitos](#pré-requisitos)
 -  [Softwares utilizados](#softwares-utilizados)
