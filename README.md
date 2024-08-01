@@ -382,6 +382,19 @@ A DE1-SoC possui seis displays de 7 segmentos integrados à FPGA (e acoplados ao
 
 ### Interface do Jogador
 
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/capa.jpg">
+    
+<figcaption>
+
+**Figura** - Capa
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
 <!-- Interface Menu
 interface partida 
 interface pause
@@ -414,11 +427,11 @@ interface derrota
 <summary> <b>Como Jogar</b> </summary>
 
 ### Como Jogar
-Dois players competem em uma corrida de obstáculos. O objetivo é destruir o máximo de obstáculos antes do seu oponente.
-Vence o jogo quem atingir 1000 pontos primeiro ou quem ficar mais tempo sem zerar sua pontuação.
-Cada obstáculo destruído acrescenta uma pontuação ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score. 
-Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para desviar dos obstáculos. Para destruir um obstáculo, o jogador deve alinhar seu carro com o obstáculo e atirar com o botão esquerdo do mouse.
-
+.
+Um ou dois jogadores competem em uma corrida de carros com o objetivo de destruir o máximo de obstáculos antes do seu oponente.
+Vence o jogo quem atingir 1000 pontos primeiro ou aquele que evitar por mais tempo a colisão enquanto a sua pontuação for 0. Nesse jogo, cada obstáculo destruído acrescenta uma pontuação específica ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score.
+Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando dos obstáculos ou eliminando-os. Cada clique 
+ Para destruir um obstáculo, o jogador deve alinhar seu carro com o obstáculo e atirar com o botão esquerdo do mouse
 </details>
 
 ## Solução Geral
@@ -428,7 +441,44 @@ Jogabilidade: Por meio do mouse, cada jogador pode controlar o seu carro para de
 ## Algoritmos do Jogo
 
 <details>
-<summary> <b>Algoritimos do jogo</b> </summary>
+<summary> <b>Criação de Sprites</b> </summary>
+
+### Criação de Sprites
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/sprites.png">
+    
+<figcaption>
+
+**Figura** - Alguns dos sprites criados
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+</details>
+
+<details>
+<summary> <b>Geração dos obstáculos</b> </summary>
+
+### Geração dos obstáculos
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/diagrama_random_obs.png">
+    
+<figcaption>
+
+**Figura** - Diagrama de blocos da geração aleatória de obstáculos
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+</details>
 
 <details>
 <summary> <b>Movimento e ações do jogador</b> </summary>
@@ -450,6 +500,7 @@ Outra ação que o jogador pode fazer é clicar com o botão esquerdo do mouse p
 No momento que ocorre a captura de um evento de clique, verifica-se se é do botão esquerdo e é verificado também se o jogador pode realizar algum disparo, cada jogador tem 5 disparos, a cada disparo esse valor é decrementado, quando um tiro chega a borda superior da tela ou colide com um obstáculo esse contador é incrementado e assim o jogador pode vir a realizar um novo disparo.
 
 </details>
+
 <details>
 <summary> <b>Detecção de colisão</b> </summary>
 
@@ -473,6 +524,7 @@ Outros dois pontos de analise de colisão é o disparo chegar ao topo da tela e 
 Ao final é verificado se algum jogador perdeu, _sua pontuação ser menor que zero_, ou se algum ganhou, _pontuação ser maior ou igual a 1000_, nesses casos são chamadas as telas de **vitória** ou **derrota** respectivamente.
 
 </details>
+
 <details>
 <summary> <b>Movimentação de objetos</b> </summary>
 
@@ -503,14 +555,48 @@ A thread de atualização dos disparos fica responsavel por pegar a posição de
 
 </details>
 <details>
-<summary> <b>Moviemntação dos obstáculos</b> </summary>
+<summary> <b>Movimentação dos obstáculos</b> </summary>
 
 #### Movimentação dos obstáculos
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/diagrama_move_obs.png">
+    
+<figcaption>
+
+**Figura** - Diagrama de blocos da Moviemtnação dos obstáculos na tela
+    </figcaption>
+  </figure>
+</div>
+
+</details>
 
 </details>
 </details>
 
 <details>
+<summary> <b>Movimentação dos obstáculos</b> </summary>
+
+#### Movimentação dos obstáculos
+
+<div align="center">
+  <figure>  
+    <img src="Docs/Imagens/diagrama_move_obs.png">
+    
+<figcaption>
+
+**Figura** - dI
+    </figcaption>
+  </figure>
+</div>
+
+</details>
+
+</details>
+</details>
+<details>
+
 <summary> <b>Fluxo do jogo</b> </summary>
 
 ## Fluxo do jogo
@@ -581,8 +667,6 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 
 </details>
 </details>
-</details>
-
 
 
 ## Testes
