@@ -897,9 +897,10 @@ A atualização da posição de alguns sprites e o cenário de fundo é realizad
 #### Movimentação do fundo
 
 Para passar a sensação de movimento é realizada a alteração da pista do fundo, dando a entender que o carro se move para frente, entretanto o mesmo permanece parado no eixo. Devido a limitações de hardware a unica parte da pista que realmente é alterada a cada 100 ms são as listras brancas, o que diminui significativamente o gasto de recursos de hardware, outra opção seria redesenhar toda a pista a cada frame mas foi notado que seria muito custoso e afetaria de maneira significativa o desempenho do jogo pois introduziria latencia e ghosting no movimento do usuario
+
 >**Ghosting:** Termo utilizado para quando se tem um processador mais rapido que a unidade grafica e assim a imagem que é exibida na tela não esta sincronizada com o que esta sendo processado dando a impressão de _latência_ ou imprecisão nos comandos relizados.
->
->**Latencia:** Termo utilizado para se referir ao tempo que uma instrução leva para ser processada e exibida na tela
+
+>**Latência:** Termo utilizado para se referir ao tempo que uma instrução leva para ser processada e exibida na tela
 
 </details>
 <details>
@@ -926,7 +927,7 @@ O movimento dos obstáculos na pista é retilíneo e uniforme, ou seja, é reali
     
 <figcaption>
 
-**Figura 23** - Diagrama de blocos da Moviemtnação dos obstáculos na tela
+**Figura 23** - Diagrama de blocos da Movimentação dos obstáculos na tela
     </figcaption>
   </figure>
 </div>
@@ -1011,29 +1012,93 @@ O unico momento em que as threads são de fato finalizadas é o momento em que o
 ## Testes
 
 <details>
-<summary> <b>Drivers e Biblotecas</b> </summary>
+<summary> <b>Polling dos botões</b> </summary>
 
-### Drivers e Biblotecas
+### Polling dos botões
+Para a avaliação do driver dos botões e da sua respectiva biblioteca, utilizou-se uma aplicação de usuário executando [o código de exemplo](#exemplo-de-utilização). Buscou-se testar os seguintes casos:
 
-Acionamento 
+- Click curto: pressionando rapidamente o botão 1. Espera-se que o identificador do botão 1 seja retornado apenas uma vez
+- Click longo: pressionando o botão 2 por 1 segundo. Espera-se que o identificador do botão 2 seja retornado apenas 1 vez
+- Click duplo: pressionando e segurando o botão 2 e, em seguida, pressionando o botão 0. Espera-se que apenas o identificar do botão 2 seja retornado (apenas 1 vez).
+Como pode-se observar na figura 24 e 25, todos resultados condizem com o esperado.
+
+
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/key_test.gif">
     
 <figcaption>
 
-**Figura** - Acionamento curto de um dos botões seguido do acionamento longo e acionamento de 2 botões.
+**Figura 24** - Acionamento curto de um dos botões seguido do acionamento longo e acionamento de 2 botões.
     </figcaption>
   </figure>
 </div>
 
 <div align="center">
   <figure>  
+    <img src="Docs/Imagens/teste_driver_botoes.png">
+    
+<figcaption>
+
+**Figura 25** - Acionamento curto de um dos botões seguido do acionamento longo e acionamento de 2 botões.
+    </figcaption>
+  </figure>
+</div>
+</details>
+
+<details>
+<summary><b>Gerenciamento dos displays de 7 segmentos</b></summary>
+
+### Gerenciamento dos displays de 7 segmentos
+
+Para a avaliação do driver dos displays e da sua respectiva biblioteca, buscou-se testar os seguintes casos:
+- Limpar: espera-se que todos os displays sejam apagados;
+- Escrita em um dígito: espera-se que o dígito 4 seja exibido no display 3;
+- Escrita em todos os displays: espera-se que o número 012345 seja exibido no displays displays de 5 a 0, respectivamente;
+- Escrita de um score: espera-se que o valor 345 seja escrito nos displays de 2 a 0, respectivamente;
+- Escrita de uma palavra: espera-se que a palavra 'pause' seja escrita nos displays de 5 a 1 e o 0 seja apagado;
+- Animação do título do jogo: espera-se que 'Super Auto' seja exibido nos displays em deslocamento da direita para a esquerda;
+
+Para isso, utilizou-se o código abaixo. Como pode-se observar na figura 26, os resultados obtidos condizem com os esperados.
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<fcntl.h>
+#include<time.h>
+#include "display_7seg.h"
+
+int main(){
+	display_open();
+	display_clear();
+	usleep(1000000);
+	display_write_digit(HEX3, 4);
+	usleep(1000000);
+	display_write_int(12345);
+	usleep(1000000);
+	display_write_score(345, 0);
+	usleep(1000000);
+	uint8_t letters[] = {P_DISPLAY,A_DISPLAY,U_DISPLAY,S_DISPLAY,E_DISPLAY,OFF_DISPLAY};
+	display_write_word(letters);
+	usleep(1000000);
+	display_title_animation();
+	display_close();
+
+	return 0;
+}
+
+```
+
+
+</details>
+<div align="center">
+  <figure>  
     <img src="Docs/Imagens/display_test.gif">
     
 <figcaption>
 
-**Figura** - Display
+**Figura 26** - Resultados nos displays de 7 segmentos
+
     </figcaption>
   </figure>
 </div>
