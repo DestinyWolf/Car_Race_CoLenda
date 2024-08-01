@@ -105,7 +105,7 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 <summary><h3>Instalação dos drivers</h3></summary>
 	
 > WARNING
-> **Este processo deve ser repetido para cada um dos drivers (colenda, pushbuttons e displays de 7 segmentos**
+> **Este processo deve ser repetido para cada um dos drivers (colenda, pushbuttons e displays de 7 segmentos)**
 #### 1. Clonar o repositório
 Abra o terminal do seu dispositivo e execute o seguinte comando:
 ```
@@ -526,12 +526,11 @@ interface derrota
 <details>
 <summary> <b>Como Jogar</b> </summary>
 
-### Como Jogar?
+### Como Jogar
 .
 Um ou dois jogadores competem em uma corrida de carros com o objetivo de destruir o máximo de obstáculos antes do seu oponente.
-Vence o jogo quem atingir 1000 pontos primeiro ou aquele que evitar por mais tempo a colisão enquanto a sua pontuação for 0. Nesse jogo, cada obstáculo destruído acrescenta uma pontuação específica ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score.
-Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando dos obstáculos ou eliminando-os. Cada clique 
- Para destruir um obstáculo, o jogador deve alinhar seu carro com o obstáculo e atirar com o botão esquerdo do mouse
+Vence o jogo quem atingir 1000 pontos primeiro ou aquele que evitar por mais tempo a colisão enquanto a sua pontuação for 0. Nesse jogo, cada obstáculo destruído acrescenta uma pontuação específica ao score do jogador. De maneira análoga, a colisão do carro com os objetos reduz uma determinada pontuação do score.
+Para isso, o jogador conta com o mouse para movimentar o seu carro, desviando dos obstáculos ou eliminando-os. A cada clique com o botão esquerdo do mouse, um dos 5 tiros é disparado para eliminar o obstáculo alinhado a sua frente. E, após algum dos disparos desaparecer da tela, seja por atingir ou não algum elemento, o jogador terá consequentemente uma bala disponível.
 </details>
 
 ## Solução Geral
