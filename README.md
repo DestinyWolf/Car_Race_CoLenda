@@ -35,8 +35,8 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 
 
 </details>
-
-## Índice
+<details>
+<summary><h2>Índice</h2></summary>
 - [Instalação](#instalação)
 	-  [Pré-requisitos](#pré-requisitos)
 -  [Softwares utilizados](#softwares-utilizados)
@@ -76,7 +76,10 @@ O presente projeto deve atender às condições e aos requisitos predeterminados
 - [Gerenciamento dos displays de 7 segmentos](#gerenciamento-dos-displays-de-7-segmentos)
 	- [Driver dos displays](#driver-dos-displays)
  	- [Biblioteca dos displays](#biblioteca dos displays)  
-## Contribuidores
+
+</details>
+	
+ ## Contribuidores
 
 <a href="https://github.com/brendabo1"><img src="https://avatars.githubusercontent.com/u/69097241?v=4" title="brendabo1" width="50" height="50"></a>
 <a href="https://github.com/camilaqPereira"><img src="https://avatars.githubusercontent.com/u/116687830?v=4" title="camilaqPereira" width="50" height="50"></a>
