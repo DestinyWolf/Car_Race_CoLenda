@@ -413,7 +413,7 @@ interface derrota
 <details>
 <summary> <b>Como Jogar</b> </summary>
 
-### Como Jogar
+### Como Jogar?
 Dois players competem em uma corrida de obstáculos. O objetivo é destruir o máximo de obstáculos antes do seu oponente.
 Vence o jogo quem atingir 1000 pontos primeiro ou quem ficar mais tempo sem zerar sua pontuação.
 Cada obstáculo destruído acrescenta uma pontuação ao score do jogador. De maneira análoga, a colisão do carro com os obstáculos reduz uma pontuação do score. 
@@ -470,16 +470,16 @@ Saiba mais sobre *kthreads* em: [Trabalhando com kernel threads por Sergio Prado
 <summary><b>Kfifo</b></summary>
 </details>
 
-### Alterações no driver CoLenda
+### 🆕 Alterações no driver CoLenda
 Uma *kfifo* foi adicionada ao driver para o armazenamento das instruções originadas das chamadas de sistema *write*. Esta fila possui uma capacidade de 4096 caracteres, totalizando 512 instruções. Além disto, foi implementada uma *kthread* para gerenciar o processo de escrita nas filas de instruções da GPU e um callback write bloqueante para evitar a perda de instruções. As rotinas da escrita bloqueante e da *kthread*, bem como a comunicação entre elas,  são apresentados na figura 11. Para o bloqueio dos processos, foi utilizado duas *waitqueues*: uma para a *kthtread* consumidora e outra para os processos escritores.
 
 <div align="center">
   <figure>  
-    <img src="Docs/Imagens/driver-routine.png">
+    <img src="Docs/Imagens/driver_routine.png">
     <figcaption>
       <p align="center">
 
-**Figura 11** - Dinâmica da *kthread* e da leitura bloqueante  *
+**Figura 11** - Dinâmica da *kthread* e da leitura bloqueante
 </p>
     </figcaption>
   </figure>
