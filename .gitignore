@@ -53,3 +53,16 @@ dkms.conf
 .vscode-ctags
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+
+
+# Virtualenv
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
