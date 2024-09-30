@@ -1160,11 +1160,13 @@ A fim de testar as alterações realizadas na GPU, repetiu-se o caso de teste di
 O código de teste encontra-se [aqui](https://github.com/camilaqPereira/coLenda_driver/blob/main/source/Lib/gameboy_example.c)
 
 </details>
+
 ### Jogo
 Para o teste da execução da lógica do jogo, o executável foi utilizado. A seguir, estão listados os casos de teste e os resultados obtidos.
 
 
 - Destruição de um obstáculo - display (figura 27): espera-se que a pontuação do player aumente
+  
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/mais_score.gif">
@@ -1172,11 +1174,13 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 27** - Atualização da pontuação ao destruir um obstáculo
+
     </figcaption>
   </figure>
 </div>
 
 - Colisão com um obstáculo - display (figura 28): espera-se que a pontuação do player diminua
+
 <div align="center">
   <figure>  
     <img src="Docs/Imagens/menos_score.gif">
@@ -1184,6 +1188,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 28** - Atualização da pontuação ao colidir com um obstáculo
+
     </figcaption>
   </figure>
 </div>
@@ -1198,6 +1203,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 29** - Destruição dos obstáculos através do tiro
+
     </figcaption>
   </figure>
 </div>
@@ -1211,6 +1217,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 30** - Obstáculos no fim da tela
+
     </figcaption>
   </figure>
 </div>
@@ -1224,6 +1231,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 31** - Estado de invulnerabilidade
+
     </figcaption>
   </figure>
 </div>
@@ -1237,6 +1245,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 32** - Pause e play
+
     </figcaption>
   </figure>
 </div>
@@ -1250,6 +1259,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 33** - Player venceu
+
     </figcaption>
   </figure>
 </div>
@@ -1263,6 +1273,7 @@ Para o teste da execução da lógica do jogo, o executável foi utilizado. A se
 <figcaption>
 
 **Figura 34** - Player perdeu
+
     </figcaption>
   </figure>
 </div>
