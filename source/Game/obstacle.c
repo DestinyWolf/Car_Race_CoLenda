@@ -174,7 +174,6 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
     }
     
     return 1; //criado com sucesso
- 
 }
 
 void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
@@ -220,7 +219,6 @@ obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
 
 int range_min_coord_x(int coord_x_player, int limite_min_pista){
     int range_min;
-     
     if((coord_x_player - 50) <= limite_min_pista){
         range_min = limite_min_pista + 10;
     }
@@ -232,7 +230,7 @@ int range_min_coord_x(int coord_x_player, int limite_min_pista){
 
 int range_max_coord_x(int coord_x_player, int limite_max_pista){
     int range_max;
-     
+    
     if(coord_x_player + 50 >= limite_max_pista){
         range_max = limite_max_pista - 11;
     }else range_max = coord_x_player + 50;

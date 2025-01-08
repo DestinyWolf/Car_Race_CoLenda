@@ -92,6 +92,9 @@ void reestart_threads() {
 }
 
 void* player_invulnerability_timer(void* args) {
+    
+    double timer = 0;
+    clock_t start, end;
     int i = 0;
     while(state != finish){
         pthread_mutex_lock(&player_invunerability_mutex);
@@ -120,13 +123,21 @@ void* player_invulnerability_timer(void* args) {
         if(state == finish) {
             return NULL;
         }
-        usleep(200000);
+        
+        start = clock();
+        while(timer < 0.2) {
+            end = clock();
+            timer = (double)(end - start) / CLOCKS_PER_SEC;
+        }
+        timer = 0;
+        //usleep(200000) this broken the code
         if(state == finish) {
             return NULL;
         }
     }
     return NULL;
 }
+
 
 void* mouse_polling_routine(void* args) {
     
@@ -198,6 +209,8 @@ void* mouse_polling_routine(void* args) {
 }
 
 void* random_obstacle_generate_routine(void* args) {
+    double timer = 0;
+    clock_t start, end;
     while (state != finish)
     {
         pthread_mutex_lock(&obstacle_mutex);
@@ -210,35 +223,24 @@ void* random_obstacle_generate_routine(void* args) {
         
         random_obstacle(player_sprite.coord_x, player_sprite.coord_y, 96, 289, obstacle, obstaculos_gerados, obstacle_model);
         
-        for (int i = 0; i < 10; i++)
-        {
-            if(bullets[i] == 1) {
-                if (sprite_bullets[i].coord_y <= 15) {
-                    bullets[i] = 0;
-                    sprite_bullets[i].visibility = 0;
-                } else {
-                    sprite_bullets[i].coord_y -= BULLET_SPEED_BASE;
-                }
-                set_sprite(sprite_bullets[i]);
-            } else {
-                sprite_bullets[i].visibility = 0;
-                set_sprite(sprite_bullets[i]);
-                
-            }
-        }
         bg_animation(); //função do modulo que faz a atualização do fundo e da animação com o passar dos quadros
 
         if(state == finish) {
             return NULL;
         }
-        usleep(100000);
+        start = clock();
+        while(timer < 0.1) {
+            end = clock();
+            timer = (double)(end - start) / CLOCKS_PER_SEC;
+        }
+        timer = 0;
+       // usleep(100000);
         if(state == finish) {
             return NULL;
         }
     }
     return NULL;
 }
-
 
 // loop principal do jogo
 void* colision_routine(void* args){
@@ -326,10 +328,7 @@ void* colision_routine(void* args){
 void menu() {
     state = in_menu;
     char btn_val;
-    // printf("chegou aqui\n");
     while(state != finish) {
-        // printf("chegou aqui\n");
-        // scanf("%c", &btn_val);
         KEYS_read(&btn_val);
         printf("chegou aqui\n");
 
@@ -420,6 +419,8 @@ void return_screen() {
 }
 
 void win_screen() {
+    double timer = 0;
+    clock_t start, end;
     sprite_t invisible_sprite = {
     .coord_x = 1, 
     .coord_y = 1, 
@@ -438,16 +439,20 @@ void win_screen() {
             set_sprite(invisible_sprite);
         }
     }
-    
-    
-    
     for(int i = player_sprite.coord_y; i >=0; --i) {
         player_sprite.coord_y = i;
         
         set_sprite(player_sprite);
         
         coord_x = 130;
-        usleep(10000);
+        
+        start = clock();
+        while(timer < 0.01) {
+            end = clock();
+            timer = (double)(end - start) / CLOCKS_PER_SEC;
+        }
+        timer = 0;
+        //usleep(10000);
     }
     
 
@@ -461,8 +466,13 @@ void win_screen() {
         set_sprite(scene[i]);
     }
 
-    sleep(1);
-
+    start = clock();
+    while(timer < 1.0) {
+        end = clock();
+        timer = (double)(end - start) / CLOCKS_PER_SEC;
+    }
+    timer = 0;
+    //sleep(1);
     state = in_menu;
     clear();
     draw_cover_art();
@@ -471,6 +481,8 @@ void win_screen() {
 }
 
 void lose_screen() {
+     double timer = 0;
+    clock_t start, end;
     sprite_t invisible_sprite = {
     .coord_x = 1, 
     .coord_y = 1, 
@@ -513,7 +525,13 @@ void lose_screen() {
         set_sprite(scene[i]);
     }
 
-    sleep(1);
+    start = clock();
+    while(timer < 1.0) {
+        end = clock();
+        timer = (double)(end - start) / CLOCKS_PER_SEC;
+    }
+    timer = 0;
+    //sleep(1);
     clear();
     state = in_menu;
     draw_cover_art();
