@@ -74,11 +74,11 @@ check_for_empty_reg(int sprites_obstacle_status[]);
  * \return 1 em caso de colisão, 0 caso contrario
  */
 int 
-create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t obstaculos_na_tela[]);
+create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t *obstaculos_na_tela);
 
-void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]);
+obstacle_t* initialize_obstacle_vector();
 
-obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]);
+obstacle_t select_random_obstacle_from_vector(obstacle_t *vetor_obstaculos);
 
 int range_min_coord_x(int coord_x_player, int limite_min_pista);
 
@@ -94,4 +94,4 @@ int clean_all_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_st
  
 int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista, obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], obstacle_t vetor_obstaculos[]);
     
-
+#endif
