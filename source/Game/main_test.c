@@ -27,14 +27,14 @@ typedef enum {
     lose,
 } states;
 
-obstacle_t obstacle_model[16];
+obstacle_t *obstacle_model;
 
 /*mudar para alocação dinamica*/
 obstacle_t obstacle[10];    /*array de obstaculos*/
 sprite_t scene[10];         /*array de objetos de cena*/
 sprite_t sprite_bullets[10];    /*array com sprites de disparo*/
 
-sprite_t player_sprite;         /*sprite do player*/
+sprite_t * player_sprite;         /*sprite do player*/
 
 //mutex utilizados
 pthread_mutex_t gpu_mutex;
@@ -105,19 +105,19 @@ void* player_invulnerability_timer(void* args) {
             pthread_cond_wait(&player_invulnerability_cond, &player_invunerability_mutex);
         }
         pthread_mutex_unlock(&player_invunerability_mutex);
-        if (player_sprite.visibility) {
-            player_sprite.visibility = 0;
+        if (player_sprite->visibility) {
+            player_sprite->visibility = 0;
         } else {
-            player_sprite.visibility = 1;
+            player_sprite->visibility = 1;
         }
-        set_sprite(player_sprite);
+        set_sprite(*player_sprite);
         if(i == 10) {
             pthread_mutex_lock(&player_invunerability_mutex);
             player_invunerability = 0;
             pthread_mutex_unlock(&player_invunerability_mutex);
-            player_sprite.visibility = 1;
+            player_sprite->visibility = 1;
             
-            set_sprite(player_sprite);
+            set_sprite(*player_sprite);
             
             i = 0;
         }else {
@@ -151,17 +151,17 @@ void* mouse_polling_routine(void* args) {
 
         
         car_speed = PLAYER_SPEED_BASE * value_x_mouse;
-        car_sprite = player_sprite.offset + value_x_mouse;
+        car_sprite = player_sprite->offset + value_x_mouse;
 
         //detecção de borda
-        if ( car_speed < 0 && player_sprite.coord_x - 10 >= 96 && (player_sprite.coord_x - 10) + car_speed <= 96) {
+        if ( car_speed < 0 && player_sprite->coord_x - 10 >= 96 && (player_sprite->coord_x - 10) + car_speed <= 96) {
             //pega o espaço restante que o carro ainda pode se mover antes de chegar na borda
-            player_sprite.coord_x -= ((player_sprite.coord_x - 10 + car_speed) - 96); 
-        } else if (car_speed > 0 && player_sprite.coord_x + 10 <= 289 && (player_sprite.coord_x + 10) + car_speed >= 289) {
+            player_sprite->coord_x -= ((player_sprite->coord_x - 10 + car_speed) - 96); 
+        } else if (car_speed > 0 && player_sprite->coord_x + 10 <= 289 && (player_sprite->coord_x + 10) + car_speed >= 289) {
             //pega o espaço restante que o carro ainda pode se mover antes de chegar na borda
-            player_sprite.coord_x += (289 - (player_sprite.coord_x + 10 + car_speed));
+            player_sprite->coord_x += (289 - (player_sprite->coord_x + 10 + car_speed));
         } else { 
-            player_sprite.coord_x += car_speed;
+            player_sprite->coord_x += car_speed;
         }
 
         
@@ -173,8 +173,8 @@ void* mouse_polling_routine(void* args) {
                 if (bullets[i] == 0) {
                     bullets[i] = 1;
                     sprite_bullets[i].offset = LASER_VERTICAL;
-                    sprite_bullets[i].coord_x = player_sprite.coord_x;
-                    sprite_bullets[i].coord_y = player_sprite.coord_y - 20;
+                    sprite_bullets[i].coord_x = player_sprite->coord_x;
+                    sprite_bullets[i].coord_y = player_sprite->coord_y - 20;
                     sprite_bullets[i].visibility = 1;
                     sprite_bullets[i].data_register = (i + 1);
                     sprite_bullets[i].speed = BULLET_SPEED_BASE;
@@ -191,7 +191,7 @@ void* mouse_polling_routine(void* args) {
         }
 
         
-        set_sprite(player_sprite);
+        set_sprite(*player_sprite);
         if(i<10) {
             set_sprite(sprite_bullets[i]);
         }
@@ -216,7 +216,7 @@ void* random_obstacle_generate_routine(void* args) {
         pthread_mutex_unlock(&obstacle_mutex);
 
         
-        random_obstacle(player_sprite.coord_x, player_sprite.coord_y, 96, 289, obstacle, obstaculos_gerados, obstacle_model);
+        random_obstacle(player_sprite->coord_x, player_sprite->coord_y, 96, 289, obstacle, obstaculos_gerados, obstacle_model);
         
         for (int i = 0; i < 10; i++)
         {
@@ -288,13 +288,13 @@ void* colision_routine(void* args){
                 pause_obstacle = 0;
                 pthread_cond_signal(&obstacle_cond);
                 pthread_mutex_unlock(&obstacle_mutex);
-                if(obstacle[i].coord_y + 11 >= player_sprite.coord_y - 10) {
+                if(obstacle[i].coord_y + 11 >= player_sprite->coord_y - 10) {
                     pthread_mutex_lock(&obstacle_mutex);
                     pause_obstacle = 1;
                     pthread_mutex_unlock(&obstacle_mutex);
                     pthread_mutex_lock(&player_invunerability_mutex);
                     if(!player_invunerability) {
-                        if(check_colision_player(player_sprite, obstacle[i])){
+                        if(check_colision_player(*player_sprite, obstacle[i])){
                             score -= obstacle[i].reward;
                             display_write_score(score, 0);
                             player_invunerability = 1;
@@ -388,8 +388,8 @@ void pause_screen() {
         }
         
     }
-    player_sprite.visibility = 0;
-    set_sprite(player_sprite);
+    player_sprite->visibility = 0;
+    set_sprite(*player_sprite);
     
 
     for (int i = 0; i < 5; i++)
@@ -414,14 +414,14 @@ void return_screen() {
     .speed = 0, 
     .visibility = 0};
     
-    player_sprite.visibility = 1;
+    player_sprite->visibility = 1;
     
 
     for (int i = 0; i < 5; i++) {
         scene[i].visibility = 0;
         set_sprite(scene[i]);
     }
-    set_sprite(player_sprite);
+    set_sprite(*player_sprite);
     
     reestart_threads();
     state = running;
@@ -448,13 +448,10 @@ void win_screen() {
             set_sprite(invisible_sprite);
         }
     }
-    
-    
-    
-    for(int i = player_sprite.coord_y; i >=0; --i) {
-        player_sprite.coord_y = i;
+    for(int i = player_sprite->coord_y; i >=0; --i) {
+        player_sprite->coord_y = i;
         
-        set_sprite(player_sprite);
+        set_sprite(*player_sprite);
         
         coord_x = 130;
         usleep(10000);
@@ -508,9 +505,9 @@ void lose_screen() {
         }
     }
 
-    player_sprite.visibility = 0;
+    player_sprite->visibility = 0;
 
-    set_sprite(player_sprite);
+    set_sprite(*player_sprite);
     
     player_invunerability = 0;
 
@@ -549,10 +546,10 @@ void init_game() {
     bg_animation_module_init();
     
     reestart_threads();
-    player_sprite.visibility = 1;
-    player_sprite.coord_x = 200;
-    player_sprite.coord_y = 340;
-    set_sprite(player_sprite);
+    player_sprite->visibility = 1;
+    player_sprite->coord_x = 200;
+    player_sprite->coord_y = 340;
+    set_sprite(*player_sprite);
     return;
 }
 
@@ -577,16 +574,17 @@ void main() {
     KEYS_open();
     display_open();
     set_new_sprites();
-    initialize_obstacle_vector(obstacle_model);
+    obstacle_model = initialize_obstacle_vector();
     clear();
     draw_cover_art();
     set_menu();
-    player_sprite.coord_x = 200;
-    player_sprite.coord_y = 340;
-    player_sprite.data_register = 31;
-    player_sprite.offset = BLUE_CAR;
-    player_sprite.speed = 0;
-    player_sprite.visibility = 1;
+    player_sprite = (sprite_t*)malloc(sizeof(sprite_t));
+    player_sprite->coord_x = 200;
+    player_sprite->coord_y = 340;
+    player_sprite->data_register = 31;
+    player_sprite->offset = BLUE_CAR;
+    player_sprite->speed = 0;
+    player_sprite->visibility = 1;
 
     //inicialização dos mutex
     pthread_mutex_init(&gpu_mutex, NULL);
