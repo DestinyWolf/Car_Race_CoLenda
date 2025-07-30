@@ -28,9 +28,12 @@ typedef enum {
 } states;
 
 obstacle_t obstacle_model[16];
+
+/*mudar para alocação dinamica*/
 obstacle_t obstacle[10];    /*array de obstaculos*/
 sprite_t scene[10];         /*array de objetos de cena*/
 sprite_t sprite_bullets[10];    /*array com sprites de disparo*/
+
 sprite_t player_sprite;         /*sprite do player*/
 
 //mutex utilizados
@@ -56,10 +59,11 @@ states state; /*variavel do tipo states responsavel por guardar o estado atual d
 
 int pause_background, pause_obstacle, pause_mouse, pause_bullets, pause_colision;
 int player_invunerability;
-int obstaculos_gerados[10] = {0,0,0,0,0,0,0,0,0,0};
 int score;
-int bullets[10] = {0,0,0,0,0,0,0,0,0,0};
 int key_press;
+//deixar em alocação estatica
+int obstaculos_gerados[10] = {0,0,0,0,0,0,0,0,0,0};
+int bullets[10] = {0,0,0,0,0,0,0,0,0,0};
 
 
 void pause_threads() {
@@ -91,6 +95,8 @@ void reestart_threads() {
     return;
 }
 
+
+//ver se tem algo que pode ser mudado aqui
 void* player_invulnerability_timer(void* args) {
     int i = 0;
     while(state != finish){
@@ -128,6 +134,7 @@ void* player_invulnerability_timer(void* args) {
     return NULL;
 }
 
+//ver se tem algo que pode ser mudado aqui
 void* mouse_polling_routine(void* args) {
     
     int value_x_mouse = 0, i, has_shot = 0;
@@ -197,6 +204,7 @@ void* mouse_polling_routine(void* args) {
     return NULL;
 }
 
+//ver se tem algo que pode ser mudado
 void* random_obstacle_generate_routine(void* args) {
     while (state != finish)
     {
@@ -322,7 +330,7 @@ void* colision_routine(void* args){
 }
 
 
-
+//ver se tem algo que pode ser mudado
 void menu() {
     state = in_menu;
     char btn_val;
@@ -359,7 +367,7 @@ void menu() {
     return;
 }
 
-
+//ver se tem algo que poe ser mudado
 void pause_screen() {
     sprite_t invisible_sprite = {
     .coord_x = 1, 
@@ -397,6 +405,7 @@ void pause_screen() {
     return;
 }
 
+//ver se tem algo que pode ser mudado
 void return_screen() {
     sprite_t invisible_sprite = {
     .coord_x = 1, 
@@ -419,6 +428,7 @@ void return_screen() {
     return;
 }
 
+//ver se tem algo que pode ser mudado
 void win_screen() {
     sprite_t invisible_sprite = {
     .coord_x = 1, 
@@ -470,6 +480,7 @@ void win_screen() {
     return;
 }
 
+//ver se tem algo que pode ser mudado
 void lose_screen() {
     sprite_t invisible_sprite = {
     .coord_x = 1, 
@@ -521,6 +532,8 @@ void lose_screen() {
     return;
 }
 
+
+//ver se tem algo que pode ser mudado
 void init_game() {
     sprite_t invisible_sprite = {.coord_x = 1, .coord_y = 1, .offset = 0, .speed = 0, .visibility = 0};
     score = 950;
@@ -543,6 +556,7 @@ void init_game() {
     return;
 }
 
+//ver se tem algo que pode ser mudado
 void main() {
 
     module_init_mouse_1();

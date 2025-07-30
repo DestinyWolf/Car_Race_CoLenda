@@ -145,7 +145,7 @@ int check_for_empty_reg(int sprites_obstacle_status[]){
     return -1; //não há registrador vazio.
 }
 
-int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t obstaculos_na_tela[]){
+int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int base_reg, int sprites_obstacle_status[], obstacle_t *obstaculos_na_tela){
     sprite_t obstacle_sprite;
     int index, reg;
     
@@ -177,9 +177,16 @@ int create_sprite_obstacle(obstacle_t obstacle, int coord_x, int coord_y, int ba
  
 }
 
-void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
+obstacle_t* initialize_obstacle_vector(){
     srand(time(NULL));
+    obstacle_t *vetor_obstaculos;
 
+
+    vetor_obstaculos = (obstacle_t*) malloc(16 * sizeof(obstacle_t));
+
+    if (vetor_obstaculos == NULL){
+        return NULL;
+    }
     vetor_obstaculos[0] = cone;
     vetor_obstaculos[1] = single_wood;
     vetor_obstaculos[2] = double_wood;
@@ -196,12 +203,11 @@ void initialize_obstacle_vector(obstacle_t vetor_obstaculos[]){
     vetor_obstaculos[13] = trash;
     vetor_obstaculos[14] = hydrant;
     vetor_obstaculos[15] = spike;
-    vetor_obstaculos[13] = trash;
-    vetor_obstaculos[14] = hydrant;
-    vetor_obstaculos[15] = spike;
+
+    return vetor_obstaculos;
 }
 
-obstacle_t select_random_obstacle_from_vector(obstacle_t vetor_obstaculos[]){
+obstacle_t select_random_obstacle_from_vector(obstacle_t *vetor_obstaculos){
     obstacle_t selected_obstacle; 
     int i;
 
