@@ -30,30 +30,30 @@ typedef enum {
 obstacle_t *obstacle_model;
 
 /*mudar para alocação dinamica*/
-obstacle_t *obstacle;    /*array de obstaculos*/
-sprite_t *scene;         /*array de objetos de cena*/
-sprite_t *sprite_bullets;    /*array com sprites de disparo*/
+obstacle_t *obstacle = NULL;    /*array de obstaculos*/
+sprite_t *scene = NULL;         /*array de objetos de cena*/
+sprite_t *sprite_bullets = NULL;    /*array com sprites de disparo*/
 
-sprite_t * player_sprite;         /*sprite do player*/
+sprite_t * player_sprite = NULL;         /*sprite do player*/
 
 //mutex utilizados
-pthread_mutex_t gpu_mutex;
-pthread_mutex_t background_mutex;
-pthread_mutex_t mouse_mutex;
-pthread_mutex_t obstacle_mutex;
-pthread_mutex_t bullets_mutex;
-pthread_mutex_t player_invunerability_mutex;
-pthread_mutex_t colision_mutex;
+pthread_mutex_t *gpu_mutex;
+pthread_mutex_t *background_mutex;
+pthread_mutex_t *mouse_mutex;
+pthread_mutex_t *obstacle_mutex;
+pthread_mutex_t *bullets_mutex;
+pthread_mutex_t *player_invunerability_mutex;
+pthread_mutex_t *colision_mutex;
 
 //condicionais utilizadas
-pthread_cond_t mouse_cond;
-pthread_cond_t obstacle_cond;
-pthread_cond_t background_cond;
-pthread_cond_t bullets_cond;
-pthread_cond_t player_invulnerability_cond;
-pthread_cond_t colision_cond;
+pthread_cond_t *mouse_cond;
+pthread_cond_t *obstacle_cond;
+pthread_cond_t *background_cond;
+pthread_cond_t *bullets_cond;
+pthread_cond_t *player_invulnerability_cond;
+pthread_cond_t *colision_cond;
 
-pthread_t obstacle_thread, mouse_thread, player_timer_thread, colision_thread; 
+pthread_t* obstacle_thread, mouse_thread, player_timer_thread, colision_thread; 
 
 states state; /*variavel do tipo states responsavel por guardar o estado atual do jogo*/
 
@@ -62,36 +62,36 @@ int player_invunerability;
 int score;
 int key_press;
 //deixar em alocação estatica
-int obstaculos_gerados[10] = {0,0,0,0,0,0,0,0,0,0};
-int bullets[10] = {0,0,0,0,0,0,0,0,0,0};
+int *obstaculos_gerados = NULL;
+int *bullets = NULL;
 
 
 void pause_threads() {
-    pthread_mutex_lock(&colision_mutex);
+    pthread_mutex_lock(colision_mutex);
     pause_colision = 1;
-    pthread_mutex_unlock(&colision_mutex);
-    pthread_mutex_lock(&mouse_mutex);
+    pthread_mutex_unlock(colision_mutex);
+    pthread_mutex_lock(mouse_mutex);
     pause_mouse = 1;
-    pthread_mutex_unlock(&mouse_mutex);
-    pthread_mutex_lock(&obstacle_mutex);
+    pthread_mutex_unlock(mouse_mutex);
+    pthread_mutex_lock(obstacle_mutex);
     pause_obstacle = 1;
-    pthread_mutex_unlock(&obstacle_mutex);
+    pthread_mutex_unlock(obstacle_mutex);
     return;
 }
 
 void reestart_threads() {
-    pthread_mutex_lock(&colision_mutex);
+    pthread_mutex_lock(colision_mutex);
     pause_colision = 0;
-    pthread_cond_signal(&colision_cond);
-    pthread_mutex_unlock(&colision_mutex);
-    pthread_mutex_lock(&mouse_mutex);
+    pthread_cond_signal(colision_cond);
+    pthread_mutex_unlock(colision_mutex);
+    pthread_mutex_lock(mouse_mutex);
     pause_mouse = 0;
-    pthread_cond_signal(&mouse_cond);
-    pthread_mutex_unlock(&mouse_mutex);
-    pthread_mutex_lock(&obstacle_mutex);
+    pthread_cond_signal(mouse_cond);
+    pthread_mutex_unlock(mouse_mutex);
+    pthread_mutex_lock(obstacle_mutex);
     pause_obstacle = 0;
-    pthread_cond_signal(&obstacle_cond);
-    pthread_mutex_unlock(&obstacle_mutex);
+    pthread_cond_signal(obstacle_cond);
+    pthread_mutex_unlock(obstacle_mutex);
     return;
 }
 
@@ -100,18 +100,18 @@ void reestart_threads() {
 void* player_invulnerability_timer(void* args) {
     int i = 0;
     while(state != finish){
-        pthread_mutex_lock(&player_invunerability_mutex);
+        pthread_mutex_lock(player_invunerability_mutex);
         while(!player_invunerability || state == in_menu || state == in_pause){
-            pthread_cond_wait(&player_invulnerability_cond, &player_invunerability_mutex);
+            pthread_cond_wait(player_invulnerability_cond, player_invunerability_mutex);
         }
-        pthread_mutex_unlock(&player_invunerability_mutex);
+        pthread_mutex_unlock(player_invunerability_mutex);
         player_sprite->visibility = (player_sprite->visibility == 1) ? 0:1;
         
         set_sprite(*player_sprite);
         if(i == 10) {
-            pthread_mutex_lock(&player_invunerability_mutex);
+            pthread_mutex_lock(player_invunerability_mutex);
             player_invunerability = 0;
-            pthread_mutex_unlock(&player_invunerability_mutex);
+            pthread_mutex_unlock(player_invunerability_mutex);
             player_sprite->visibility = 1;
             
             set_sprite(*player_sprite);
@@ -138,13 +138,13 @@ void* mouse_polling_routine(void* args) {
     int car_speed, car_sprite;
 
     while (state != finish) {
-        pthread_mutex_lock(&mouse_mutex);
+        pthread_mutex_lock(mouse_mutex);
         while (pause_mouse || state == in_menu || state == in_pause || state == lose || state == win)
         {
-            pthread_cond_wait(&mouse_cond, &mouse_mutex);
+            pthread_cond_wait(mouse_cond, mouse_mutex);
         }
-        pthread_mutex_unlock(&mouse_mutex);
-        read_mouse_1_event(&key_press, &value_x_mouse);
+        pthread_mutex_unlock(mouse_mutex);
+        read_mouse_1_event(key_press, value_x_mouse);
 
         
         car_speed = PLAYER_SPEED_BASE * value_x_mouse;
@@ -205,12 +205,12 @@ void* mouse_polling_routine(void* args) {
 void* random_obstacle_generate_routine(void* args) {
     while (state != finish)
     {
-        pthread_mutex_lock(&obstacle_mutex);
+        pthread_mutex_lock(obstacle_mutex);
         while (pause_obstacle || state == in_menu || state == in_pause || state == lose || state == win)
         {
-            pthread_cond_wait(&obstacle_cond, &obstacle_mutex);
+            pthread_cond_wait(obstacle_cond, obstacle_mutex);
         }
-        pthread_mutex_unlock(&obstacle_mutex);
+        pthread_mutex_unlock(obstacle_mutex);
 
         
         random_obstacle(player_sprite->coord_x, player_sprite->coord_y, 96, 289, obstacle, obstaculos_gerados, obstacle_model);
@@ -251,11 +251,11 @@ void* colision_routine(void* args){
     
     while (state != finish)
     {
-        pthread_mutex_lock(&colision_mutex);
+        pthread_mutex_lock(colision_mutex);
         while(pause_colision || state == in_menu || state == in_pause || state == lose || state == win){
-            pthread_cond_wait(&colision_cond, &colision_mutex);
+            pthread_cond_wait(colision_cond, colision_mutex);
         }
-        pthread_mutex_unlock(&colision_mutex);
+        pthread_mutex_unlock(colision_mutex);
         if(state == finish) {
             return NULL;
         }
@@ -263,9 +263,9 @@ void* colision_routine(void* args){
         for (int i = 0; i < 10; i++)
         {
             if(obstaculos_gerados[i]) {
-                pthread_mutex_lock(&obstacle_mutex);
+                pthread_mutex_lock(obstacle_mutex);
                 pause_obstacle = 1;
-                pthread_mutex_unlock(&obstacle_mutex);
+                pthread_mutex_unlock(obstacle_mutex);
                 for (int j = 0; j < 10; j++)
                 {
                     if (bullets[j]) {
@@ -281,15 +281,15 @@ void* colision_routine(void* args){
                         }
                     }
                 }
-                pthread_mutex_lock(&obstacle_mutex);
+                pthread_mutex_lock(obstacle_mutex);
                 pause_obstacle = 0;
-                pthread_cond_signal(&obstacle_cond);
-                pthread_mutex_unlock(&obstacle_mutex);
+                pthread_cond_signal(obstacle_cond);
+                pthread_mutex_unlock(obstacle_mutex);
                 if(obstacle[i].coord_y + 11 >= player_sprite->coord_y - 10) {
-                    pthread_mutex_lock(&obstacle_mutex);
+                    pthread_mutex_lock(obstacle_mutex);
                     pause_obstacle = 1;
-                    pthread_mutex_unlock(&obstacle_mutex);
-                    pthread_mutex_lock(&player_invunerability_mutex);
+                    pthread_mutex_unlock(obstacle_mutex);
+                    pthread_mutex_lock(player_invunerability_mutex);
                     if(!player_invunerability) {
                         if(check_colision_player(*player_sprite, obstacle[i])){
                             score -= obstacle[i].reward;
@@ -300,14 +300,14 @@ void* colision_routine(void* args){
                             obstaculos_gerados[i] = 0;
                             set_sprite(invisible_obstacle);
                             
-                            pthread_cond_signal(&player_invulnerability_cond);
+                            pthread_cond_signal(player_invulnerability_cond);
                         }
                     }
-                    pthread_mutex_unlock(&player_invunerability_mutex);
-                    pthread_mutex_lock(&obstacle_mutex);
+                    pthread_mutex_unlock(player_invunerability_mutex);
+                    pthread_mutex_lock(obstacle_mutex);
                     pause_obstacle = 0;
-                    pthread_cond_signal(&obstacle_cond);
-                    pthread_mutex_unlock(&obstacle_mutex);
+                    pthread_cond_signal(obstacle_cond);
+                    pthread_mutex_unlock(obstacle_mutex);
                 }
             }
         }  
@@ -536,9 +536,26 @@ void lose_screen() {
 
 //ver se tem algo que pode ser mudado
 void init_game() {
-    sprite_t invisible_sprite = {.coord_x = 1, .coord_y = 1, .offset = 0, .speed = 0, .visibility = 0};
-    score = 950;
+    //sprite_t invisible_sprite = {.coord_x = 1, .coord_y = 1, .offset = 0, .speed = 0, .visibility = 0};
+    //score = 950;
     display_clear();
+    if(obstacle != NULL) {
+        free(obstacle);
+    }
+    if (sprite_bullets != NULL) {
+        free(sprite_bullets);
+    } 
+    if (bullets != NULL) {
+        free(bullets);
+    }
+    if (obstaculos_gerados != NULL) {
+        free(obstaculos_gerados);
+    }
+    bullets = (int*)calloc(10, sizeof(int));
+    obstaculos_gerados = (int*)calloc(10, sizeof(int));
+    obstacle = (sprite_t*)malloc(sizeof(sprite_t)*10);
+    sprite_bullets = (sprite_t*)malloc(sizeof(sprite_t)*10);
+
     clean_all_obstacles(obstacle, obstaculos_gerados);
     for(int i = 0; i< 10; i++) {
         if (bullets[i]) {
@@ -594,27 +611,27 @@ void main() {
     player_sprite->visibility = 1;
 
     //inicialização dos mutex
-    pthread_mutex_init(&gpu_mutex, NULL);
-    pthread_mutex_init(&background_mutex, NULL);
-    pthread_mutex_init(&mouse_mutex, NULL);
-    pthread_mutex_init(&obstacle_mutex, NULL);
-    pthread_mutex_init(&player_invunerability_mutex, NULL);
-    pthread_mutex_init(&bullets_mutex, NULL);
-    pthread_mutex_init(&colision_mutex, NULL);
+    pthread_mutex_init(gpu_mutex, NULL);
+    pthread_mutex_init(background_mutex, NULL);
+    pthread_mutex_init(mouse_mutex, NULL);
+    pthread_mutex_init(obstacle_mutex, NULL);
+    pthread_mutex_init(player_invunerability_mutex, NULL);
+    pthread_mutex_init(bullets_mutex, NULL);
+    pthread_mutex_init(colision_mutex, NULL);
 
     //inicialização das condições
-    pthread_cond_init(&mouse_cond, NULL);
-    pthread_cond_init(&obstacle_cond, NULL);
-    pthread_cond_init(&background_cond, NULL);
-    pthread_cond_init(&player_invulnerability_cond, NULL);
-    pthread_cond_init(&bullets_cond, NULL);
-    pthread_cond_init(&colision_cond, NULL);
+    pthread_cond_init(mouse_cond, NULL);
+    pthread_cond_init(obstacle_cond, NULL);
+    pthread_cond_init(background_cond, NULL);
+    pthread_cond_init(player_invulnerability_cond, NULL);
+    pthread_cond_init(bullets_cond, NULL);
+    pthread_cond_init(colision_cond, NULL);
 
     //inicialização das threads
-    pthread_create(&obstacle_thread, NULL, random_obstacle_generate_routine, NULL);
-    pthread_create(&mouse_thread, NULL, mouse_polling_routine, NULL);
-    pthread_create(&player_timer_thread, NULL, player_invulnerability_timer, NULL);
-    pthread_create(&colision_thread, NULL, colision_routine, NULL);
+    pthread_create(obstacle_thread, NULL, random_obstacle_generate_routine, NULL);
+    pthread_create(mouse_thread, NULL, mouse_polling_routine, NULL);
+    pthread_create(player_timer_thread, NULL, player_invulnerability_timer, NULL);
+    pthread_create(colision_thread, NULL, colision_routine, NULL);
 
     //loop principal do jogo
     
@@ -632,27 +649,27 @@ void main() {
     pause_colision = 0;
     pause_obstacle = 0;
     pause_mouse = 0;
-    pthread_cond_broadcast(&colision_cond);
-    pthread_cond_broadcast(&obstacle_cond);
-    pthread_cond_broadcast(&mouse_cond);
+    pthread_cond_broadcast(colision_cond);
+    pthread_cond_broadcast(obstacle_cond);
+    pthread_cond_broadcast(mouse_cond);
     pthread_join(colision_thread, NULL);
 
     //encerrando os mutex
-    pthread_mutex_destroy(&gpu_mutex);
-    pthread_mutex_destroy(&background_mutex);
-    pthread_mutex_destroy(&mouse_mutex);
-    pthread_mutex_destroy(&obstacle_mutex);
-    pthread_mutex_destroy(&player_invunerability_mutex);
-    pthread_mutex_destroy(&bullets_mutex);
-    pthread_mutex_destroy(&colision_mutex);
+    pthread_mutex_destroy(gpu_mutex);
+    pthread_mutex_destroy(background_mutex);
+    pthread_mutex_destroy(mouse_mutex);
+    pthread_mutex_destroy(obstacle_mutex);
+    pthread_mutex_destroy(player_invunerability_mutex);
+    pthread_mutex_destroy(bullets_mutex);
+    pthread_mutex_destroy(colision_mutex);
 
     //encerrando as condicionais
-    pthread_cond_destroy(&mouse_cond);
-    pthread_cond_destroy(&obstacle_cond);
-    pthread_cond_destroy(&background_cond);
-    pthread_cond_destroy(&player_invulnerability_cond);
-    pthread_cond_destroy(&bullets_cond);
-    pthread_cond_destroy(&colision_cond);
+    pthread_cond_destroy(mouse_cond);
+    pthread_cond_destroy(obstacle_cond);
+    pthread_cond_destroy(background_cond);
+    pthread_cond_destroy(player_invulnerability_cond);
+    pthread_cond_destroy(bullets_cond);
+    pthread_cond_destroy(colision_cond);
     clear();
     display_clear();
 
@@ -663,5 +680,7 @@ void main() {
     free(obstacle);
     free(sprite_bullets);
     free(player_sprite);
+    free(bullets);
+    free(obstaculos_gerados);
     return 0;
 }
