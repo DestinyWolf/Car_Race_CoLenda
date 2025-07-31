@@ -245,7 +245,7 @@ int range_max_coord_x(int coord_x_player, int limite_max_pista){
     return range_max;
 }
 
-void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], int unidade, int reg_base_obstacles){
+void move_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[], int unidade, int reg_base_obstacles){
     sprite_t new_sprite;
     int deslocamento, new_coord_y;
 
@@ -285,7 +285,7 @@ void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status
     }    
 }
 
-int all_obstacles_invisibles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]){
+int all_obstacles_invisibles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]){
     sprite_t invisible_sprite;
     int reg_base_obstacles = 20;
 
@@ -306,7 +306,7 @@ int all_obstacles_invisibles(obstacle_t obstaculos_na_tela[], int sprites_obstac
     }
 }
 
-int restart_all_invisible_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]){
+int restart_all_invisible_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]){
     sprite_t visible_sprite;
     int reg_base_obstacles = 20;
 
@@ -327,7 +327,7 @@ int restart_all_invisible_obstacles(obstacle_t obstaculos_na_tela[], int sprites
     }
 }
 
-int clean_all_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]){
+int clean_all_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]){
     sprite_t new_sprite;
     int reg_base = 20;
     

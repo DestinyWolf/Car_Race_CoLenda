@@ -30,9 +30,9 @@ typedef enum {
 obstacle_t *obstacle_model;
 
 /*mudar para alocação dinamica*/
-obstacle_t obstacle[10];    /*array de obstaculos*/
-sprite_t scene[10];         /*array de objetos de cena*/
-sprite_t sprite_bullets[10];    /*array com sprites de disparo*/
+obstacle_t *obstacle;    /*array de obstaculos*/
+sprite_t *scene;         /*array de objetos de cena*/
+sprite_t *sprite_bullets;    /*array com sprites de disparo*/
 
 sprite_t * player_sprite;         /*sprite do player*/
 
@@ -105,11 +105,8 @@ void* player_invulnerability_timer(void* args) {
             pthread_cond_wait(&player_invulnerability_cond, &player_invunerability_mutex);
         }
         pthread_mutex_unlock(&player_invunerability_mutex);
-        if (player_sprite->visibility) {
-            player_sprite->visibility = 0;
-        } else {
-            player_sprite->visibility = 1;
-        }
+        player_sprite->visibility = (player_sprite->visibility == 1) ? 0:1;
+        
         set_sprite(*player_sprite);
         if(i == 10) {
             pthread_mutex_lock(&player_invunerability_mutex);
@@ -424,12 +421,14 @@ void return_screen() {
     set_sprite(*player_sprite);
     
     reestart_threads();
+    free(scene);
     state = running;
     return;
 }
 
 //ver se tem algo que pode ser mudado
 void win_screen() {
+    scene = (sprite_t*)malloc(sizeof(sprite_t)*6);
     sprite_t invisible_sprite = {
     .coord_x = 1, 
     .coord_y = 1, 
@@ -473,12 +472,16 @@ void win_screen() {
     state = in_menu;
     clear();
     draw_cover_art();
+    free(scene);
     set_menu();
+    
     return;
 }
 
 //ver se tem algo que pode ser mudado
 void lose_screen() {
+
+    scene = (sprite_t*)malloc(sizeof(sprite_t)*6);
     sprite_t invisible_sprite = {
     .coord_x = 1, 
     .coord_y = 1, 
@@ -525,6 +528,7 @@ void lose_screen() {
     clear();
     state = in_menu;
     draw_cover_art();
+    free(scene);
     set_menu();
     return;
 }
@@ -579,6 +583,9 @@ void main() {
     draw_cover_art();
     set_menu();
     player_sprite = (sprite_t*)malloc(sizeof(sprite_t));
+    obstacle = (sprite_t*)malloc(sizeof(sprite_t)*10);
+    sprite_bullets = (sprite_t*)malloc(sizeof(sprite_t)*10);
+
     player_sprite->coord_x = 200;
     player_sprite->coord_y = 340;
     player_sprite->data_register = 31;
@@ -652,5 +659,9 @@ void main() {
     KEYS_close();
     display_close();
     GPU_close();
+    free(obstacle_model);
+    free(obstacle);
+    free(sprite_bullets);
+    free(player_sprite);
     return 0;
 }

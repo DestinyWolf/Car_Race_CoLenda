@@ -84,13 +84,13 @@ int range_min_coord_x(int coord_x_player, int limite_min_pista);
 
 int range_max_coord_x(int coord_x_player, int limite_max_pista);
  
-void move_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], int unidade, int reg_base_obstacles);
+void move_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[], int unidade, int reg_base_obstacles);
 
-int all_obstacles_invisibles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]);
+int all_obstacles_invisibles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]);
  
-int restart_all_invisible_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]);
+int restart_all_invisible_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]);
 
-int clean_all_obstacles(obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[]);
+int clean_all_obstacles(obstacle_t *obstaculos_na_tela, int sprites_obstacle_status[]);
  
 int random_obstacle(int cord_x_player, int cord_y_player, int limite_min_pista, int limite_max_pista, obstacle_t obstaculos_na_tela[], int sprites_obstacle_status[], obstacle_t vetor_obstaculos[]);
     
